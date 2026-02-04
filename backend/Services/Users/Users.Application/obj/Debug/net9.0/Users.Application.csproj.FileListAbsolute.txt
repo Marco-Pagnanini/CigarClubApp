@@ -1,0 +1,16 @@
+C:\Users\marco\source\repos\Marco-Pagnanini\CigarClubApp\backend\Services\Users\Users.Application\obj\Debug\net9.0\Users.Application.csproj.AssemblyReference.cache
+C:\Users\marco\source\repos\Marco-Pagnanini\CigarClubApp\backend\Services\Users\Users.Application\obj\Debug\net9.0\Users.Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\marco\source\repos\Marco-Pagnanini\CigarClubApp\backend\Services\Users\Users.Application\obj\Debug\net9.0\Users.Application.AssemblyInfoInputs.cache
+C:\Users\marco\source\repos\Marco-Pagnanini\CigarClubApp\backend\Services\Users\Users.Application\obj\Debug\net9.0\Users.Application.AssemblyInfo.cs
+C:\Users\marco\source\repos\Marco-Pagnanini\CigarClubApp\backend\Services\Users\Users.Application\obj\Debug\net9.0\Users.Application.csproj.CoreCompileInputs.cache
+C:\Users\marco\source\repos\Marco-Pagnanini\CigarClubApp\backend\Services\Users\Users.Application\obj\Debug\net9.0\Users.Application.sourcelink.json
+C:\Users\marco\source\repos\Marco-Pagnanini\CigarClubApp\backend\Services\Users\Users.Application\bin\Debug\net9.0\Users.Application.deps.json
+C:\Users\marco\source\repos\Marco-Pagnanini\CigarClubApp\backend\Services\Users\Users.Application\bin\Debug\net9.0\Users.Application.dll
+C:\Users\marco\source\repos\Marco-Pagnanini\CigarClubApp\backend\Services\Users\Users.Application\bin\Debug\net9.0\Users.Application.pdb
+C:\Users\marco\source\repos\Marco-Pagnanini\CigarClubApp\backend\Services\Users\Users.Application\bin\Debug\net9.0\Users.Core.dll
+C:\Users\marco\source\repos\Marco-Pagnanini\CigarClubApp\backend\Services\Users\Users.Application\bin\Debug\net9.0\Users.Core.pdb
+C:\Users\marco\source\repos\Marco-Pagnanini\CigarClubApp\backend\Services\Users\Users.Application\obj\Debug\net9.0\Users.Ap.B414D118.Up2Date
+C:\Users\marco\source\repos\Marco-Pagnanini\CigarClubApp\backend\Services\Users\Users.Application\obj\Debug\net9.0\Users.Application.dll
+C:\Users\marco\source\repos\Marco-Pagnanini\CigarClubApp\backend\Services\Users\Users.Application\obj\Debug\net9.0\refint\Users.Application.dll
+C:\Users\marco\source\repos\Marco-Pagnanini\CigarClubApp\backend\Services\Users\Users.Application\obj\Debug\net9.0\Users.Application.pdb
+C:\Users\marco\source\repos\Marco-Pagnanini\CigarClubApp\backend\Services\Users\Users.Application\obj\Debug\net9.0\ref\Users.Application.dll

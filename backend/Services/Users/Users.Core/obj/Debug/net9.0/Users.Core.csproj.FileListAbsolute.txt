@@ -1,0 +1,12 @@
+C:\Users\marco\source\repos\Marco-Pagnanini\CigarClubApp\backend\Services\Users\Users.Core\bin\Debug\net9.0\Users.Core.deps.json
+C:\Users\marco\source\repos\Marco-Pagnanini\CigarClubApp\backend\Services\Users\Users.Core\bin\Debug\net9.0\Users.Core.dll
+C:\Users\marco\source\repos\Marco-Pagnanini\CigarClubApp\backend\Services\Users\Users.Core\bin\Debug\net9.0\Users.Core.pdb
+C:\Users\marco\source\repos\Marco-Pagnanini\CigarClubApp\backend\Services\Users\Users.Core\obj\Debug\net9.0\Users.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\marco\source\repos\Marco-Pagnanini\CigarClubApp\backend\Services\Users\Users.Core\obj\Debug\net9.0\Users.Core.AssemblyInfoInputs.cache
+C:\Users\marco\source\repos\Marco-Pagnanini\CigarClubApp\backend\Services\Users\Users.Core\obj\Debug\net9.0\Users.Core.AssemblyInfo.cs
+C:\Users\marco\source\repos\Marco-Pagnanini\CigarClubApp\backend\Services\Users\Users.Core\obj\Debug\net9.0\Users.Core.csproj.CoreCompileInputs.cache
+C:\Users\marco\source\repos\Marco-Pagnanini\CigarClubApp\backend\Services\Users\Users.Core\obj\Debug\net9.0\Users.Core.sourcelink.json
+C:\Users\marco\source\repos\Marco-Pagnanini\CigarClubApp\backend\Services\Users\Users.Core\obj\Debug\net9.0\Users.Core.dll
+C:\Users\marco\source\repos\Marco-Pagnanini\CigarClubApp\backend\Services\Users\Users.Core\obj\Debug\net9.0\refint\Users.Core.dll
+C:\Users\marco\source\repos\Marco-Pagnanini\CigarClubApp\backend\Services\Users\Users.Core\obj\Debug\net9.0\Users.Core.pdb
+C:\Users\marco\source\repos\Marco-Pagnanini\CigarClubApp\backend\Services\Users\Users.Core\obj\Debug\net9.0\ref\Users.Core.dll

@@ -1,0 +1,30 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(tree:*)",
+      "Bash(dotnet sln:*)",
+      "Bash(dotnet sln add:*)",
+      "Bash(dotnet build:*)",
+      "Bash(dotnet nuget list package:*)",
+      "Bash(dotnet package search:*)",
+      "Bash(nuget search:*)",
+      "Bash(dotnet add package:*)",
+      "Bash(dotnet restore:*)",
+      "Bash(docker:*)",
+      "Bash(docker compose:*)",
+      "Bash(curl:*)",
+      "Bash(dotnet ef migrations add:*)",
+      "Bash(dotnet tool install:*)",
+      "Bash(dotnet tool update:*)",
+      "Bash(ASPNETCORE_ENVIRONMENT=Development dotnet ef database update:*)",
+      "Bash(dotnet ef database update:*)",
+      "Bash(ls:*)",
+      "Bash(dotnet list:*)",
+      "Bash(dotnet ef migrations remove:*)",
+      "Bash(python3:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(wc:*)"
+    ]
+  }
+}
