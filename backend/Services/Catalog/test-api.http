@@ -1,0 +1,137 @@
+### CigarClub Catalog Service - API Test File
+### Usa questa file con VS Code REST Client extension (https://marketplace.visualstudio.com/items?itemName=humao.rest-client)
+
+@baseUrl = http://localhost:5000
+@bearerToken = YOUR_JWT_TOKEN_HERE
+
+### ============================================================
+### GET ENDPOINTS (PUBLIC - No Authentication Required)
+### ============================================================
+
+### 1. Get all tobacconists
+GET {{baseUrl}}/api/tobacconists
+Content-Type: application/json
+
+### 2. Get tobacconist by ID
+GET {{baseUrl}}/api/tobacconists/550e8400-e29b-41d4-a716-446655440000
+Content-Type: application/json
+
+### 3. Get tobacconist by code
+GET {{baseUrl}}/api/tobacconists/code/CUB-001
+Content-Type: application/json
+
+### ============================================================
+### POST ENDPOINT (PROTECTED - Admin Role Required)
+### ============================================================
+
+### 4. Create new tobacconist
+POST {{baseUrl}}/api/tobacconists
+Authorization: Bearer {{bearerToken}}
+Content-Type: application/json
+
+{
+  "code": "CUB-NEW-001",
+  "category": "Cubani Premium",
+  "description": "Prodotto nuovo di qualità eccellente",
+  "priceKg": 180.00,
+  "stackPrice": 30.00,
+  "stackType": "Box",
+  "currentPricingValidity": "2025-02-04T00:00:00Z",
+  "nextPrice": 190.00,
+  "nextStackPrice": 31.00,
+  "nextPricingValidity": "2025-03-04T00:00:00Z"
+}
+
+### ============================================================
+### PUT ENDPOINT (PROTECTED - Admin Role Required)
+### ============================================================
+
+### 5. Update tobacconist
+PUT {{baseUrl}}/api/tobacconists/550e8400-e29b-41d4-a716-446655440000
+Authorization: Bearer {{bearerToken}}
+Content-Type: application/json
+
+{
+  "id": "550e8400-e29b-41d4-a716-446655440000",
+  "code": "CUB-001-UPDATED",
+  "category": "Cubani Premium Updated",
+  "description": "Descrizione aggiornata",
+  "priceKg": 155.00,
+  "stackPrice": 26.00,
+  "stackType": "Box",
+  "currentPricingValidity": "2025-02-04T00:00:00Z",
+  "nextPrice": 165.00,
+  "nextStackPrice": 27.00,
+  "nextPricingValidity": "2025-03-04T00:00:00Z"
+}
+
+### ============================================================
+### DELETE ENDPOINT (PROTECTED - Admin Role Required)
+### ============================================================
+
+### 6. Delete tobacconist
+DELETE {{baseUrl}}/api/tobacconists/550e8400-e29b-41d4-a716-446655440000
+Authorization: Bearer {{bearerToken}}
+Content-Type: application/json
+
+### ============================================================
+### ERROR SCENARIOS
+### ============================================================
+
+### 7. Test 401 Unauthorized (missing token)
+POST {{baseUrl}}/api/tobacconists
+Content-Type: application/json
+
+{
+  "code": "TEST",
+  "category": "Test",
+  "description": "This should fail",
+  "priceKg": 100.00,
+  "stackPrice": 20.00,
+  "stackType": "Box",
+  "currentPricingValidity": "2025-02-04T00:00:00Z",
+  "nextPrice": 110.00,
+  "nextStackPrice": 21.00,
+  "nextPricingValidity": "2025-03-04T00:00:00Z"
+}
+
+### 8. Test 403 Forbidden (invalid token)
+POST {{baseUrl}}/api/tobacconists
+Authorization: Bearer invalid_token_here
+Content-Type: application/json
+
+{
+  "code": "TEST",
+  "category": "Test",
+  "description": "This should fail",
+  "priceKg": 100.00,
+  "stackPrice": 20.00,
+  "stackType": "Box",
+  "currentPricingValidity": "2025-02-04T00:00:00Z",
+  "nextPrice": 110.00,
+  "nextStackPrice": 21.00,
+  "nextPricingValidity": "2025-03-04T00:00:00Z"
+}
+
+### 9. Test 404 Not Found
+GET {{baseUrl}}/api/tobacconists/00000000-0000-0000-0000-000000000000
+Content-Type: application/json
+
+### 10. Test 400 Bad Request (ID mismatch)
+PUT {{baseUrl}}/api/tobacconists/550e8400-e29b-41d4-a716-446655440000
+Authorization: Bearer {{bearerToken}}
+Content-Type: application/json
+
+{
+  "id": "660f9411-f30c-52e5-b727-557766551111",
+  "code": "DIFFERENT-ID",
+  "category": "Test",
+  "description": "This should fail - ID mismatch",
+  "priceKg": 100.00,
+  "stackPrice": 20.00,
+  "stackType": "Box",
+  "currentPricingValidity": "2025-02-04T00:00:00Z",
+  "nextPrice": 110.00,
+  "nextStackPrice": 21.00,
+  "nextPricingValidity": "2025-03-04T00:00:00Z"
+}
