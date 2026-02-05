@@ -31,7 +31,8 @@ namespace Catalog.Infrastructure.Data
                 .HasOne(p => p.Brand)
                 .WithMany()
                 .HasForeignKey(p => p.BrandId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Cascade)
+                .IsRequired(false);
 
             // Panel.TobacconistId è una semplice FK verso Tobacconist.Id
             // Senza navigazione per evitare loop infinito nella serializzazione

@@ -1,17 +1,17 @@
-﻿using Catalog.Core.Enums;
+using Catalog.Core.Enums;
 
-namespace Catalog.Core.Entities;
+namespace Catalog.Api.Models;
 
 /// <summary>
-/// Schede dettagliate create dall'admin per arricchire i dati tabaccheria
+/// DTO per la creazione di un nuovo Panel (dettagli cigari).
+/// Contiene solo i campi necessari per l'aggiunta di un panel.
 /// </summary>
-public class Panel
+public class CreatePanelDto
 {
-    public Guid id { get; set; } = Guid.NewGuid();
-    public string? TobacconistCode { get; set; } // Riferimento opzionale al codice Tobacconist
-    public Guid? TobacconistId { get; set; } // Foreign key a Tobacconist
     public string Name { get; set; } = string.Empty;
     public Guid BrandId { get; set; }
+    public Guid? TobacconistId { get; set; }
+    public string? TobacconistCode { get; set; }
     public string? Description { get; set; }
     public string? Origin { get; set; }
     public Strength? Strength { get; set; }
@@ -28,7 +28,4 @@ public class Panel
     public int? Ring { get; set; }
     public int? SmokingTime { get; set; }
     public CigarType? Type { get; set; }
-
-    // Navigation properties
-    public Brand? Brand { get; set; }
 }

@@ -3,6 +3,7 @@ using Catalog.Application.Abstractions.Service;
 using Catalog.Core.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace Catalog.Api.Controllers
 {
@@ -121,10 +122,34 @@ namespace Catalog.Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        public async Task<ActionResult<ApiResponse<Panel>>> Create(Panel panel, CancellationToken cancellationToken)
+        public async Task<ActionResult<ApiResponse<Panel>>> Create([FromBody] CreatePanelDto createPanelDto, CancellationToken cancellationToken)
         {
             try
             {
+                var panel = new Panel
+                {
+                    Name = createPanelDto.Name,
+                    BrandId = createPanelDto.BrandId,
+                    TobacconistId = createPanelDto.TobacconistId,
+                    TobacconistCode = createPanelDto.TobacconistCode,
+                    Description = createPanelDto.Description,
+                    Origin = createPanelDto.Origin,
+                    Strength = createPanelDto.Strength,
+                    Wrapper = createPanelDto.Wrapper,
+                    WrapperColor = createPanelDto.WrapperColor,
+                    Binder = createPanelDto.Binder,
+                    Filler = createPanelDto.Filler,
+                    MasterLine = createPanelDto.MasterLine,
+                    RollingType = createPanelDto.RollingType,
+                    Shape = createPanelDto.Shape,
+                    Price = createPanelDto.Price,
+                    Rating = createPanelDto.Rating,
+                    NumberInBox = createPanelDto.NumberInBox,
+                    Ring = createPanelDto.Ring,
+                    SmokingTime = createPanelDto.SmokingTime,
+                    Type = createPanelDto.Type
+                };
+
                 var created = await _service.AddPanelAsync(panel, cancellationToken);
                 _logger.LogInformation("Created new panel with ID {Id}", created.id);
                 return CreatedAtAction(nameof(GetById), new { id = created.id },

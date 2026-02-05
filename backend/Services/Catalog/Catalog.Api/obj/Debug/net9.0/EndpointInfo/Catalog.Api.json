@@ -462,17 +462,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Panel"
+                "$ref": "#/components/schemas/CreatePanelDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Panel"
+                "$ref": "#/components/schemas/CreatePanelDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Panel"
+                "$ref": "#/components/schemas/CreatePanelDto"
               }
             }
           }
@@ -1380,13 +1380,6 @@
           "logoUrl": {
             "type": "string",
             "nullable": true
-          },
-          "panels": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Panel"
-            },
-            "nullable": true
           }
         },
         "additionalProperties": false
@@ -1426,6 +1419,95 @@
         "type": "integer",
         "format": "int32"
       },
+      "CreatePanelDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "brandId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "tobacconistId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "tobacconistCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "origin": {
+            "type": "string",
+            "nullable": true
+          },
+          "strength": {
+            "$ref": "#/components/schemas/Strength"
+          },
+          "wrapper": {
+            "type": "string",
+            "nullable": true
+          },
+          "wrapperColor": {
+            "$ref": "#/components/schemas/WrapperColor"
+          },
+          "binder": {
+            "type": "string",
+            "nullable": true
+          },
+          "filler": {
+            "type": "string",
+            "nullable": true
+          },
+          "masterLine": {
+            "type": "string",
+            "nullable": true
+          },
+          "rollingType": {
+            "type": "string",
+            "nullable": true
+          },
+          "shape": {
+            "type": "string",
+            "nullable": true
+          },
+          "price": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "rating": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "numberInBox": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "ring": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "smokingTime": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "type": {
+            "$ref": "#/components/schemas/CigarType"
+          }
+        },
+        "additionalProperties": false
+      },
       "Panel": {
         "type": "object",
         "properties": {
@@ -1435,6 +1517,11 @@
           },
           "tobacconistCode": {
             "type": "string",
+            "nullable": true
+          },
+          "tobacconistId": {
+            "type": "string",
+            "format": "uuid",
             "nullable": true
           },
           "name": {
@@ -1513,9 +1600,6 @@
           },
           "brand": {
             "$ref": "#/components/schemas/Brand"
-          },
-          "tobacconist": {
-            "$ref": "#/components/schemas/Tobacconist"
           }
         },
         "additionalProperties": false
@@ -1634,6 +1718,11 @@
             "items": {
               "$ref": "#/components/schemas/Barcode"
             },
+            "nullable": true
+          },
+          "panelId": {
+            "type": "string",
+            "format": "uuid",
             "nullable": true
           }
         },

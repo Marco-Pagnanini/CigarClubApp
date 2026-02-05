@@ -145,4 +145,4 @@ C:\Users\marco\source\repos\Marco-Pagnanini\CigarClubApp\backend\Services\Users\
 C:\Users\marco\source\repos\Marco-Pagnanini\CigarClubApp\backend\Services\Users\Users.Api\obj\Debug\net9.0\Users.Api.pdb
 C:\Users\marco\source\repos\Marco-Pagnanini\CigarClubApp\backend\Services\Users\Users.Api\obj\Debug\net9.0\Users.Api.genruntimeconfig.cache
 C:\Users\marco\source\repos\Marco-Pagnanini\CigarClubApp\backend\Services\Users\Users.Api\obj\Debug\net9.0\ref\Users.Api.dll
-C:\Users\marco\source\repos\Marco-Pagnanini\CigarClubApp\backend\Services\Users\Users.Api\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt
+C:\Users\marco\source\repos\Marco-Pagnanini\CigarClubApp\backend\Services\Users\Users.Api\bin\Debug\net9.0\appsettings.Development.json

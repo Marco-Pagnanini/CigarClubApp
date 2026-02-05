@@ -258,8 +258,8 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "panel",
-        "Type": "Catalog.Core.Entities.Panel",
+        "Name": "createPanelDto",
+        "Type": "Catalog.Api.Models.CreatePanelDto",
         "IsRequired": true
       }
     ],
