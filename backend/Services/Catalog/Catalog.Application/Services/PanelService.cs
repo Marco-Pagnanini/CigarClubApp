@@ -11,10 +11,12 @@ namespace Catalog.Application.Services
     public class PanelService : IPanelService
     {
         private readonly IPanelRepository _repository;
+        private readonly ITobacconistRepository tobacconistRepository;
 
-        public PanelService(IPanelRepository repository)
+        public PanelService(IPanelRepository repository, ITobacconistRepository tobacconistRepository)
         {
             _repository = repository;
+            this.tobacconistRepository = tobacconistRepository;
         }
 
         public async Task<ICollection<Panel>> GetAllPanelsAsync(CancellationToken cancellationToken = default)
@@ -38,6 +40,17 @@ namespace Catalog.Application.Services
         {
             panel.id = Guid.NewGuid();
             await _repository.AddAsync(panel, cancellationToken);
+
+            if (panel.TobacconistId.HasValue)
+            {
+                var tobacconist = await tobacconistRepository.GetByIdAsync(panel.TobacconistId.Value, cancellationToken);
+                if (tobacconist != null)
+                {
+                    tobacconist.PanelId = panel.id;
+                    await tobacconistRepository.UpdateAsync(tobacconist, cancellationToken);
+                }
+            }
+
             return panel;
         }
 
