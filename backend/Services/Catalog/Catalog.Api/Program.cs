@@ -37,6 +37,10 @@ builder.Services.AddDbContext<CatalogDbContext>(options =>
 // --- DI: registra interface -> implementazione ---
 builder.Services.AddScoped<ITobacconistRepository, TobacconistRepository>();
 builder.Services.AddScoped<ITobacconistService, TobacconistService>();
+builder.Services.AddScoped<IBrandRepository, BrandRepository>();
+builder.Services.AddScoped<IBrandService, BrandService>();
+builder.Services.AddScoped<IPanelRepository, PanelRepository>();
+builder.Services.AddScoped<IPanelService, PanelService>();
 
 // ─── JWT Authentication ─────────────────────────────────────────────────────
 // Valida i token generati dal servizio Users (stesso SecretKey / Issuer / Audience)
