@@ -28,7 +28,9 @@
       "Bash(docker-compose up:*)",
       "Bash(git rm:*)",
       "Bash(docker-compose build:*)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(dotnet clean:*)",
+      "Bash(taskkill:*)"
     ]
   }
 }
