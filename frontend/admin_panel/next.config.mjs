@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 
-const ip = '10.0.26.146'
+const ip = '192.168.188.59'
 const nextConfig = {
   async rewrites() {
     return [

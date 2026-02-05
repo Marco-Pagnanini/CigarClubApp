@@ -4,13 +4,15 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter }
 import { Button } from "@/components/ui/button";
 import { Cigarette, Info } from "lucide-react";
 import { Tobacconist } from '@/types/tobacconist';
+import { AddPanelDialog } from './AddPanelDialog';
 
 interface CigarCardProps {
     sigaro: Tobacconist;
     onViewPanel: (panelId: string) => void;
+    onPanelAdded?: () => void;
 }
 
-export function CigarCard({ sigaro, onViewPanel }: CigarCardProps) {
+export function CigarCard({ sigaro, onViewPanel, onPanelAdded }: CigarCardProps) {
     return (
         <Card className="hover:shadow-md transition-shadow flex flex-col justify-between">
             <CardHeader className="flex flex-row items-center gap-4">
@@ -36,9 +38,10 @@ export function CigarCard({ sigaro, onViewPanel }: CigarCardProps) {
                         <Info size={16} /> Vedi Scheda Panel
                     </Button>
                 ) : (
-                    <Button variant="ghost" size="sm" className="w-full" disabled>
-                        Nessun Panel
-                    </Button>
+                    <AddPanelDialog
+                        tobacconistId={sigaro.id}
+                        onSuccess={onPanelAdded}
+                    />
                 )}
             </CardFooter>
         </Card>

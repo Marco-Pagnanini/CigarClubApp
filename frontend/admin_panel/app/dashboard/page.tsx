@@ -22,22 +22,23 @@ export default function DashboardHome() {
     const [isPanelLoading, setIsPanelLoading] = useState(false);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-    // Caricamento Iniziale
-    useEffect(() => {
-        const fetchCatalog = async () => {
-            try {
-                const response = await catalogApi.get('/');
-                setCigars(response.data);
-            } catch (error) {
-                console.error("Errore catalogo", error);
-            } finally {
-                setIsLoading(false);
-            }
+    const fetchCatalog = async () => {
+        setIsLoading(true);
+        try {
+            const response = await catalogApi.get('/');
+            setCigars(response.data);
+        } catch (error) {
+            console.error("Errore catalogo", error);
+        } finally {
+            setIsLoading(false);
         }
+    };
+
+    useEffect(() => {
         fetchCatalog();
     }, []);
 
-    // Logica on-demand per il panel
+
     const handleFetchPanel = async (panelId: string) => {
         if (!panelId) return;
 
@@ -47,7 +48,7 @@ export default function DashboardHome() {
         try {
             // 1. Prendo i dati del panel
             const response = await panelApi.get(`/${panelId}`);
-            const panelData = response.data.data; // Assumo che la struttura sia { data: ... }
+            const panelData = response.data.data;
             setSelectedPanel(panelData);
 
             // 2. Prendo i dati del brand (se c'è brandId)
@@ -75,7 +76,7 @@ export default function DashboardHome() {
                     <p className="text-muted-foreground">Gestisci il tuo inventario prodotti.</p>
                 </div>
                 {/* COMPONENTE MODALE AGGIUNTA */}
-                <AddCigarDialog />
+                <AddCigarDialog onSuccess={fetchCatalog} />
             </div>
 
             {/* LISTA SIGARI */}
@@ -88,6 +89,7 @@ export default function DashboardHome() {
                             key={sigaro.id}
                             sigaro={sigaro}
                             onViewPanel={handleFetchPanel}
+                            onPanelAdded={fetchCatalog}
                         />
                     ))}
                 </div>

@@ -11,7 +11,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
-import { userApi } from "@/api/api"
+import { userApi, setToken } from "@/api/api"
 import React, { useState } from "react"
 import { useRouter } from "next/navigation"
 export default function Home() {
@@ -28,6 +28,10 @@ export default function Home() {
             .then((response) => {
                 setEmail("");
                 console.log("Login successful:", response.data);
+                // Salva il JWT token
+                if (response.data.accessToken) {
+                    setToken(response.data.accessToken);
+                }
                 router.push('/dashboard');
             })
             .catch((error) => {
