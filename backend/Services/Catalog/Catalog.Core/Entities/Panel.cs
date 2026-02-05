@@ -9,7 +9,7 @@ public class Panel
 {
     public Guid id { get; set; } = Guid.NewGuid();
     public string? TobacconistCode { get; set; } // Riferimento opzionale al codice Tobacconist
-    public Guid? TobacconistId { get; set; } // Foreign key a Tobacconist (opzionale)
+    public Guid? TobacconistId { get; set; } // Foreign key a Tobacconist
     public string Name { get; set; } = string.Empty;
     public Guid BrandId { get; set; }
     public string? Description { get; set; }

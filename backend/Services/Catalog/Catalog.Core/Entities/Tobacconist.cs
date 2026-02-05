@@ -16,6 +16,9 @@ namespace Catalog.Core.Entities
 
         // Navigation properties
         public ICollection<Barcode> Barcodes { get; set; } = [];
-        public Panel? Panel { get; set; } 
+
+        // Foreign key verso Panel (opzionale, 1:1)
+        // Nota: Panel non è navigato direttamente per evitare loop infinito in serializzazione
+        public Guid? PanelId { get; set; }
     }
 }

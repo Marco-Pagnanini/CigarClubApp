@@ -10,6 +10,4 @@ public class Brand
     public string? Country { get; set; }
     public string? LogoUrl { get; set; }
 
-    // Navigation property
-    public ICollection<Panel> Panels { get; set; } = new List<Panel>();
 }

@@ -3,6 +3,7 @@ using System;
 using Catalog.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Catalog.Infrastructure.Migrations
 {
     [DbContext(typeof(CatalogDbContext))]
-    partial class CatalogDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260205110038_IgnorePanelNavigationInSerialization")]
+    partial class IgnorePanelNavigationInSerialization
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -134,7 +137,8 @@ namespace Catalog.Infrastructure.Migrations
 
                     b.HasIndex("BrandId");
 
-                    b.HasIndex("TobacconistId");
+                    b.HasIndex("TobacconistId")
+                        .IsUnique();
 
                     b.ToTable("Panels");
                 });
@@ -199,14 +203,14 @@ namespace Catalog.Infrastructure.Migrations
             modelBuilder.Entity("Catalog.Core.Entities.Panel", b =>
                 {
                     b.HasOne("Catalog.Core.Entities.Brand", "Brand")
-                        .WithMany()
+                        .WithMany("Panels")
                         .HasForeignKey("BrandId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Catalog.Core.Entities.Tobacconist", "Tobacconist")
-                        .WithMany()
-                        .HasForeignKey("TobacconistId")
+                        .WithOne("Panel")
+                        .HasForeignKey("Catalog.Core.Entities.Panel", "TobacconistId")
                         .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("Brand");
@@ -214,9 +218,16 @@ namespace Catalog.Infrastructure.Migrations
                     b.Navigation("Tobacconist");
                 });
 
+            modelBuilder.Entity("Catalog.Core.Entities.Brand", b =>
+                {
+                    b.Navigation("Panels");
+                });
+
             modelBuilder.Entity("Catalog.Core.Entities.Tobacconist", b =>
                 {
                     b.Navigation("Barcodes");
+
+                    b.Navigation("Panel");
                 });
 #pragma warning restore 612, 618
         }

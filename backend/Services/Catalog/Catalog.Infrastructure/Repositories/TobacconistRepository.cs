@@ -21,8 +21,6 @@ namespace Catalog.Infrastructure.Repositories
         {
             return await _context.Tobacconists
                 .Include(t => t.Barcodes)
-                .Include(t => t.Panel)
-                .ThenInclude(p => p.Brand)
                 .ToListAsync(cancellationToken);
         }
 
@@ -30,8 +28,6 @@ namespace Catalog.Infrastructure.Repositories
         {
             return await _context.Tobacconists
                 .Include(t => t.Barcodes)
-                .Include(t => t.Panel)
-                .ThenInclude(p => p.Brand)
                 .FirstOrDefaultAsync(t => t.Id == id, cancellationToken);
         }
 
@@ -51,8 +47,6 @@ namespace Catalog.Infrastructure.Repositories
         {
             return await _context.Tobacconists
                 .Include(t => t.Barcodes)
-                .Include(t => t.Panel)
-                .ThenInclude(p => p.Brand)
                 .FirstOrDefaultAsync(t => t.Code == code, cancellationToken);
         }
 

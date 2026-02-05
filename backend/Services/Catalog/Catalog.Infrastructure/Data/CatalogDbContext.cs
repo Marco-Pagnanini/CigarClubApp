@@ -26,22 +26,21 @@ namespace Catalog.Infrastructure.Data
                 .HasForeignKey(b => b.TobacconistId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            // Configura la relazione 1:N tra Brand e Panel
-            modelBuilder.Entity<Brand>()
-                .HasMany(b => b.Panels)
-                .WithOne(p => p.Brand)
+            // Configura la relazione N:1 tra Panel e Brand (senza navigazione inversa)
+            modelBuilder.Entity<Panel>()
+                .HasOne(p => p.Brand)
+                .WithMany()
                 .HasForeignKey(p => p.BrandId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            // Configura la relazione opzionale 1:1 tra Tobacconist e Panel
-            // Un Tobacconist può avere max un Panel (relazione uno-a-uno opzionale)
-            // Un Panel deve avere un Brand, ma può avere facoltativamente un Tobacconist
-            modelBuilder.Entity<Tobacconist>()
-                .HasOne(t => t.Panel)
-                .WithOne(p => p.Tobacconist)
-                .HasForeignKey<Panel>(p => p.TobacconistId)
-                .IsRequired(false) // Opzionale
-                .OnDelete(DeleteBehavior.SetNull); // Se elimini Tobacconist, Panel rimane con TobacconistId = null
+            // Configura la relazione N:1 tra Panel e Tobacconist (opzionale, via TobacconistId FK)
+            // EF auto-configura questa relazione grazie al naming convention della FK
+            modelBuilder.Entity<Panel>()
+                .HasOne(p => p.Tobacconist)
+                .WithMany()
+                .HasForeignKey(p => p.TobacconistId)
+                .IsRequired(false)
+                .OnDelete(DeleteBehavior.SetNull);
         }
     }
 }

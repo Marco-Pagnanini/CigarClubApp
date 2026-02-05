@@ -20,14 +20,12 @@ namespace Catalog.Infrastructure.Repositories
         public async Task<IEnumerable<Brand>> GetAllAsync(CancellationToken cancellationToken = default)
         {
             return await _context.Brands
-                .Include(b => b.Panels)
                 .ToListAsync(cancellationToken);
         }
 
         public async Task<Brand?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
             return await _context.Brands
-                .Include(b => b.Panels)
                 .FirstOrDefaultAsync(b => b.id == id, cancellationToken);
         }
 
