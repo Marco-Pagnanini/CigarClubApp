@@ -13,9 +13,10 @@ import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 import { userApi } from "@/api/api"
 import React, { useState } from "react"
+import { useRouter } from "next/navigation"
 export default function Home() {
 
-
+    const router = useRouter();
     const [email, setEmail] = useState<string>("")
     const [password, setPassword] = useState<string>("")
 
@@ -27,6 +28,7 @@ export default function Home() {
             .then((response) => {
                 setEmail("");
                 console.log("Login successful:", response.data);
+                router.push('/dashboard');
             })
             .catch((error) => {
                 console.error("Login failed:", error.response?.data || error.message);
