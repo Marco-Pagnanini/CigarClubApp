@@ -103,31 +103,31 @@ export function AddPanelDialog({ tobacconistId, tobacconistCode, onSuccess }: Ad
         setError(null);
 
         try {
-            // Costruisce il payload secondo la struttura del backend
+            // Costruisce il payload secondo la struttura del backend (CreatePanelDto)
             const payload = {
                 name: formData.name,
                 brandId: formData.brandId,
-                tobacconistId: tobacconistId,
-                tobacconistCode: tobacconistCode || '',
-                description: formData.description || '',
-                origin: formData.origin || '',
-                strength: formData.strength ?? 0,
-                wrapper: formData.wrapper || '',
-                wrapperColor: formData.wrapperColor ?? 0,
-                binder: formData.binder || '',
-                filler: formData.filler || '',
-                masterLine: formData.masterLine || '',
-                rollingType: formData.rollingType || '',
-                shape: formData.shape || '',
-                price: formData.price ?? 0,
-                rating: formData.rating ?? 0,
-                numberInBox: formData.numberInBox ?? 0,
-                ring: formData.ring ?? 0,
-                smokingTime: formData.smokingTime ?? 0,
-                type: formData.type ?? 0,
+                tobacconistId: tobacconistId || null,
+                tobacconistCode: tobacconistCode || null,
+                description: formData.description || null,
+                origin: formData.origin || null,
+                strength: formData.strength,
+                wrapper: formData.wrapper || null,
+                wrapperColor: formData.wrapperColor,
+                binder: formData.binder || null,
+                filler: formData.filler || null,
+                masterLine: formData.masterLine || null,
+                rollingType: formData.rollingType || null,
+                shape: formData.shape || null,
+                price: formData.price,
+                rating: formData.rating,
+                numberInBox: formData.numberInBox,
+                ring: formData.ring,
+                smokingTime: formData.smokingTime,
+                type: formData.type,
             };
 
-            console.log('Payload inviato:', payload);
+            console.log('Payload inviato:', JSON.stringify(payload, null, 2));
             await panelApi.post('/', payload);
 
             setFormData(initialFormState);
