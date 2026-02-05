@@ -44,19 +44,19 @@ builder.Services
     .AddAuthentication(options =>
     {
         options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-        options.DefaultChallengeScheme    = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
     })
     .AddJwtBearer(options =>
     {
         options.TokenValidationParameters = new TokenValidationParameters
         {
-            ValidateIssuer           = true,
-            ValidIssuer              = builder.Configuration["Jwt:Issuer"],
-            ValidateAudience         = true,
-            ValidAudience            = builder.Configuration["Jwt:Audience"],
-            ValidateLifetime         = true,
+            ValidateIssuer = true,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidateAudience = true,
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
-            IssuerSigningKey         = new SymmetricSecurityKey(
+            IssuerSigningKey = new SymmetricSecurityKey(
                 Encoding.UTF8.GetBytes(builder.Configuration["Jwt:SecretKey"]!)
             )
         };
@@ -79,9 +79,9 @@ builder.Services.AddSwaggerGen(options =>
     // Autorizzazione Bearer nel Swagger UI
     options.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
     {
-        Description  = "Inserisci il JWT access token (ruolo Admin per POST/PUT/DELETE)",
-        Type         = Microsoft.OpenApi.Models.SecuritySchemeType.Http,
-        Scheme       = "Bearer",
+        Description = "Inserisci il JWT access token (ruolo Admin per POST/PUT/DELETE)",
+        Type = Microsoft.OpenApi.Models.SecuritySchemeType.Http,
+        Scheme = "Bearer",
         BearerFormat = "JWT"
     });
 
@@ -102,6 +102,24 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 var app = builder.Build();
+
+// 🔧 AUTO-MIGRATE: Applica le migrations al database all'avvio (importante per Docker)
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        var context = services.GetRequiredService<CatalogDbContext>();
+        context.Database.Migrate();
+        Console.WriteLine("✅ Database migrations applied successfully.");
+    }
+    catch (Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "❌ An error occurred while migrating the database.");
+        throw; // Re-throw per far fallire il container se le migrations falliscono
+    }
+}
 
 // Swagger attivo solo in Development (non in produzione/Docker)
 if (app.Environment.IsDevelopment())

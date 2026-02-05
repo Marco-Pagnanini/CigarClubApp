@@ -1,3 +1,4 @@
+using Users.Application.Dtos;
 using Users.Core.Entities;
 
 namespace Users.Application.Abstractions.Repository
@@ -11,6 +12,8 @@ namespace Users.Application.Abstractions.Repository
         /// Restituisce un utente per ID, null se non trovato.
         /// </summary>
         Task<User?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
+
+        Task<List<User>> GetAll(CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Restituisce un utente per email, null se non trovato.

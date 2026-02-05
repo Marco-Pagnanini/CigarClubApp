@@ -8,11 +8,11 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: catalog_db
     ports:
-      - "5432:5432"                     # accessibile da localhost:5432
+      - "5432:5432" # accessibile da localhost:5432
     volumes:
-      - catalog-db-data:/var/lib/postgresql/data   # dati persistenti
+      - catalog-db-data:/var/lib/postgresql/data # dati persistenti
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d catalog_db"]
+      test: [ "CMD-SHELL", "pg_isready -U postgres -d catalog_db" ]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -20,16 +20,16 @@ services:
   # --- Servizio: Catalog API ---
   catalog-api:
     build:
-      context: ./Services/Catalog      # root del build (dove sta il Dockerfile)
+      context: ./Services/Catalog # root del build (dove sta il Dockerfile)
       dockerfile: Dockerfile
     container_name: cigarclub-catalog-api
     ports:
-      - "8080:8080"                     # accessibile da localhost:8080
+      - "8080:8080" # accessibile da localhost:8080
     environment:
-      - ASPNETCORE_ENVIRONMENT=Production   # attiva appsettings.Production.json
+      - ASPNETCORE_ENVIRONMENT=Production # attiva appsettings.Production.json
     depends_on:
       catalog-db:
-        condition: service_healthy      # aspetta che il db sia pronto (healthcheck)
+        condition: service_healthy # aspetta che il db sia pronto (healthcheck)
 
   # --- Database: Postgres per il servizio Users ---
   users-db:
@@ -40,11 +40,11 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: users_db
     ports:
-      - "5433:5432"                     # porta host diversa da catalog-db (5433)
+      - "5433:5432" # porta host diversa da catalog-db (5433)
     volumes:
       - users-db-data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d users_db"]
+      test: [ "CMD-SHELL", "pg_isready -U postgres -d users_db" ]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -52,17 +52,18 @@ services:
   # --- Servizio: Users API ---
   users-api:
     build:
-      context: ./Services/Users         # root del build (dove sta il Dockerfile)
+      context: ./Services/Users # root del build (dove sta il Dockerfile)
       dockerfile: Dockerfile
+    image: users-api:latest
     container_name: cigarclub-users-api
     ports:
-      - "8081:8080"                     # host:8081 → container:8080 (.NET default)
+      - "8081:8080" # host:8081 → container:8080 (.NET default)
     environment:
-      - ASPNETCORE_ENVIRONMENT=Production   # attiva appsettings.Production.json
+      - ASPNETCORE_ENVIRONMENT=Development # attiva appsettings.Production.json
     depends_on:
       users-db:
-        condition: service_healthy      # aspetta che il db sia pronto (healthcheck)
+        condition: service_healthy # aspetta che il db sia pronto (healthcheck)
 
 volumes:
-  catalog-db-data:                      # volume nominato per persistenza
-  users-db-data:                        # volume nominato per persistenza Users
+  catalog-db-data: # volume nominato per persistenza
+  users-db-data: # volume nominato per persistenza Users

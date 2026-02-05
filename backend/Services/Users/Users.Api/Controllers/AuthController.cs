@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Users.Application.Abstractions.Service;
 using Users.Application.Dtos;
@@ -9,10 +10,21 @@ namespace Users.Api.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;
+        private readonly IUserService _userService;
 
-        public AuthController(IAuthService authService)
+
+        public AuthController(IAuthService authService, IUserService userService)
         {
             _authService = authService;
+            _userService = userService;
+        }
+
+        [HttpGet]
+        [Route("users")]
+        public Task<List<UserDto>> GetUsers(
+            CancellationToken cancellationToken)
+        {
+            return _userService.GetUsers(cancellationToken);
         }
 
         /// <summary>
@@ -83,5 +95,6 @@ namespace Users.Api.Controllers
             await _authService.LogoutAsync(refreshRequest.RefreshToken, cancellationToken);
             return NoContent();  // 204
         }
+
     }
 }

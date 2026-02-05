@@ -93,7 +93,7 @@ namespace Users.Application.Services
         public async Task LogoutAsync(string refreshToken, CancellationToken cancellationToken = default)
         {
             var storedToken = await _userRepository.GetRefreshTokenAsync(refreshToken, cancellationToken);
-            if (storedToken is null) return; // token non trovato, niente da fare
+            if (storedToken is null) return; // token non trovato
 
             storedToken.IsRevoked = true;
             await _userRepository.UpdateAsync(storedToken.User!, cancellationToken);

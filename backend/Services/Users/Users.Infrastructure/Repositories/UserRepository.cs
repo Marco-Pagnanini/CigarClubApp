@@ -17,6 +17,12 @@ namespace Users.Infrastructure.Repositories
             _context = context;
         }
 
+        public async Task<List<User>> GetAll(CancellationToken cancellationToken = default)
+        {
+            return await _context.Users
+                .Include(u => u.RefreshTokens)
+                .ToListAsync(cancellationToken);
+        }
         public async Task<User?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
             return await _context.Users

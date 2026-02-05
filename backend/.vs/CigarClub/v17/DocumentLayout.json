@@ -3,80 +3,56 @@
   "WorkspaceRootPath": "C:\\Users\\marco\\source\\repos\\Marco-Pagnanini\\CigarClubApp\\backend\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{8AFEAAFF-F78A-4A91-B632-9EB7589314D8}|Services\\Catalog\\Catalog.Api\\Catalog.Api.csproj|c:\\users\\marco\\source\\repos\\marco-pagnanini\\cigarclubapp\\backend\\services\\catalog\\catalog.api\\controllers\\tobacconistcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8AFEAAFF-F78A-4A91-B632-9EB7589314D8}|Services\\Catalog\\Catalog.Api\\Catalog.Api.csproj|solutionrelative:services\\catalog\\catalog.api\\controllers\\tobacconistcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{7CEC5133-D914-4B24-8D1F-67CE57AD6177}|Services\\Users\\Users.Api\\Users.Api.csproj|c:\\users\\marco\\source\\repos\\marco-pagnanini\\cigarclubapp\\backend\\services\\users\\users.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7CEC5133-D914-4B24-8D1F-67CE57AD6177}|Services\\Users\\Users.Api\\Users.Api.csproj|solutionrelative:services\\users\\users.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{7CEC5133-D914-4B24-8D1F-67CE57AD6177}|Services\\Users\\Users.Api\\Users.Api.csproj|c:\\users\\marco\\source\\repos\\marco-pagnanini\\cigarclubapp\\backend\\services\\users\\users.api\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{7CEC5133-D914-4B24-8D1F-67CE57AD6177}|Services\\Users\\Users.Api\\Users.Api.csproj|solutionrelative:services\\users\\users.api\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{60FB51EA-5DD3-47B4-9698-308F8038DB38}|Services\\Catalog\\Catalog.Core\\Catalog.Core.csproj|c:\\users\\marco\\source\\repos\\marco-pagnanini\\cigarclubapp\\backend\\services\\catalog\\catalog.core\\entities\\tobacconist.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{60FB51EA-5DD3-47B4-9698-308F8038DB38}|Services\\Catalog\\Catalog.Core\\Catalog.Core.csproj|solutionrelative:services\\catalog\\catalog.core\\entities\\tobacconist.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{DF588001-24DE-4CE8-B099-E27FE7747F3B}|Services\\Users\\Users.Application\\Users.Application.csproj|c:\\users\\marco\\source\\repos\\marco-pagnanini\\cigarclubapp\\backend\\services\\users\\users.application\\services\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DF588001-24DE-4CE8-B099-E27FE7747F3B}|Services\\Users\\Users.Application\\Users.Application.csproj|solutionrelative:services\\users\\users.application\\services\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{60FB51EA-5DD3-47B4-9698-308F8038DB38}|Services\\Catalog\\Catalog.Core\\Catalog.Core.csproj|c:\\users\\marco\\source\\repos\\marco-pagnanini\\cigarclubapp\\backend\\services\\catalog\\catalog.core\\entities\\barcode.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{60FB51EA-5DD3-47B4-9698-308F8038DB38}|Services\\Catalog\\Catalog.Core\\Catalog.Core.csproj|solutionrelative:services\\catalog\\catalog.core\\entities\\barcode.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{DF588001-24DE-4CE8-B099-E27FE7747F3B}|Services\\Users\\Users.Application\\Users.Application.csproj|c:\\users\\marco\\source\\repos\\marco-pagnanini\\cigarclubapp\\backend\\services\\users\\users.application\\services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DF588001-24DE-4CE8-B099-E27FE7747F3B}|Services\\Users\\Users.Application\\Users.Application.csproj|solutionrelative:services\\users\\users.application\\services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{CD4DF77E-D76A-4B21-82B2-1E59791C3E96}|Services\\Users\\Users.Infrastructure\\Users.Infrastructure.csproj|c:\\users\\marco\\source\\repos\\marco-pagnanini\\cigarclubapp\\backend\\services\\users\\users.infrastructure\\repositories\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{CD4DF77E-D76A-4B21-82B2-1E59791C3E96}|Services\\Users\\Users.Infrastructure\\Users.Infrastructure.csproj|solutionrelative:services\\users\\users.infrastructure\\repositories\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A161D469-6A99-471D-BF83-CB76B647A116}|Services\\Users\\Users.Core\\Users.Core.csproj|c:\\users\\marco\\source\\repos\\marco-pagnanini\\cigarclubapp\\backend\\services\\users\\users.core\\roles.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A161D469-6A99-471D-BF83-CB76B647A116}|Services\\Users\\Users.Core\\Users.Core.csproj|solutionrelative:services\\users\\users.core\\roles.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{DF588001-24DE-4CE8-B099-E27FE7747F3B}|Services\\Users\\Users.Application\\Users.Application.csproj|c:\\users\\marco\\source\\repos\\marco-pagnanini\\cigarclubapp\\backend\\services\\users\\users.application\\abstractions\\repository\\iuserrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DF588001-24DE-4CE8-B099-E27FE7747F3B}|Services\\Users\\Users.Application\\Users.Application.csproj|solutionrelative:services\\users\\users.application\\abstractions\\repository\\iuserrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A161D469-6A99-471D-BF83-CB76B647A116}|Services\\Users\\Users.Core\\Users.Core.csproj|c:\\users\\marco\\source\\repos\\marco-pagnanini\\cigarclubapp\\backend\\services\\users\\users.core\\entities\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A161D469-6A99-471D-BF83-CB76B647A116}|Services\\Users\\Users.Core\\Users.Core.csproj|solutionrelative:services\\users\\users.core\\entities\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{7CEC5133-D914-4B24-8D1F-67CE57AD6177}|Services\\Users\\Users.Api\\Users.Api.csproj|c:\\users\\marco\\source\\repos\\marco-pagnanini\\cigarclubapp\\backend\\services\\users\\users.api\\controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7CEC5133-D914-4B24-8D1F-67CE57AD6177}|Services\\Users\\Users.Api\\Users.Api.csproj|solutionrelative:services\\users\\users.api\\controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A161D469-6A99-471D-BF83-CB76B647A116}|Services\\Users\\Users.Core\\Users.Core.csproj|c:\\users\\marco\\source\\repos\\marco-pagnanini\\cigarclubapp\\backend\\services\\users\\users.core\\entities\\refreshtoken.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A161D469-6A99-471D-BF83-CB76B647A116}|Services\\Users\\Users.Core\\Users.Core.csproj|solutionrelative:services\\users\\users.core\\entities\\refreshtoken.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{7CEC5133-D914-4B24-8D1F-67CE57AD6177}|Services\\Users\\Users.Api\\Users.Api.csproj|c:\\users\\marco\\source\\repos\\marco-pagnanini\\cigarclubapp\\backend\\services\\users\\users.api\\users.api.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{7CEC5133-D914-4B24-8D1F-67CE57AD6177}|Services\\Users\\Users.Api\\Users.Api.csproj|solutionrelative:services\\users\\users.api\\users.api.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{8AFEAAFF-F78A-4A91-B632-9EB7589314D8}|Services\\Catalog\\Catalog.Api\\Catalog.Api.csproj|c:\\users\\marco\\source\\repos\\marco-pagnanini\\cigarclubapp\\backend\\services\\catalog\\catalog.api\\middleware\\jwtloggingmiddleware.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8AFEAAFF-F78A-4A91-B632-9EB7589314D8}|Services\\Catalog\\Catalog.Api\\Catalog.Api.csproj|solutionrelative:services\\catalog\\catalog.api\\middleware\\jwtloggingmiddleware.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{DF588001-24DE-4CE8-B099-E27FE7747F3B}|Services\\Users\\Users.Application\\Users.Application.csproj|c:\\users\\marco\\source\\repos\\marco-pagnanini\\cigarclubapp\\backend\\services\\users\\users.application\\abstractions\\service\\iuserservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DF588001-24DE-4CE8-B099-E27FE7747F3B}|Services\\Users\\Users.Application\\Users.Application.csproj|solutionrelative:services\\users\\users.application\\abstractions\\service\\iuserservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{8AFEAAFF-F78A-4A91-B632-9EB7589314D8}|Services\\Catalog\\Catalog.Api\\Catalog.Api.csproj|c:\\users\\marco\\source\\repos\\marco-pagnanini\\cigarclubapp\\backend\\services\\catalog\\catalog.api\\middleware\\exceptionhandlingmiddleware.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8AFEAAFF-F78A-4A91-B632-9EB7589314D8}|Services\\Catalog\\Catalog.Api\\Catalog.Api.csproj|solutionrelative:services\\catalog\\catalog.api\\middleware\\exceptionhandlingmiddleware.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{DF588001-24DE-4CE8-B099-E27FE7747F3B}|Services\\Users\\Users.Application\\Users.Application.csproj|c:\\users\\marco\\source\\repos\\marco-pagnanini\\cigarclubapp\\backend\\services\\users\\users.application\\dtos\\userdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DF588001-24DE-4CE8-B099-E27FE7747F3B}|Services\\Users\\Users.Application\\Users.Application.csproj|solutionrelative:services\\users\\users.application\\dtos\\userdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A04EBBAF-EB97-49D8-AFD3-E9F3A019E122}|Services\\Catalog\\Catalog.Infrastructure\\Catalog.Infrastructure.csproj|c:\\users\\marco\\source\\repos\\marco-pagnanini\\cigarclubapp\\backend\\services\\catalog\\catalog.infrastructure\\repositories\\tobacconistrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A04EBBAF-EB97-49D8-AFD3-E9F3A019E122}|Services\\Catalog\\Catalog.Infrastructure\\Catalog.Infrastructure.csproj|solutionrelative:services\\catalog\\catalog.infrastructure\\repositories\\tobacconistrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{DF588001-24DE-4CE8-B099-E27FE7747F3B}|Services\\Users\\Users.Application\\Users.Application.csproj|c:\\users\\marco\\source\\repos\\marco-pagnanini\\cigarclubapp\\backend\\services\\users\\users.application\\dtos\\refreshrequestdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DF588001-24DE-4CE8-B099-E27FE7747F3B}|Services\\Users\\Users.Application\\Users.Application.csproj|solutionrelative:services\\users\\users.application\\dtos\\refreshrequestdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{8AFEAAFF-F78A-4A91-B632-9EB7589314D8}|Services\\Catalog\\Catalog.Api\\Catalog.Api.csproj|c:\\users\\marco\\source\\repos\\marco-pagnanini\\cigarclubapp\\backend\\services\\catalog\\catalog.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8AFEAAFF-F78A-4A91-B632-9EB7589314D8}|Services\\Catalog\\Catalog.Api\\Catalog.Api.csproj|solutionrelative:services\\catalog\\catalog.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{DF588001-24DE-4CE8-B099-E27FE7747F3B}|Services\\Users\\Users.Application\\Users.Application.csproj|c:\\users\\marco\\source\\repos\\marco-pagnanini\\cigarclubapp\\backend\\services\\users\\users.application\\abstractions\\service\\iauthservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DF588001-24DE-4CE8-B099-E27FE7747F3B}|Services\\Users\\Users.Application\\Users.Application.csproj|solutionrelative:services\\users\\users.application\\abstractions\\service\\iauthservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{8AFEAAFF-F78A-4A91-B632-9EB7589314D8}|Services\\Catalog\\Catalog.Api\\Catalog.Api.csproj|c:\\users\\marco\\source\\repos\\marco-pagnanini\\cigarclubapp\\backend\\services\\catalog\\catalog.api\\catalog.api.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
-      "RelativeMoniker": "D:0:0:{8AFEAAFF-F78A-4A91-B632-9EB7589314D8}|Services\\Catalog\\Catalog.Api\\Catalog.Api.csproj|solutionrelative:services\\catalog\\catalog.api\\catalog.api.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{8AFEAAFF-F78A-4A91-B632-9EB7589314D8}|Services\\Catalog\\Catalog.Api\\Catalog.Api.csproj|c:\\users\\marco\\source\\repos\\marco-pagnanini\\cigarclubapp\\backend\\services\\catalog\\catalog.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{8AFEAAFF-F78A-4A91-B632-9EB7589314D8}|Services\\Catalog\\Catalog.Api\\Catalog.Api.csproj|solutionrelative:services\\catalog\\catalog.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7CEC5133-D914-4B24-8D1F-67CE57AD6177}|Services\\Users\\Users.Api\\Users.Api.csproj|c:\\users\\marco\\source\\repos\\marco-pagnanini\\cigarclubapp\\backend\\services\\users\\users.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{7CEC5133-D914-4B24-8D1F-67CE57AD6177}|Services\\Users\\Users.Api\\Users.Api.csproj|solutionrelative:services\\users\\users.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A04EBBAF-EB97-49D8-AFD3-E9F3A019E122}|Services\\Catalog\\Catalog.Infrastructure\\Catalog.Infrastructure.csproj|c:\\users\\marco\\source\\repos\\marco-pagnanini\\cigarclubapp\\backend\\services\\catalog\\catalog.infrastructure\\data\\catalogdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A04EBBAF-EB97-49D8-AFD3-E9F3A019E122}|Services\\Catalog\\Catalog.Infrastructure\\Catalog.Infrastructure.csproj|solutionrelative:services\\catalog\\catalog.infrastructure\\data\\catalogdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DDC1F5B3-19DE-4D17-9702-AB336AC0035C}|Services\\Catalog\\Catalog.Application\\Catalog.Application.csproj|c:\\users\\marco\\source\\repos\\marco-pagnanini\\cigarclubapp\\backend\\services\\catalog\\catalog.application\\abstractions\\service\\itobacconistservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DDC1F5B3-19DE-4D17-9702-AB336AC0035C}|Services\\Catalog\\Catalog.Application\\Catalog.Application.csproj|solutionrelative:services\\catalog\\catalog.application\\abstractions\\service\\itobacconistservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DDC1F5B3-19DE-4D17-9702-AB336AC0035C}|Services\\Catalog\\Catalog.Application\\Catalog.Application.csproj|c:\\users\\marco\\source\\repos\\marco-pagnanini\\cigarclubapp\\backend\\services\\catalog\\catalog.application\\abstractions\\repository\\itobacconistrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DDC1F5B3-19DE-4D17-9702-AB336AC0035C}|Services\\Catalog\\Catalog.Application\\Catalog.Application.csproj|solutionrelative:services\\catalog\\catalog.application\\abstractions\\repository\\itobacconistrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DDC1F5B3-19DE-4D17-9702-AB336AC0035C}|Services\\Catalog\\Catalog.Application\\Catalog.Application.csproj|c:\\users\\marco\\source\\repos\\marco-pagnanini\\cigarclubapp\\backend\\services\\catalog\\catalog.application\\services\\tobacconistservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DDC1F5B3-19DE-4D17-9702-AB336AC0035C}|Services\\Catalog\\Catalog.Application\\Catalog.Application.csproj|solutionrelative:services\\catalog\\catalog.application\\services\\tobacconistservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{8AFEAAFF-F78A-4A91-B632-9EB7589314D8}|Services\\Catalog\\Catalog.Api\\Catalog.Api.csproj|c:\\users\\marco\\source\\repos\\marco-pagnanini\\cigarclubapp\\backend\\services\\catalog\\catalog.api\\controllers\\tobacconistcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8AFEAAFF-F78A-4A91-B632-9EB7589314D8}|Services\\Catalog\\Catalog.Api\\Catalog.Api.csproj|solutionrelative:services\\catalog\\catalog.api\\controllers\\tobacconistcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -86,7 +62,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 8,
+          "SelectedChildIndex": 6,
           "Children": [
             {
               "$type": "Bookmark",
@@ -98,41 +74,15 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "ExceptionHandlingMiddleware.cs",
-              "DocumentMoniker": "C:\\Users\\marco\\source\\repos\\Marco-Pagnanini\\CigarClubApp\\backend\\Services\\Catalog\\Catalog.Api\\Middleware\\ExceptionHandlingMiddleware.cs",
-              "RelativeDocumentMoniker": "Services\\Catalog\\Catalog.Api\\Middleware\\ExceptionHandlingMiddleware.cs",
-              "ToolTip": "C:\\Users\\marco\\source\\repos\\Marco-Pagnanini\\CigarClubApp\\backend\\Services\\Catalog\\Catalog.Api\\Middleware\\ExceptionHandlingMiddleware.cs",
-              "RelativeToolTip": "Services\\Catalog\\Catalog.Api\\Middleware\\ExceptionHandlingMiddleware.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-04T17:03:55.758Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 5,
-              "Title": "Roles.cs",
-              "DocumentMoniker": "C:\\Users\\marco\\source\\repos\\Marco-Pagnanini\\CigarClubApp\\backend\\Services\\Users\\Users.Core\\Roles.cs",
-              "RelativeDocumentMoniker": "Services\\Users\\Users.Core\\Roles.cs",
-              "ToolTip": "C:\\Users\\marco\\source\\repos\\Marco-Pagnanini\\CigarClubApp\\backend\\Services\\Users\\Users.Core\\Roles.cs",
-              "RelativeToolTip": "Services\\Users\\Users.Core\\Roles.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Title": "IUserRepository.cs",
+              "DocumentMoniker": "C:\\Users\\marco\\source\\repos\\Marco-Pagnanini\\CigarClubApp\\backend\\Services\\Users\\Users.Application\\Abstractions\\Repository\\IUserRepository.cs",
+              "RelativeDocumentMoniker": "Services\\Users\\Users.Application\\Abstractions\\Repository\\IUserRepository.cs",
+              "ToolTip": "C:\\Users\\marco\\source\\repos\\Marco-Pagnanini\\CigarClubApp\\backend\\Services\\Users\\Users.Application\\Abstractions\\Repository\\IUserRepository.cs",
+              "RelativeToolTip": "Services\\Users\\Users.Application\\Abstractions\\Repository\\IUserRepository.cs",
+              "ViewState": "AgIAAA8AAAAAAAAAAAA0wCsAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-04T16:29:21.771Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "RefreshToken.cs",
-              "DocumentMoniker": "C:\\Users\\marco\\source\\repos\\Marco-Pagnanini\\CigarClubApp\\backend\\Services\\Users\\Users.Core\\Entities\\RefreshToken.cs",
-              "RelativeDocumentMoniker": "Services\\Users\\Users.Core\\Entities\\RefreshToken.cs",
-              "ToolTip": "C:\\Users\\marco\\source\\repos\\Marco-Pagnanini\\CigarClubApp\\backend\\Services\\Users\\Users.Core\\Entities\\RefreshToken.cs",
-              "RelativeToolTip": "Services\\Users\\Users.Core\\Entities\\RefreshToken.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-04T16:29:20.97Z",
+              "WhenOpened": "2026-02-04T23:49:48.131Z",
               "EditorCaption": ""
             },
             {
@@ -143,61 +93,61 @@
               "RelativeDocumentMoniker": "Services\\Users\\Users.Api\\Controllers\\AuthController.cs",
               "ToolTip": "C:\\Users\\marco\\source\\repos\\Marco-Pagnanini\\CigarClubApp\\backend\\Services\\Users\\Users.Api\\Controllers\\AuthController.cs",
               "RelativeToolTip": "Services\\Users\\Users.Api\\Controllers\\AuthController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAnAAAAAAAAAA==",
+              "ViewState": "AgIAAEcAAAAAAAAAAAA6wGIAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-04T16:24:45.788Z",
+              "WhenOpened": "2026-02-04T23:47:32.594Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "Barcode.cs",
-              "DocumentMoniker": "C:\\Users\\marco\\source\\repos\\Marco-Pagnanini\\CigarClubApp\\backend\\Services\\Catalog\\Catalog.Core\\Entities\\Barcode.cs",
-              "RelativeDocumentMoniker": "Services\\Catalog\\Catalog.Core\\Entities\\Barcode.cs",
-              "ToolTip": "C:\\Users\\marco\\source\\repos\\Marco-Pagnanini\\CigarClubApp\\backend\\Services\\Catalog\\Catalog.Core\\Entities\\Barcode.cs",
-              "RelativeToolTip": "Services\\Catalog\\Catalog.Core\\Entities\\Barcode.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Title": "AuthService.cs",
+              "DocumentMoniker": "C:\\Users\\marco\\source\\repos\\Marco-Pagnanini\\CigarClubApp\\backend\\Services\\Users\\Users.Application\\Services\\AuthService.cs",
+              "RelativeDocumentMoniker": "Services\\Users\\Users.Application\\Services\\AuthService.cs",
+              "ToolTip": "C:\\Users\\marco\\source\\repos\\Marco-Pagnanini\\CigarClubApp\\backend\\Services\\Users\\Users.Application\\Services\\AuthService.cs",
+              "RelativeToolTip": "Services\\Users\\Users.Application\\Services\\AuthService.cs",
+              "ViewState": "AgIAAJcAAAAAAAAAAAAwwF8AAABBAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-04T15:23:38.54Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Tobacconist.cs",
-              "DocumentMoniker": "C:\\Users\\marco\\source\\repos\\Marco-Pagnanini\\CigarClubApp\\backend\\Services\\Catalog\\Catalog.Core\\Entities\\Tobacconist.cs",
-              "RelativeDocumentMoniker": "Services\\Catalog\\Catalog.Core\\Entities\\Tobacconist.cs",
-              "ToolTip": "C:\\Users\\marco\\source\\repos\\Marco-Pagnanini\\CigarClubApp\\backend\\Services\\Catalog\\Catalog.Core\\Entities\\Tobacconist.cs",
-              "RelativeToolTip": "Services\\Catalog\\Catalog.Core\\Entities\\Tobacconist.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-04T15:23:34.98Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "TobacconistController.cs",
-              "DocumentMoniker": "C:\\Users\\marco\\source\\repos\\Marco-Pagnanini\\CigarClubApp\\backend\\Services\\Catalog\\Catalog.Api\\Controllers\\TobacconistController.cs",
-              "RelativeDocumentMoniker": "Services\\Catalog\\Catalog.Api\\Controllers\\TobacconistController.cs",
-              "ToolTip": "C:\\Users\\marco\\source\\repos\\Marco-Pagnanini\\CigarClubApp\\backend\\Services\\Catalog\\Catalog.Api\\Controllers\\TobacconistController.cs",
-              "RelativeToolTip": "Services\\Catalog\\Catalog.Api\\Controllers\\TobacconistController.cs",
-              "ViewState": "AgIAABkAAAAAAAAAAAAcwFYAAABcAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-04T15:53:45.19Z",
+              "WhenOpened": "2026-02-04T23:54:17.49Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 8,
-              "Title": "JwtLoggingMiddleware.cs",
-              "DocumentMoniker": "C:\\Users\\marco\\source\\repos\\Marco-Pagnanini\\CigarClubApp\\backend\\Services\\Catalog\\Catalog.Api\\Middleware\\JwtLoggingMiddleware.cs",
-              "RelativeDocumentMoniker": "Services\\Catalog\\Catalog.Api\\Middleware\\JwtLoggingMiddleware.cs",
-              "ToolTip": "C:\\Users\\marco\\source\\repos\\Marco-Pagnanini\\CigarClubApp\\backend\\Services\\Catalog\\Catalog.Api\\Middleware\\JwtLoggingMiddleware.cs",
-              "RelativeToolTip": "Services\\Catalog\\Catalog.Api\\Middleware\\JwtLoggingMiddleware.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Title": "IUserService.cs",
+              "DocumentMoniker": "C:\\Users\\marco\\source\\repos\\Marco-Pagnanini\\CigarClubApp\\backend\\Services\\Users\\Users.Application\\Abstractions\\Service\\IUserService.cs",
+              "RelativeDocumentMoniker": "Services\\Users\\Users.Application\\Abstractions\\Service\\IUserService.cs",
+              "ToolTip": "C:\\Users\\marco\\source\\repos\\Marco-Pagnanini\\CigarClubApp\\backend\\Services\\Users\\Users.Application\\Abstractions\\Service\\IUserService.cs",
+              "RelativeToolTip": "Services\\Users\\Users.Application\\Abstractions\\Service\\IUserService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-04T17:03:57.218Z",
+              "WhenOpened": "2026-02-04T23:49:35.305Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\marco\\source\\repos\\Marco-Pagnanini\\CigarClubApp\\backend\\Services\\Users\\Users.Api\\Program.cs",
+              "RelativeDocumentMoniker": "Services\\Users\\Users.Api\\Program.cs",
+              "ToolTip": "C:\\Users\\marco\\source\\repos\\Marco-Pagnanini\\CigarClubApp\\backend\\Services\\Users\\Users.Api\\Program.cs",
+              "RelativeToolTip": "Services\\Users\\Users.Api\\Program.cs",
+              "ViewState": "AgIAAF0AAAAAAAAAAAAuwH4AAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-04T18:02:56.556Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "UsersController.cs",
+              "DocumentMoniker": "C:\\Users\\marco\\source\\repos\\Marco-Pagnanini\\CigarClubApp\\backend\\Services\\Users\\Users.Api\\Controllers\\UsersController.cs",
+              "RelativeDocumentMoniker": "Services\\Users\\Users.Api\\Controllers\\UsersController.cs",
+              "ToolTip": "C:\\Users\\marco\\source\\repos\\Marco-Pagnanini\\CigarClubApp\\backend\\Services\\Users\\Users.Api\\Controllers\\UsersController.cs",
+              "RelativeToolTip": "Services\\Users\\Users.Api\\Controllers\\UsersController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-04T23:58:41.139Z",
               "EditorCaption": ""
             },
             {
@@ -208,139 +158,87 @@
               "RelativeDocumentMoniker": "Services\\Users\\Users.Infrastructure\\Repositories\\UserRepository.cs",
               "ToolTip": "C:\\Users\\marco\\source\\repos\\Marco-Pagnanini\\CigarClubApp\\backend\\Services\\Users\\Users.Infrastructure\\Repositories\\UserRepository.cs",
               "RelativeToolTip": "Services\\Users\\Users.Infrastructure\\Repositories\\UserRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAACQAAAAAAAAAAAAcwEEAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-04T17:04:31.296Z",
+              "WhenOpened": "2026-02-04T23:53:06.424Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
-              "Title": "CatalogDbContext.cs",
-              "DocumentMoniker": "C:\\Users\\marco\\source\\repos\\Marco-Pagnanini\\CigarClubApp\\backend\\Services\\Catalog\\Catalog.Infrastructure\\Data\\CatalogDbContext.cs",
-              "RelativeDocumentMoniker": "Services\\Catalog\\Catalog.Infrastructure\\Data\\CatalogDbContext.cs",
-              "ToolTip": "C:\\Users\\marco\\source\\repos\\Marco-Pagnanini\\CigarClubApp\\backend\\Services\\Catalog\\Catalog.Infrastructure\\Data\\CatalogDbContext.cs",
-              "RelativeToolTip": "Services\\Catalog\\Catalog.Infrastructure\\Data\\CatalogDbContext.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 2,
+              "Title": "UserService.cs",
+              "DocumentMoniker": "C:\\Users\\marco\\source\\repos\\Marco-Pagnanini\\CigarClubApp\\backend\\Services\\Users\\Users.Application\\Services\\UserService.cs",
+              "RelativeDocumentMoniker": "Services\\Users\\Users.Application\\Services\\UserService.cs",
+              "ToolTip": "C:\\Users\\marco\\source\\repos\\Marco-Pagnanini\\CigarClubApp\\backend\\Services\\Users\\Users.Application\\Services\\UserService.cs",
+              "RelativeToolTip": "Services\\Users\\Users.Application\\Services\\UserService.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAiwCoAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-04T15:54:49.178Z",
+              "WhenOpened": "2026-02-04T23:53:24.985Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "Catalog.Api.csproj",
-              "DocumentMoniker": "C:\\Users\\marco\\source\\repos\\Marco-Pagnanini\\CigarClubApp\\backend\\Services\\Catalog\\Catalog.Api\\Catalog.Api.csproj",
-              "RelativeDocumentMoniker": "Services\\Catalog\\Catalog.Api\\Catalog.Api.csproj",
-              "ToolTip": "C:\\Users\\marco\\source\\repos\\Marco-Pagnanini\\CigarClubApp\\backend\\Services\\Catalog\\Catalog.Api\\Catalog.Api.csproj",
-              "RelativeToolTip": "Services\\Catalog\\Catalog.Api\\Catalog.Api.csproj",
-              "ViewState": "AgIAAAMAAAAAAAAAAADwvxcAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2026-02-04T15:55:55.214Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "C:\\Users\\marco\\source\\repos\\Marco-Pagnanini\\CigarClubApp\\backend\\Services\\Users\\Users.Api\\appsettings.json",
-              "RelativeDocumentMoniker": "Services\\Users\\Users.Api\\appsettings.json",
-              "ToolTip": "C:\\Users\\marco\\source\\repos\\Marco-Pagnanini\\CigarClubApp\\backend\\Services\\Users\\Users.Api\\appsettings.json",
-              "RelativeToolTip": "Services\\Users\\Users.Api\\appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2026-02-04T16:24:44.993Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "User.cs",
-              "DocumentMoniker": "C:\\Users\\marco\\source\\repos\\Marco-Pagnanini\\CigarClubApp\\backend\\Services\\Users\\Users.Core\\Entities\\User.cs",
-              "RelativeDocumentMoniker": "Services\\Users\\Users.Core\\Entities\\User.cs",
-              "ToolTip": "C:\\Users\\marco\\source\\repos\\Marco-Pagnanini\\CigarClubApp\\backend\\Services\\Users\\Users.Core\\Entities\\User.cs",
-              "RelativeToolTip": "Services\\Users\\Users.Core\\Entities\\User.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 9,
+              "Title": "UserDto.cs",
+              "DocumentMoniker": "C:\\Users\\marco\\source\\repos\\Marco-Pagnanini\\CigarClubApp\\backend\\Services\\Users\\Users.Application\\Dtos\\UserDto.cs",
+              "RelativeDocumentMoniker": "Services\\Users\\Users.Application\\Dtos\\UserDto.cs",
+              "ToolTip": "C:\\Users\\marco\\source\\repos\\Marco-Pagnanini\\CigarClubApp\\backend\\Services\\Users\\Users.Application\\Dtos\\UserDto.cs",
+              "RelativeToolTip": "Services\\Users\\Users.Application\\Dtos\\UserDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAiAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-04T16:25:14.441Z",
+              "WhenOpened": "2026-02-04T23:51:02.014Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 10,
-              "Title": "TobacconistRepository.cs",
-              "DocumentMoniker": "C:\\Users\\marco\\source\\repos\\Marco-Pagnanini\\CigarClubApp\\backend\\Services\\Catalog\\Catalog.Infrastructure\\Repositories\\TobacconistRepository.cs",
-              "RelativeDocumentMoniker": "Services\\Catalog\\Catalog.Infrastructure\\Repositories\\TobacconistRepository.cs",
-              "ToolTip": "C:\\Users\\marco\\source\\repos\\Marco-Pagnanini\\CigarClubApp\\backend\\Services\\Catalog\\Catalog.Infrastructure\\Repositories\\TobacconistRepository.cs",
-              "RelativeToolTip": "Services\\Catalog\\Catalog.Infrastructure\\Repositories\\TobacconistRepository.cs",
-              "ViewState": "AgIAACcAAAAAAAAAAAA7wCQAAAAMAAAAAAAAAA==",
+              "Title": "RefreshRequestDto.cs",
+              "DocumentMoniker": "C:\\Users\\marco\\source\\repos\\Marco-Pagnanini\\CigarClubApp\\backend\\Services\\Users\\Users.Application\\Dtos\\RefreshRequestDto.cs",
+              "RelativeDocumentMoniker": "Services\\Users\\Users.Application\\Dtos\\RefreshRequestDto.cs",
+              "ToolTip": "C:\\Users\\marco\\source\\repos\\Marco-Pagnanini\\CigarClubApp\\backend\\Services\\Users\\Users.Application\\Dtos\\RefreshRequestDto.cs",
+              "RelativeToolTip": "Services\\Users\\Users.Application\\Dtos\\RefreshRequestDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-04T15:41:31.019Z",
+              "WhenOpened": "2026-02-04T23:51:59.885Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Users.Api",
+              "DocumentMoniker": "C:\\Users\\marco\\source\\repos\\Marco-Pagnanini\\CigarClubApp\\backend\\Services\\Users\\Users.Api\\Users.Api.csproj",
+              "RelativeDocumentMoniker": "Services\\Users\\Users.Api\\Users.Api.csproj",
+              "ToolTip": "C:\\Users\\marco\\source\\repos\\Marco-Pagnanini\\CigarClubApp\\backend\\Services\\Users\\Users.Api\\Users.Api.csproj",
+              "RelativeToolTip": "Services\\Users\\Users.Api\\Users.Api.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-02-05T00:04:03.121Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 11,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\marco\\source\\repos\\Marco-Pagnanini\\CigarClubApp\\backend\\Services\\Catalog\\Catalog.Api\\Program.cs",
-              "RelativeDocumentMoniker": "Services\\Catalog\\Catalog.Api\\Program.cs",
-              "ToolTip": "C:\\Users\\marco\\source\\repos\\Marco-Pagnanini\\CigarClubApp\\backend\\Services\\Catalog\\Catalog.Api\\Program.cs",
-              "RelativeToolTip": "Services\\Catalog\\Catalog.Api\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-04T16:34:44.247Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "C:\\Users\\marco\\source\\repos\\Marco-Pagnanini\\CigarClubApp\\backend\\Services\\Catalog\\Catalog.Api\\appsettings.json",
-              "RelativeDocumentMoniker": "Services\\Catalog\\Catalog.Api\\appsettings.json",
-              "ToolTip": "C:\\Users\\marco\\source\\repos\\Marco-Pagnanini\\CigarClubApp\\backend\\Services\\Catalog\\Catalog.Api\\appsettings.json",
-              "RelativeToolTip": "Services\\Catalog\\Catalog.Api\\appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2026-02-04T16:32:45.435Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 16,
-              "Title": "ITobacconistService.cs",
-              "DocumentMoniker": "C:\\Users\\marco\\source\\repos\\Marco-Pagnanini\\CigarClubApp\\backend\\Services\\Catalog\\Catalog.Application\\Abstractions\\Service\\ITobacconistService.cs",
-              "RelativeDocumentMoniker": "Services\\Catalog\\Catalog.Application\\Abstractions\\Service\\ITobacconistService.cs",
-              "ToolTip": "C:\\Users\\marco\\source\\repos\\Marco-Pagnanini\\CigarClubApp\\backend\\Services\\Catalog\\Catalog.Application\\Abstractions\\Service\\ITobacconistService.cs",
-              "RelativeToolTip": "Services\\Catalog\\Catalog.Application\\Abstractions\\Service\\ITobacconistService.cs",
+              "Title": "IAuthService.cs",
+              "DocumentMoniker": "C:\\Users\\marco\\source\\repos\\Marco-Pagnanini\\CigarClubApp\\backend\\Services\\Users\\Users.Application\\Abstractions\\Service\\IAuthService.cs",
+              "RelativeDocumentMoniker": "Services\\Users\\Users.Application\\Abstractions\\Service\\IAuthService.cs",
+              "ToolTip": "C:\\Users\\marco\\source\\repos\\Marco-Pagnanini\\CigarClubApp\\backend\\Services\\Users\\Users.Application\\Abstractions\\Service\\IAuthService.cs",
+              "RelativeToolTip": "Services\\Users\\Users.Application\\Abstractions\\Service\\IAuthService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-04T15:41:50.233Z",
+              "WhenOpened": "2026-02-04T23:49:02.482Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
-              "Title": "ITobacconistRepository.cs",
-              "DocumentMoniker": "C:\\Users\\marco\\source\\repos\\Marco-Pagnanini\\CigarClubApp\\backend\\Services\\Catalog\\Catalog.Application\\Abstractions\\Repository\\ITobacconistRepository.cs",
-              "RelativeDocumentMoniker": "Services\\Catalog\\Catalog.Application\\Abstractions\\Repository\\ITobacconistRepository.cs",
-              "ToolTip": "C:\\Users\\marco\\source\\repos\\Marco-Pagnanini\\CigarClubApp\\backend\\Services\\Catalog\\Catalog.Application\\Abstractions\\Repository\\ITobacconistRepository.cs",
-              "RelativeToolTip": "Services\\Catalog\\Catalog.Application\\Abstractions\\Repository\\ITobacconistRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 12,
+              "Title": "TobacconistController.cs",
+              "DocumentMoniker": "C:\\Users\\marco\\source\\repos\\Marco-Pagnanini\\CigarClubApp\\backend\\Services\\Catalog\\Catalog.Api\\Controllers\\TobacconistController.cs",
+              "RelativeDocumentMoniker": "Services\\Catalog\\Catalog.Api\\Controllers\\TobacconistController.cs",
+              "ToolTip": "C:\\Users\\marco\\source\\repos\\Marco-Pagnanini\\CigarClubApp\\backend\\Services\\Catalog\\Catalog.Api\\Controllers\\TobacconistController.cs",
+              "RelativeToolTip": "Services\\Catalog\\Catalog.Api\\Controllers\\TobacconistController.cs",
+              "ViewState": "AgIAAHkAAAAAAAAAAAAkwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-04T15:41:43.151Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 18,
-              "Title": "TobacconistService.cs",
-              "DocumentMoniker": "C:\\Users\\marco\\source\\repos\\Marco-Pagnanini\\CigarClubApp\\backend\\Services\\Catalog\\Catalog.Application\\Services\\TobacconistService.cs",
-              "RelativeDocumentMoniker": "Services\\Catalog\\Catalog.Application\\Services\\TobacconistService.cs",
-              "ToolTip": "C:\\Users\\marco\\source\\repos\\Marco-Pagnanini\\CigarClubApp\\backend\\Services\\Catalog\\Catalog.Application\\Services\\TobacconistService.cs",
-              "RelativeToolTip": "Services\\Catalog\\Catalog.Application\\Services\\TobacconistService.cs",
-              "ViewState": "AgIAAAQAAAAAAAAAAIBJwAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-04T15:41:39.187Z",
+              "WhenOpened": "2026-02-04T22:50:09.751Z",
               "EditorCaption": ""
             }
           ]

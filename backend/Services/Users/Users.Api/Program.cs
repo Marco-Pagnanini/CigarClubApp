@@ -10,58 +10,54 @@ using Users.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// ─── DbContext: connessione al Postgres ──────────────────────────────────────
 builder.Services.AddDbContext<UsersDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("UsersDb"))
 );
 
-// ─── DI: registra interface -> implementazione ──────────────────────────────
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
 
-// ─── JWT Authentication ─────────────────────────────────────────────────────
 builder.Services
     .AddAuthentication(options =>
     {
         options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-        options.DefaultChallengeScheme    = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
     })
     .AddJwtBearer(options =>
     {
         options.TokenValidationParameters = new TokenValidationParameters
         {
-            ValidateIssuer           = true,
-            ValidIssuer              = builder.Configuration["Jwt:Issuer"],
-            ValidateAudience         = true,
-            ValidAudience            = builder.Configuration["Jwt:Audience"],
-            ValidateLifetime         = true,
+            ValidateIssuer = true,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidateAudience = true,
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
-            IssuerSigningKey         = new SymmetricSecurityKey(
+            IssuerSigningKey = new SymmetricSecurityKey(
                 Encoding.UTF8.GetBytes(builder.Configuration["Jwt:SecretKey"]!)
             )
         };
     });
 
 builder.Services.AddAuthorization();
-
 builder.Services.AddControllers();
 
-// ─── Swagger ─────────────────────────────────────────────────────────────────
 builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
     {
-        Title       = "CigarClub – Users Service",
-        Version     = "v1",
+        Title = "CigarClub – Users Service",
+        Version = "v1",
         Description = "API per registrazione e autenticazione degli utenti"
     });
 
-    // Autorizzazione Bearer nel Swagger UI
     options.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
     {
-        Description  = "Inserisci il JWT access token",
-        Type         = Microsoft.OpenApi.Models.SecuritySchemeType.Http,
-        Scheme       = "Bearer",
+        Description = "Inserisci il JWT access token",
+        Type = Microsoft.OpenApi.Models.SecuritySchemeType.Http,
+        Scheme = "Bearer",
         BearerFormat = "JWT"
     });
 
@@ -81,16 +77,64 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll",
+        policy =>
+        {
+            policy.SetIsOriginAllowed(origin => true)
+                  .AllowAnyHeader()
+                  .AllowAnyMethod()
+                  .AllowCredentials();
+        }
+      );
+});
+
 var app = builder.Build();
 
-// Swagger attivo solo in Development (non in produzione/Docker)
-if (app.Environment.IsDevelopment())
+// 🔧 AUTO-MIGRATE: Applica le migrations al database all'avvio (importante per Docker)
+using (var scope = app.Services.CreateScope())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    var services = scope.ServiceProvider;
+    var logger = services.GetRequiredService<ILogger<Program>>();
+
+    int retries = 0;
+    const int maxRetries = 10;
+    const int delayMs = 1000;
+
+    while (retries < maxRetries)
+    {
+        try
+        {
+            var context = services.GetRequiredService<UsersDbContext>();
+            context.Database.Migrate();
+            Console.WriteLine("✅ Database migrations applied successfully.");
+            break;
+        }
+        catch (Exception ex)
+        {
+            retries++;
+            if (retries >= maxRetries)
+            {
+                logger.LogError(ex, "❌ An error occurred while migrating the database after {Retries} attempts.", retries);
+                throw; // Re-throw per far fallire il container se le migrations falliscono
+            }
+
+            logger.LogWarning("⚠️  Database connection attempt {Attempt}/{MaxAttempts} failed. Retrying in {DelayMs}ms...", retries, maxRetries, delayMs);
+            await Task.Delay(delayMs);
+        }
+    }
 }
 
-// Middleware di autenticazione e autorizzazione
+
+app.UseCors("AllowAll");
+
+app.UseSwagger();
+app.UseSwaggerUI();
+
+
+app.UseRouting();
+
 app.UseAuthentication();
 app.UseAuthorization();
 
