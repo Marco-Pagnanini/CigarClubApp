@@ -11,7 +11,7 @@ import {
     Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger, DialogFooter
 } from "@/components/ui/dialog";
 import { Plus, Cigarette, Loader2, Info } from "lucide-react";
-import { catalogApi, panelApi } from '@/api/api';
+import { brandApi, catalogApi, panelApi } from '@/api/api';
 import { Tobacconist } from '@/types/tobacconist';
 import { PanelData } from '@/types/panel';
 
@@ -20,12 +20,11 @@ export default function DashboardHome() {
     const [isLoading, setIsLoading] = useState(true);
     const [cigars, setCigars] = useState<Tobacconist[]>([]);
 
-    // Stato per il singolo panel selezionato e per la modale
     const [selectedPanel, setSelectedPanel] = useState<PanelData | null>(null);
+    const [brand, setBrand] = useState<string | null>(null);
     const [isPanelLoading, setIsPanelLoading] = useState(false);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-    // 1. Carichiamo solo il catalogo sigari all'inizio
     const fetchCatalog = async () => {
         try {
             const response = await catalogApi.get('/');
@@ -41,8 +40,6 @@ export default function DashboardHome() {
         fetchCatalog();
     }, [])
 
-    // 2. FUNZIONE CHIAMATA API PASSANDO L'ID
-    // Questa scatta solo quando clicchi il bottone
     const handleFetchPanel = async (panelId: string) => {
         if (!panelId) return;
 
@@ -55,6 +52,10 @@ export default function DashboardHome() {
             const response = await panelApi.get(`/${panelId}`);
             console.log("Panel data received:", response.data.data);
             setSelectedPanel(response.data.data);
+            const responseBrand = await brandApi.get(`/${response.data.data.brandId}`);
+            console.log("Brand data received:", responseBrand.data.data.name);
+            setBrand(responseBrand.data.data.name);
+
         } catch (error) {
             console.error("Errore caricamento panel specifico", error);
             setSelectedPanel(null);
@@ -165,7 +166,7 @@ export default function DashboardHome() {
 
                                 <div className="space-y-1">
                                     <Label className="text-xs text-muted-foreground uppercase">Brand ID</Label>
-                                    <div className="font-medium">{selectedPanel.brandId}</div>
+                                    <div className="font-medium">{brand}</div>
                                 </div>
 
                                 <div className="space-y-1">

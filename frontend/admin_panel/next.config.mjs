@@ -22,6 +22,10 @@ const nextConfig = {
       {
         source: '/api/panels/:path*',
         destination: `http://${ip}:8080/api/panels/:path*`,
+      },
+      {
+        source: '/api/brands/:path*',
+        destination: `http://${ip}:8080/api/brands/:path*`,
       }
     ];
   },

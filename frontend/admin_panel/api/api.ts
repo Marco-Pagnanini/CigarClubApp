@@ -20,3 +20,10 @@ export const panelApi = axios.create({
         'Content-Type': 'application/json',
     },
 });
+
+export const brandApi = axios.create({
+    baseURL: '/api/brands',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+});
