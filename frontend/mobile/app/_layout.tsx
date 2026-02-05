@@ -1,11 +1,10 @@
 import { Colors } from '@/constants/Colors';
-import { AuthProvider } from '@/context/AuthContext';
+import { AuthProvider as AuthContextProvider } from '@/context/AuthContext';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-
 export default function RootLayout() {
     return (
-        <AuthProvider>
+        <AuthContextProvider>
             <StatusBar style="light" />
             <Stack
                 screenOptions={{
@@ -17,6 +16,7 @@ export default function RootLayout() {
                 <Stack.Screen name="index" />
                 <Stack.Screen name="(tabs)" />
             </Stack>
-        </AuthProvider>
+        </AuthContextProvider>
+
     );
 }

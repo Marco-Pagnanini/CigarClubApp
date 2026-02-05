@@ -45,11 +45,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             const refreshToken = await SecureStore.getItemAsync(REFRESH_TOKEN_KEY);
 
             if (!refreshToken) {
-                console.log('No refresh token available');
                 return null;
             }
 
-            console.log('Attempting to refresh token...');
             const response = await fetch(`${API_URL}/auth/refresh`, {
                 method: 'POST',
                 headers: {
@@ -59,13 +57,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             });
 
             if (!response.ok) {
-                console.log('Refresh token failed, clearing auth');
                 await clearAuth();
                 return null;
             }
 
             const data = await response.json();
-            console.log('Refresh response:', data);
 
             const newAccessToken = data.accessToken || data.token;
             const newRefreshToken = data.refreshToken;
@@ -78,10 +74,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                     await SecureStore.setItemAsync(REFRESH_TOKEN_KEY, newRefreshToken);
                 }
 
-                console.log('Token refreshed successfully');
                 return newAccessToken;
             }
 
+            await clearAuth();
             return null;
         } catch (error) {
             console.error('Error refreshing token:', error);
@@ -92,23 +88,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     const loadStoredAuth = async () => {
         try {
-            const storedToken = await SecureStore.getItemAsync(TOKEN_KEY);
             const storedRefreshToken = await SecureStore.getItemAsync(REFRESH_TOKEN_KEY);
             const storedUser = await SecureStore.getItemAsync(USER_KEY);
 
-            console.log('Stored auth check - token exists:', !!storedToken, 'refresh exists:', !!storedRefreshToken);
+            if (!storedRefreshToken) {
+                await clearAuth();
+                return;
+            }
 
-            if (storedToken && storedUser) {
-                // Carica il token salvato - la validità verrà verificata alle prossime chiamate API
-                setToken(storedToken);
+            // Sempre validare la sessione col backend tramite refresh
+            const newToken = await refreshAccessToken();
+
+            if (newToken && storedUser) {
                 setUser(JSON.parse(storedUser));
-            } else if (storedRefreshToken) {
-                // Solo refresh token disponibile, prova a refreshare
-                console.log('Only refresh token available, attempting refresh...');
-                const newToken = await refreshAccessToken();
-                if (newToken && storedUser) {
-                    setUser(JSON.parse(storedUser));
-                }
+            } else {
+                await clearAuth();
             }
         } catch (error) {
             console.error('Error loading stored auth:', error);
@@ -131,7 +125,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                 },
                 body: JSON.stringify({ email, password }),
             });
-            console.log('Login response status:', response.status);
 
             if (!response.ok) {
                 const error = await response.json();
@@ -139,9 +132,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             }
 
             const data = await response.json();
-            console.log('Login response data:', data);
 
-            // Store credentials - backend returns accessToken, refreshToken, email, role
             const authToken = data.accessToken;
             const refreshToken = data.refreshToken;
             const authUser: User = { email: data.email, role: data.role };
@@ -155,7 +146,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             setToken(authToken);
             setUser(authUser);
 
-            // Navigate to main app
             router.replace('/(tabs)');
         } catch (error) {
             console.error('Sign in error:', error);
@@ -179,9 +169,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             }
 
             const data = await response.json();
-            console.log('Register response data:', data);
 
-            // Store credentials - backend returns accessToken, refreshToken, email, role
             const authToken = data.accessToken;
             const refreshToken = data.refreshToken;
             const authUser: User = { email: data.email, role: data.role };
@@ -195,7 +183,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             setToken(authToken);
             setUser(authUser);
 
-            // Navigate to main app
             router.replace('/(tabs)');
         } catch (error) {
             console.error('Sign up error:', error);
@@ -205,7 +192,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     const signOut = async () => {
         try {
-            // Opzionale: notifica il server del logout
             const refreshToken = await SecureStore.getItemAsync(REFRESH_TOKEN_KEY);
             if (refreshToken) {
                 try {
@@ -218,15 +204,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                         body: JSON.stringify({ refreshToken }),
                     });
                 } catch (e) {
-                    // Ignora errori di logout server-side
                     console.log('Server logout failed, continuing local logout');
                 }
             }
 
-            // Clear stored credentials
             await clearAuth();
-
-            // Navigate to login
             router.replace('/');
         } catch (error) {
             console.error('Sign out error:', error);
