@@ -12,6 +12,7 @@ import { panelApi, brandApi } from '@/api/api';
 
 interface AddPanelDialogProps {
     tobacconistId: string;
+    tobacconistCode?: string;
     onSuccess?: () => void;
 }
 
@@ -25,18 +26,20 @@ interface PanelForm {
     brandId: string;
     description: string;
     origin: string;
-    strength: number;
+    strength: number | null;
     wrapper: string;
-    wrapperColor: number;
+    wrapperColor: number | null;
     binder: string;
     filler: string;
     masterLine: string;
     rollingType: string;
     shape: string;
-    price: number;
-    rating: number;
-    numberInBox: number;
-    type: number;
+    price: number | null;
+    rating: number | null;
+    numberInBox: number | null;
+    ring: number | null;
+    smokingTime: number | null;
+    type: number | null;
 }
 
 const initialFormState: PanelForm = {
@@ -44,21 +47,23 @@ const initialFormState: PanelForm = {
     brandId: '',
     description: '',
     origin: '',
-    strength: 0,
+    strength: null,
     wrapper: '',
-    wrapperColor: 0,
+    wrapperColor: null,
     binder: '',
     filler: '',
     masterLine: '',
     rollingType: '',
     shape: '',
-    price: 0,
-    rating: 0,
-    numberInBox: 0,
-    type: 0,
+    price: null,
+    rating: null,
+    numberInBox: null,
+    ring: null,
+    smokingTime: null,
+    type: null,
 };
 
-export function AddPanelDialog({ tobacconistId, onSuccess }: AddPanelDialogProps) {
+export function AddPanelDialog({ tobacconistId, tobacconistCode, onSuccess }: AddPanelDialogProps) {
     const [isOpen, setIsOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -79,9 +84,8 @@ export function AddPanelDialog({ tobacconistId, onSuccess }: AddPanelDialogProps
         setIsBrandsLoading(true);
         try {
             const response = await brandApi.get('/');
-            // Adatta in base alla struttura della risposta del backend
-            const brandsData = response.data.data || response.data;
-            setBrands(brandsData);
+            // La risposta è direttamente un array
+            setBrands(response.data);
         } catch (err) {
             console.error('Errore nel caricamento dei brand:', err);
         } finally {
@@ -89,7 +93,7 @@ export function AddPanelDialog({ tobacconistId, onSuccess }: AddPanelDialogProps
         }
     };
 
-    const handleInputChange = (field: keyof PanelForm, value: string | number) => {
+    const handleInputChange = (field: keyof PanelForm, value: string | number | null) => {
         setFormData(prev => ({ ...prev, [field]: value }));
     };
 
@@ -99,17 +103,31 @@ export function AddPanelDialog({ tobacconistId, onSuccess }: AddPanelDialogProps
         setError(null);
 
         try {
+            // Costruisce il payload secondo la struttura del backend
             const payload = {
-                ...formData,
-                tobacconistId,
-                strength: Number(formData.strength),
-                wrapperColor: Number(formData.wrapperColor),
-                price: Number(formData.price),
-                rating: Number(formData.rating),
-                numberInBox: Number(formData.numberInBox),
-                type: Number(formData.type),
+                name: formData.name,
+                brandId: formData.brandId,
+                tobacconistId: tobacconistId,
+                tobacconistCode: tobacconistCode || '',
+                description: formData.description || '',
+                origin: formData.origin || '',
+                strength: formData.strength ?? 0,
+                wrapper: formData.wrapper || '',
+                wrapperColor: formData.wrapperColor ?? 0,
+                binder: formData.binder || '',
+                filler: formData.filler || '',
+                masterLine: formData.masterLine || '',
+                rollingType: formData.rollingType || '',
+                shape: formData.shape || '',
+                price: formData.price ?? 0,
+                rating: formData.rating ?? 0,
+                numberInBox: formData.numberInBox ?? 0,
+                ring: formData.ring ?? 0,
+                smokingTime: formData.smokingTime ?? 0,
+                type: formData.type ?? 0,
             };
 
+            console.log('Payload inviato:', payload);
             await panelApi.post('/', payload);
 
             setFormData(initialFormState);
@@ -156,6 +174,7 @@ export function AddPanelDialog({ tobacconistId, onSuccess }: AddPanelDialogProps
                                     value={formData.brandId}
                                     onValueChange={(value) => handleInputChange('brandId', value)}
                                     disabled={isBrandsLoading}
+                                    required
                                 >
                                     <SelectTrigger>
                                         <SelectValue placeholder={isBrandsLoading ? "Caricamento..." : "Seleziona brand"} />
@@ -195,15 +214,20 @@ export function AddPanelDialog({ tobacconistId, onSuccess }: AddPanelDialogProps
                                 />
                             </div>
                             <div className="space-y-2">
-                                <Label htmlFor="strength">Forza (1-10)</Label>
-                                <Input
-                                    id="strength"
-                                    type="number"
-                                    min="1"
-                                    max="10"
-                                    value={formData.strength}
-                                    onChange={(e) => handleInputChange('strength', e.target.value)}
-                                />
+                                <Label htmlFor="strength">Forza</Label>
+                                <Select
+                                    value={formData.strength?.toString() ?? ''}
+                                    onValueChange={(value) => handleInputChange('strength', value ? parseInt(value) : null)}
+                                >
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Seleziona forza" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="0">Mild</SelectItem>
+                                        <SelectItem value="1">Medium</SelectItem>
+                                        <SelectItem value="2">Full</SelectItem>
+                                    </SelectContent>
+                                </Select>
                             </div>
                         </div>
 
@@ -221,19 +245,17 @@ export function AddPanelDialog({ tobacconistId, onSuccess }: AddPanelDialogProps
                             <div className="space-y-2">
                                 <Label htmlFor="wrapperColor">Colore Wrapper</Label>
                                 <Select
-                                    value={formData.wrapperColor.toString()}
-                                    onValueChange={(value) => handleInputChange('wrapperColor', parseInt(value))}
+                                    value={formData.wrapperColor?.toString() ?? ''}
+                                    onValueChange={(value) => handleInputChange('wrapperColor', value ? parseInt(value) : null)}
                                 >
                                     <SelectTrigger>
                                         <SelectValue placeholder="Seleziona colore" />
                                     </SelectTrigger>
                                     <SelectContent>
                                         <SelectItem value="0">Claro</SelectItem>
-                                        <SelectItem value="1">Colorado Claro</SelectItem>
-                                        <SelectItem value="2">Colorado</SelectItem>
-                                        <SelectItem value="3">Colorado Maduro</SelectItem>
-                                        <SelectItem value="4">Maduro</SelectItem>
-                                        <SelectItem value="5">Oscuro</SelectItem>
+                                        <SelectItem value="1">Colorado</SelectItem>
+                                        <SelectItem value="2">Maduro</SelectItem>
+                                        <SelectItem value="3">Oscuro</SelectItem>
                                     </SelectContent>
                                 </Select>
                             </div>
@@ -274,19 +296,12 @@ export function AddPanelDialog({ tobacconistId, onSuccess }: AddPanelDialogProps
                             </div>
                             <div className="space-y-2">
                                 <Label htmlFor="rollingType">Tipo Rollatura</Label>
-                                <Select
+                                <Input
+                                    id="rollingType"
                                     value={formData.rollingType}
-                                    onValueChange={(value) => handleInputChange('rollingType', value)}
-                                >
-                                    <SelectTrigger>
-                                        <SelectValue placeholder="Seleziona tipo" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="handmade">Handmade</SelectItem>
-                                        <SelectItem value="machine">Machine Made</SelectItem>
-                                        <SelectItem value="mixed">Mixed</SelectItem>
-                                    </SelectContent>
-                                </Select>
+                                    onChange={(e) => handleInputChange('rollingType', e.target.value)}
+                                    placeholder="es. Handmade, Machine Made"
+                                />
                             </div>
                         </div>
 
@@ -304,16 +319,16 @@ export function AddPanelDialog({ tobacconistId, onSuccess }: AddPanelDialogProps
                             <div className="space-y-2">
                                 <Label htmlFor="type">Tipo</Label>
                                 <Select
-                                    value={formData.type.toString()}
-                                    onValueChange={(value) => handleInputChange('type', parseInt(value))}
+                                    value={formData.type?.toString() ?? ''}
+                                    onValueChange={(value) => handleInputChange('type', value ? parseInt(value) : null)}
                                 >
                                     <SelectTrigger>
                                         <SelectValue placeholder="Seleziona tipo" />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value="0">Sigaro</SelectItem>
-                                        <SelectItem value="1">Sigaretto</SelectItem>
-                                        <SelectItem value="2">Accessorio</SelectItem>
+                                        <SelectItem value="0">Premium</SelectItem>
+                                        <SelectItem value="1">Toscano</SelectItem>
+                                        <SelectItem value="2">Machine Made</SelectItem>
                                     </SelectContent>
                                 </Select>
                             </div>
@@ -328,8 +343,8 @@ export function AddPanelDialog({ tobacconistId, onSuccess }: AddPanelDialogProps
                                     type="number"
                                     step="0.01"
                                     min="0"
-                                    value={formData.price}
-                                    onChange={(e) => handleInputChange('price', e.target.value)}
+                                    value={formData.price ?? ''}
+                                    onChange={(e) => handleInputChange('price', e.target.value ? parseFloat(e.target.value) : null)}
                                 />
                             </div>
                             <div className="space-y-2">
@@ -339,22 +354,45 @@ export function AddPanelDialog({ tobacconistId, onSuccess }: AddPanelDialogProps
                                     type="number"
                                     min="0"
                                     max="100"
-                                    value={formData.rating}
-                                    onChange={(e) => handleInputChange('rating', e.target.value)}
+                                    step="0.1"
+                                    value={formData.rating ?? ''}
+                                    onChange={(e) => handleInputChange('rating', e.target.value ? parseFloat(e.target.value) : null)}
                                 />
                             </div>
                         </div>
 
-                        {/* Number in Box */}
-                        <div className="space-y-2">
-                            <Label htmlFor="numberInBox">Numero nella Scatola</Label>
-                            <Input
-                                id="numberInBox"
-                                type="number"
-                                min="0"
-                                value={formData.numberInBox}
-                                onChange={(e) => handleInputChange('numberInBox', e.target.value)}
-                            />
+                        {/* Number in Box, Ring, Smoking Time */}
+                        <div className="grid grid-cols-3 gap-4">
+                            <div className="space-y-2">
+                                <Label htmlFor="numberInBox">Pezzi per Box</Label>
+                                <Input
+                                    id="numberInBox"
+                                    type="number"
+                                    min="0"
+                                    value={formData.numberInBox ?? ''}
+                                    onChange={(e) => handleInputChange('numberInBox', e.target.value ? parseInt(e.target.value) : null)}
+                                />
+                            </div>
+                            <div className="space-y-2">
+                                <Label htmlFor="ring">Ring Gauge</Label>
+                                <Input
+                                    id="ring"
+                                    type="number"
+                                    min="0"
+                                    value={formData.ring ?? ''}
+                                    onChange={(e) => handleInputChange('ring', e.target.value ? parseInt(e.target.value) : null)}
+                                />
+                            </div>
+                            <div className="space-y-2">
+                                <Label htmlFor="smokingTime">Tempo Fumata (min)</Label>
+                                <Input
+                                    id="smokingTime"
+                                    type="number"
+                                    min="0"
+                                    value={formData.smokingTime ?? ''}
+                                    onChange={(e) => handleInputChange('smokingTime', e.target.value ? parseInt(e.target.value) : null)}
+                                />
+                            </div>
                         </div>
 
                         {/* Errore */}
@@ -372,7 +410,7 @@ export function AddPanelDialog({ tobacconistId, onSuccess }: AddPanelDialogProps
                         >
                             Annulla
                         </Button>
-                        <Button type="submit" disabled={isLoading}>
+                        <Button type="submit" disabled={isLoading || !formData.brandId}>
                             {isLoading ? (
                                 <>
                                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />

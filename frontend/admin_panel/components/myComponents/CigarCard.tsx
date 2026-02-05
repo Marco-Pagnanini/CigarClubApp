@@ -40,6 +40,7 @@ export function CigarCard({ sigaro, onViewPanel, onPanelAdded }: CigarCardProps)
                 ) : (
                     <AddPanelDialog
                         tobacconistId={sigaro.id}
+                        tobacconistCode={sigaro.code}
                         onSuccess={onPanelAdded}
                     />
                 )}
