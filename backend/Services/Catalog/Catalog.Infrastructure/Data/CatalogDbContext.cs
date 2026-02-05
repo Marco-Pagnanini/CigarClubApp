@@ -33,9 +33,15 @@ namespace Catalog.Infrastructure.Data
                 .HasForeignKey(p => p.BrandId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            // Panel ha una referenza al Tobacconist solo tramite il codice (TobacconistCode)
-            // Non configuriamo una foreign key nel database perché Code non è UNIQUE su Tobacconist
-            // Questo permette al Panel di essere creato indipendentemente
+            // Configura la relazione opzionale 1:1 tra Tobacconist e Panel
+            // Un Tobacconist può avere max un Panel (relazione uno-a-uno opzionale)
+            // Un Panel deve avere un Brand, ma può avere facoltativamente un Tobacconist
+            modelBuilder.Entity<Tobacconist>()
+                .HasOne(t => t.Panel)
+                .WithOne(p => p.Tobacconist)
+                .HasForeignKey<Panel>(p => p.TobacconistId)
+                .IsRequired(false) // Opzionale
+                .OnDelete(DeleteBehavior.SetNull); // Se elimini Tobacconist, Panel rimane con TobacconistId = null
         }
     }
 }

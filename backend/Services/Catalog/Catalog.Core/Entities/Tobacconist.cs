@@ -13,6 +13,9 @@ namespace Catalog.Core.Entities
         public decimal NextPrice { get; set; }
         public decimal NextStackPrice { get; set; }
         public DateTimeOffset NextPricingValidity { get; set; }
+
+        // Navigation properties
         public ICollection<Barcode> Barcodes { get; set; } = [];
+        public Panel? Panel { get; set; } 
     }
 }
