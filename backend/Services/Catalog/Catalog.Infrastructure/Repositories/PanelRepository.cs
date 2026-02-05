@@ -21,7 +21,6 @@ namespace Catalog.Infrastructure.Repositories
         {
             return await _context.Panels
                 .Include(p => p.Brand)
-                .Include(p => p.Tobacconist)
                 .ToListAsync(cancellationToken);
         }
 
@@ -29,7 +28,6 @@ namespace Catalog.Infrastructure.Repositories
         {
             return await _context.Panels
                 .Include(p => p.Brand)
-                .Include(p => p.Tobacconist)
                 .FirstOrDefaultAsync(p => p.id == id, cancellationToken);
         }
 
@@ -37,7 +35,6 @@ namespace Catalog.Infrastructure.Repositories
         {
             return await _context.Panels
                 .Include(p => p.Brand)
-                .Include(p => p.Tobacconist)
                 .Where(p => p.BrandId == brandId)
                 .ToListAsync(cancellationToken);
         }

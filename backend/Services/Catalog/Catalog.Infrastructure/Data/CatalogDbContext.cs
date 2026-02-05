@@ -33,14 +33,9 @@ namespace Catalog.Infrastructure.Data
                 .HasForeignKey(p => p.BrandId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            // Configura la relazione N:1 tra Panel e Tobacconist (opzionale, via TobacconistId FK)
-            // EF auto-configura questa relazione grazie al naming convention della FK
-            modelBuilder.Entity<Panel>()
-                .HasOne(p => p.Tobacconist)
-                .WithMany()
-                .HasForeignKey(p => p.TobacconistId)
-                .IsRequired(false)
-                .OnDelete(DeleteBehavior.SetNull);
+            // Panel.TobacconistId è una semplice FK verso Tobacconist.Id
+            // Senza navigazione per evitare loop infinito nella serializzazione
+            // EF Core gestisce automaticamente questa relazione via naming convention
         }
     }
 }

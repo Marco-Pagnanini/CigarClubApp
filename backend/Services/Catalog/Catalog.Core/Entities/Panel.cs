@@ -31,5 +31,4 @@ public class Panel
 
     // Navigation properties
     public Brand Brand { get; set; } = null!;
-    public Tobacconist? Tobacconist { get; set; }
 }

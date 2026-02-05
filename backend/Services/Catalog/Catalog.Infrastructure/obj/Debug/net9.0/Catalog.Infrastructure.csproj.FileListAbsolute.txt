@@ -1,9 +1,3 @@
-C:\Users\marco\source\repos\Marco-Pagnanini\CigarClubApp\backend\Services\Catalog\Catalog.Infrastructure\obj\Debug\net9.0\Catalog.Infrastructure.csproj.AssemblyReference.cache
-C:\Users\marco\source\repos\Marco-Pagnanini\CigarClubApp\backend\Services\Catalog\Catalog.Infrastructure\obj\Debug\net9.0\Catalog.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\marco\source\repos\Marco-Pagnanini\CigarClubApp\backend\Services\Catalog\Catalog.Infrastructure\obj\Debug\net9.0\Catalog.Infrastructure.AssemblyInfoInputs.cache
-C:\Users\marco\source\repos\Marco-Pagnanini\CigarClubApp\backend\Services\Catalog\Catalog.Infrastructure\obj\Debug\net9.0\Catalog.Infrastructure.AssemblyInfo.cs
-C:\Users\marco\source\repos\Marco-Pagnanini\CigarClubApp\backend\Services\Catalog\Catalog.Infrastructure\obj\Debug\net9.0\Catalog.Infrastructure.csproj.CoreCompileInputs.cache
-C:\Users\marco\source\repos\Marco-Pagnanini\CigarClubApp\backend\Services\Catalog\Catalog.Infrastructure\obj\Debug\net9.0\Catalog.Infrastructure.sourcelink.json
 C:\Users\marco\source\repos\Marco-Pagnanini\CigarClubApp\backend\Services\Catalog\Catalog.Infrastructure\bin\Debug\net9.0\Catalog.Infrastructure.deps.json
 C:\Users\marco\source\repos\Marco-Pagnanini\CigarClubApp\backend\Services\Catalog\Catalog.Infrastructure\bin\Debug\net9.0\Catalog.Infrastructure.dll
 C:\Users\marco\source\repos\Marco-Pagnanini\CigarClubApp\backend\Services\Catalog\Catalog.Infrastructure\bin\Debug\net9.0\Catalog.Infrastructure.pdb
@@ -11,6 +5,12 @@ C:\Users\marco\source\repos\Marco-Pagnanini\CigarClubApp\backend\Services\Catalo
 C:\Users\marco\source\repos\Marco-Pagnanini\CigarClubApp\backend\Services\Catalog\Catalog.Infrastructure\bin\Debug\net9.0\Catalog.Core.dll
 C:\Users\marco\source\repos\Marco-Pagnanini\CigarClubApp\backend\Services\Catalog\Catalog.Infrastructure\bin\Debug\net9.0\Catalog.Application.pdb
 C:\Users\marco\source\repos\Marco-Pagnanini\CigarClubApp\backend\Services\Catalog\Catalog.Infrastructure\bin\Debug\net9.0\Catalog.Core.pdb
+C:\Users\marco\source\repos\Marco-Pagnanini\CigarClubApp\backend\Services\Catalog\Catalog.Infrastructure\obj\Debug\net9.0\Catalog.Infrastructure.csproj.AssemblyReference.cache
+C:\Users\marco\source\repos\Marco-Pagnanini\CigarClubApp\backend\Services\Catalog\Catalog.Infrastructure\obj\Debug\net9.0\Catalog.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\marco\source\repos\Marco-Pagnanini\CigarClubApp\backend\Services\Catalog\Catalog.Infrastructure\obj\Debug\net9.0\Catalog.Infrastructure.AssemblyInfoInputs.cache
+C:\Users\marco\source\repos\Marco-Pagnanini\CigarClubApp\backend\Services\Catalog\Catalog.Infrastructure\obj\Debug\net9.0\Catalog.Infrastructure.AssemblyInfo.cs
+C:\Users\marco\source\repos\Marco-Pagnanini\CigarClubApp\backend\Services\Catalog\Catalog.Infrastructure\obj\Debug\net9.0\Catalog.Infrastructure.csproj.CoreCompileInputs.cache
+C:\Users\marco\source\repos\Marco-Pagnanini\CigarClubApp\backend\Services\Catalog\Catalog.Infrastructure\obj\Debug\net9.0\Catalog.Infrastructure.sourcelink.json
 C:\Users\marco\source\repos\Marco-Pagnanini\CigarClubApp\backend\Services\Catalog\Catalog.Infrastructure\obj\Debug\net9.0\Catalog..168C4A48.Up2Date
 C:\Users\marco\source\repos\Marco-Pagnanini\CigarClubApp\backend\Services\Catalog\Catalog.Infrastructure\obj\Debug\net9.0\Catalog.Infrastructure.dll
 C:\Users\marco\source\repos\Marco-Pagnanini\CigarClubApp\backend\Services\Catalog\Catalog.Infrastructure\obj\Debug\net9.0\refint\Catalog.Infrastructure.dll
