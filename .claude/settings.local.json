@@ -24,7 +24,11 @@
       "Bash(python3:*)",
       "Bash(git add:*)",
       "Bash(git commit:*)",
-      "Bash(wc:*)"
+      "Bash(wc:*)",
+      "Bash(docker-compose up:*)",
+      "Bash(git rm:*)",
+      "Bash(docker-compose build:*)",
+      "Bash(git push:*)"
     ]
   }
 }

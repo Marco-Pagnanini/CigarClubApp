@@ -34,19 +34,18 @@ namespace Catalog.Api.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<ApiResponse<ICollection<Tobacconist>>>> GetAll(CancellationToken cancellationToken)
+        public async Task<ActionResult<ICollection<Tobacconist>>> GetAll(CancellationToken cancellationToken)
         {
             try
             {
                 var prodotti = await _service.GetAllTobacconistsAsync(cancellationToken);
                 _logger.LogInformation("Retrieved {Count} tobacconists", prodotti.Count);
-                return Ok(ApiResponse<ICollection<Tobacconist>>.SuccessResponse(prodotti, "Tobacconists retrieved successfully"));
+                return Ok(prodotti);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error retrieving tobacconists");
-                return StatusCode(StatusCodes.Status500InternalServerError,
-                    ApiResponse<ICollection<Tobacconist>>.ErrorResponse("Error retrieving tobacconists"));
+                return BadRequest("Error retrieving tobacconists");
             }
         }
 
