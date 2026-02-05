@@ -1,7 +1,7 @@
 import { useAuth } from '@/context/AuthContext';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     ActivityIndicator,
     Alert,
@@ -22,10 +22,17 @@ import {
 const { width, height } = Dimensions.get('window');
 
 export default function LoginScreen() {
-    const { signIn, isLoading: isAuthLoading } = useAuth();
+    const { signIn, isLoading: isAuthLoading, isAuthenticated } = useAuth();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
+
+    // Redirect automatico se già autenticato
+    useEffect(() => {
+        if (!isAuthLoading && isAuthenticated) {
+            router.replace('/(tabs)');
+        }
+    }, [isAuthLoading, isAuthenticated]);
 
     if (isAuthLoading) {
         return (
