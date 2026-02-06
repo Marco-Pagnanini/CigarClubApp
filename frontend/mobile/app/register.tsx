@@ -1,8 +1,7 @@
 import { Colors, Fonts, Shadows } from '@/constants/Colors';
-import { useAuth } from '@/context/AuthContext';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
     Alert,
     Dimensions,
@@ -21,16 +20,11 @@ import {
 const { width, height } = Dimensions.get('window');
 
 export default function RegisterScreen() {
-    const { signIn, isLoading: isAuthLoading, isAuthenticated } = useAuth();
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
 
-    useEffect(() => {
-        if (!isAuthLoading && isAuthenticated) {
-            router.replace('/(tabs)');
-        }
-    }, [isAuthLoading, isAuthenticated]);
 
 
     const handleLogin = async () => {
@@ -42,7 +36,7 @@ export default function RegisterScreen() {
         setLoading(true);
 
         try {
-            await signIn(email, password);
+
         } catch (err: any) {
             if (err.response?.status !== 400) {
                 Alert.alert("Errore Login", "O errore server.");
@@ -52,9 +46,6 @@ export default function RegisterScreen() {
         }
     };
 
-    const handleGuestAccess = () => {
-        router.replace("/(tabs)")
-    };
 
     return (
         <View style={styles.container}>

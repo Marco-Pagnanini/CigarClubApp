@@ -16,6 +16,11 @@ export default function RootLayout() {
                 <Stack.Screen name="index" />
                 <Stack.Screen name="(tabs)" />
                 <Stack.Screen name='register' />
+                <Stack.Screen name='cigar-detail' options={{
+                    presentation: 'modal',
+                    headerShown: false,
+                    animation: 'slide_from_bottom'
+                }} />
             </Stack>
         </AuthContextProvider>
 
