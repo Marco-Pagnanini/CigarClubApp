@@ -4,7 +4,6 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import {
-    ActivityIndicator,
     Alert,
     Dimensions,
     Image,
@@ -16,12 +15,12 @@ import {
     Text,
     TextInput,
     TouchableOpacity,
-    View,
+    View
 } from 'react-native';
 
 const { width, height } = Dimensions.get('window');
 
-export default function LoginScreen() {
+export default function RegisterScreen() {
     const { signIn, isLoading: isAuthLoading, isAuthenticated } = useAuth();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -33,28 +32,6 @@ export default function LoginScreen() {
         }
     }, [isAuthLoading, isAuthenticated]);
 
-    if (isAuthLoading) {
-        return (
-            <View style={styles.container}>
-                <StatusBar barStyle="light-content" />
-                <View style={styles.imageContainer}>
-                    <Image
-                        source={require('@/assets/images/cigar_login_bg.png')}
-                        style={styles.image}
-                        resizeMode="cover"
-                    />
-                    <LinearGradient
-                        colors={[Colors.gradientStart, Colors.gradientEnd]}
-                        style={styles.gradientOverlay}
-                    />
-                </View>
-                <View style={[styles.formContainer, { justifyContent: 'center', alignItems: 'center', paddingBottom: 100 }]}>
-                    <ActivityIndicator size="large" color={Colors.primary} />
-                    <Text style={[styles.subtitle, { marginTop: 20 }]}>Checking credentials...</Text>
-                </View>
-            </View>
-        );
-    }
 
     const handleLogin = async () => {
         if (!email || !password) {
@@ -129,19 +106,12 @@ export default function LoginScreen() {
                     </View>
 
                     <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-                        {loading ? (
-                            <ActivityIndicator color={Colors.background} />
-                        ) : (
-                            <Text style={styles.loginButtonText}>LOGIN</Text>
-                        )}
+
+                        <Text style={styles.loginButtonText}>REGISTER</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.guestButton} onPress={handleGuestAccess}>
-                        <Text style={styles.guestButtonText}>Accedi come Guest</Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity style={styles.forgotPassword} onPress={() => { router.push("/register") }}>
-                        <Text style={styles.forgotPasswordText}>Oppure Registrati</Text>
+                    <TouchableOpacity style={styles.forgotPassword} onPress={() => { router.back() }}>
+                        <Text style={styles.forgotPasswordText}>Hai già un account? Accedi</Text>
                     </TouchableOpacity>
 
                 </ScrollView>
