@@ -346,7 +346,7 @@ namespace Catalog.Api.Controllers
 
         private static string? ExtractKeyFromUrl(string imageUrl)
         {
-            // L'URL è nel formato: {publicUrl}/{key}
+            //{publicUrl}/{key}
             // Estraiamo tutto dopo il bucket name nel path
             var panelsIndex = imageUrl.IndexOf("panels/", StringComparison.Ordinal);
             if (panelsIndex >= 0)
