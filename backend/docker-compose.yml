@@ -32,7 +32,7 @@ services:
       - S3__AccessKey=minioadmin
       - S3__SecretKey=minioadmin
       - S3__BucketName=cigar-images
-      - S3__PublicUrl=http://localhost:9000/cigar-images
+      - S3__PublicUrl=http://192.168.188.59:9000/cigar-images
       - S3__ForcePathStyle=true
     depends_on:
       catalog-db:
@@ -82,12 +82,12 @@ services:
       MINIO_ROOT_USER: minioadmin
       MINIO_ROOT_PASSWORD: minioadmin
     ports:
-      - "9000:9000"   # API S3
-      - "9001:9001"   # Console Web UI
+      - "9000:9000" # API S3
+      - "9001:9001" # Console Web UI
     volumes:
       - minio-data:/data
     healthcheck:
-      test: ["CMD", "mc", "ready", "local"]
+      test: [ "CMD", "mc", "ready", "local" ]
       interval: 5s
       timeout: 5s
       retries: 5
