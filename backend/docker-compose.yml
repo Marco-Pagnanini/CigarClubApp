@@ -27,9 +27,18 @@ services:
       - "8080:8080" # accessibile da localhost:8080
     environment:
       - ASPNETCORE_ENVIRONMENT=Production # attiva appsettings.Production.json
+      # S3/MinIO: override per Docker (il container raggiunge MinIO via hostname "minio")
+      - S3__ServiceUrl=http://minio:9000
+      - S3__AccessKey=minioadmin
+      - S3__SecretKey=minioadmin
+      - S3__BucketName=cigar-images
+      - S3__PublicUrl=http://localhost:9000/cigar-images
+      - S3__ForcePathStyle=true
     depends_on:
       catalog-db:
         condition: service_healthy # aspetta che il db sia pronto (healthcheck)
+      minio:
+        condition: service_healthy # aspetta che MinIO sia pronto
 
   # --- Database: Postgres per il servizio Users ---
   users-db:
@@ -64,6 +73,26 @@ services:
       users-db:
         condition: service_healthy # aspetta che il db sia pronto (healthcheck)
 
+  # --- Object Storage: MinIO (S3-compatible) ---
+  minio:
+    image: minio/minio:latest
+    container_name: cigarclub-minio
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    ports:
+      - "9000:9000"   # API S3
+      - "9001:9001"   # Console Web UI
+    volumes:
+      - minio-data:/data
+    healthcheck:
+      test: ["CMD", "mc", "ready", "local"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
 volumes:
   catalog-db-data: # volume nominato per persistenza
   users-db-data: # volume nominato per persistenza Users
+  minio-data: # volume nominato per persistenza MinIO

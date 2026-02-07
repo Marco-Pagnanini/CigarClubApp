@@ -17,11 +17,20 @@ namespace Catalog.Api.Controllers
     public class PanelController : ControllerBase
     {
         private readonly IPanelService _service;
+        private readonly IImageStorageService _imageStorage;
         private readonly ILogger<PanelController> _logger;
 
-        public PanelController(IPanelService service, ILogger<PanelController> logger)
+        private static readonly HashSet<string> AllowedContentTypes = new(StringComparer.OrdinalIgnoreCase)
+        {
+            "image/jpeg", "image/png", "image/webp"
+        };
+
+        private const long MaxImageSize = 5 * 1024 * 1024; // 5 MB
+
+        public PanelController(IPanelService service, IImageStorageService imageStorage, ILogger<PanelController> logger)
         {
             _service = service;
+            _imageStorage = imageStorage;
             _logger = logger;
         }
 
@@ -240,6 +249,110 @@ namespace Catalog.Api.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError,
                     ApiResponse.ErrorResponse("Error deleting panel"));
             }
+        }
+
+        /// <summary>
+        /// POST /api/panels/{id}/image — carica l'immagine di un panel (ADMIN ONLY)
+        /// </summary>
+        [HttpPost("{id:guid}/image")]
+        [Authorize(Roles = "Admin")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        public async Task<ActionResult<ApiResponse<string>>> UploadImage(Guid id, IFormFile file, CancellationToken cancellationToken)
+        {
+            try
+            {
+                if (file is null || file.Length == 0)
+                    return BadRequest(ApiResponse<string>.ErrorResponse("No file provided"));
+
+                if (!AllowedContentTypes.Contains(file.ContentType))
+                    return BadRequest(ApiResponse<string>.ErrorResponse("Invalid file type. Allowed: jpeg, png, webp"));
+
+                if (file.Length > MaxImageSize)
+                    return BadRequest(ApiResponse<string>.ErrorResponse("File size exceeds the 5 MB limit"));
+
+                var panel = await _service.GetPanelByIdAsync(id, cancellationToken);
+                if (panel is null)
+                    return NotFound(ApiResponse<string>.ErrorResponse($"Panel with ID {id} not found"));
+
+                // Se esiste già un'immagine, la eliminiamo prima
+                if (!string.IsNullOrEmpty(panel.ImageUrl))
+                {
+                    var oldKey = ExtractKeyFromUrl(panel.ImageUrl);
+                    if (oldKey is not null)
+                        await _imageStorage.DeleteImageAsync(oldKey, cancellationToken);
+                }
+
+                var extension = Path.GetExtension(file.FileName)?.ToLowerInvariant() ?? ".jpg";
+                var key = $"panels/{id}/image{extension}";
+
+                using var stream = file.OpenReadStream();
+                var imageUrl = await _imageStorage.UploadImageAsync(key, stream, file.ContentType, cancellationToken);
+
+                panel.ImageUrl = imageUrl;
+                await _service.UpdatePanelAsync(panel, cancellationToken);
+
+                _logger.LogInformation("Uploaded image for panel {Id}", id);
+                return Ok(ApiResponse<string>.SuccessResponse(imageUrl, "Image uploaded successfully"));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error uploading image for panel {Id}", id);
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    ApiResponse<string>.ErrorResponse("Error uploading image"));
+            }
+        }
+
+        /// <summary>
+        /// DELETE /api/panels/{id}/image — elimina l'immagine di un panel (ADMIN ONLY)
+        /// </summary>
+        [HttpDelete("{id:guid}/image")]
+        [Authorize(Roles = "Admin")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        public async Task<ActionResult<ApiResponse>> DeleteImage(Guid id, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var panel = await _service.GetPanelByIdAsync(id, cancellationToken);
+                if (panel is null)
+                    return NotFound(ApiResponse.ErrorResponse($"Panel with ID {id} not found"));
+
+                if (string.IsNullOrEmpty(panel.ImageUrl))
+                    return NotFound(ApiResponse.ErrorResponse("Panel has no image"));
+
+                var key = ExtractKeyFromUrl(panel.ImageUrl);
+                if (key is not null)
+                    await _imageStorage.DeleteImageAsync(key, cancellationToken);
+
+                panel.ImageUrl = null;
+                await _service.UpdatePanelAsync(panel, cancellationToken);
+
+                _logger.LogInformation("Deleted image for panel {Id}", id);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error deleting image for panel {Id}", id);
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    ApiResponse.ErrorResponse("Error deleting image"));
+            }
+        }
+
+        private static string? ExtractKeyFromUrl(string imageUrl)
+        {
+            // L'URL è nel formato: {publicUrl}/{key}
+            // Estraiamo tutto dopo il bucket name nel path
+            var panelsIndex = imageUrl.IndexOf("panels/", StringComparison.Ordinal);
+            if (panelsIndex >= 0)
+                return imageUrl[panelsIndex..];
+
+            return null;
         }
     }
 }

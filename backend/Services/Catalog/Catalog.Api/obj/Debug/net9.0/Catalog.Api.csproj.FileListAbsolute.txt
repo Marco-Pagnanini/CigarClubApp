@@ -144,4 +144,6 @@ C:\Users\marco\source\repos\Marco-Pagnanini\CigarClubApp\backend\Services\Catalo
 C:\Users\marco\source\repos\Marco-Pagnanini\CigarClubApp\backend\Services\Catalog\Catalog.Api\obj\Debug\net9.0\Catalog.Api.pdb
 C:\Users\marco\source\repos\Marco-Pagnanini\CigarClubApp\backend\Services\Catalog\Catalog.Api\obj\Debug\net9.0\Catalog.Api.genruntimeconfig.cache
 C:\Users\marco\source\repos\Marco-Pagnanini\CigarClubApp\backend\Services\Catalog\Catalog.Api\obj\Debug\net9.0\ref\Catalog.Api.dll
+C:\Users\marco\source\repos\Marco-Pagnanini\CigarClubApp\backend\Services\Catalog\Catalog.Api\bin\Debug\net9.0\AWSSDK.Core.dll
+C:\Users\marco\source\repos\Marco-Pagnanini\CigarClubApp\backend\Services\Catalog\Catalog.Api\bin\Debug\net9.0\AWSSDK.S3.dll
 C:\Users\marco\source\repos\Marco-Pagnanini\CigarClubApp\backend\Services\Catalog\Catalog.Api\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt
