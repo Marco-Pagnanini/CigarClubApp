@@ -21,6 +21,11 @@ export default function RootLayout() {
                     headerShown: false,
                     animation: 'slide_from_bottom'
                 }} />
+                <Stack.Screen name='post-detail' options={{
+                    presentation: 'modal',
+                    headerShown: false,
+                    animation: 'slide_from_bottom'
+                }} />
             </Stack>
         </AuthContextProvider>
 

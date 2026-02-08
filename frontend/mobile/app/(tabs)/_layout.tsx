@@ -17,6 +17,12 @@ const _layout = () => {
                 }}
             />
             <Tabs.Screen
+                name='post'
+                options={{
+                    title: 'Post',
+                }}
+            />
+            <Tabs.Screen
                 name="profile"
                 options={{
                     title: 'Profilo',

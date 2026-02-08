@@ -32,4 +32,5 @@ export interface Panel {
   binder: string;
   filler: string;
   masterLine: string;
+  imageUrl: string;
 }

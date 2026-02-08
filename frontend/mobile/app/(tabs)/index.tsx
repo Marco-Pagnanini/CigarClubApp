@@ -24,7 +24,6 @@ const Index = () => {
         try {
             setLoading(true)
             const response = await tobacconistApi.get('/')
-            console.log(response.data)
             setCigars(response.data)
             setFilteredCigars(response.data)
         } catch (error) {

@@ -84,7 +84,7 @@ const CigarDetail = () => {
                 {/* Hero Image con Gradient Overlay */}
                 <View style={styles.heroContainer}>
                     <Image
-                        source={require('@/assets/images/cigar_login_bg.png')}
+                        source={{ uri: panel?.imageUrl || '' }}
                         style={styles.heroImage}
                         resizeMode="cover"
                     />
