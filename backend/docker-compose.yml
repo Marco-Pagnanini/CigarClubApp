@@ -73,6 +73,38 @@ services:
       users-db:
         condition: service_healthy # aspetta che il db sia pronto (healthcheck)
 
+  # --- Database: Postgres per il servizio Posts ---
+  posts-db:
+    image: postgres:16-alpine
+    container_name: cigarclub-posts-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: posts_db
+    ports:
+      - "5434:5432" # porta host diversa (5434)
+    volumes:
+      - posts-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres -d posts_db" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # --- Servizio: Posts API ---
+  posts-api:
+    build:
+      context: ./Services/Posts
+      dockerfile: Dockerfile
+    container_name: cigarclub-posts-api
+    ports:
+      - "8082:8080" # host:8082 → container:8080
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+    depends_on:
+      posts-db:
+        condition: service_healthy
+
   # --- Object Storage: MinIO (S3-compatible) ---
   minio:
     image: minio/minio:latest
@@ -95,4 +127,5 @@ services:
 volumes:
   catalog-db-data: # volume nominato per persistenza
   users-db-data: # volume nominato per persistenza Users
+  posts-db-data: # volume nominato per persistenza Posts
   minio-data: # volume nominato per persistenza MinIO
