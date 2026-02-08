@@ -104,6 +104,22 @@ services:
     depends_on:
       posts-db:
         condition: service_healthy
+      moderation-api:
+        condition: service_healthy
+
+  # --- Servizio: Moderation API (Python/FastAPI) ---
+  moderation-api:
+    build:
+      context: ./Services/Moderation
+      dockerfile: Dockerfile
+    container_name: cigarclub-moderation-api
+    ports:
+      - "8083:8000" # host:8083 → container:8000 (uvicorn)
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   # --- Object Storage: MinIO (S3-compatible) ---
   minio:

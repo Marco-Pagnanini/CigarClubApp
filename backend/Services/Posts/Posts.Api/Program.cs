@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // --- CORS Configuration ---
@@ -36,6 +35,13 @@ builder.Services.AddDbContext<PostsDbContext>(options =>
 builder.Services.AddScoped<IPostRepository, PostRepository>();
 builder.Services.AddScoped<IPostService, PostService>();
 
+
+builder.Services.AddHttpClient("ModerationApi", opt =>
+{
+    var baseUrl = builder.Configuration["ModerationService:BaseUrl"]
+        ?? "http://localhost:8083";
+    opt.BaseAddress = new Uri(baseUrl);
+});
 // --- JWT Authentication ---
 // Valida i token generati dal servizio Users (stesso SecretKey / Issuer / Audience)
 builder.Services

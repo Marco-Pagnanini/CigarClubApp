@@ -18,11 +18,13 @@ public class PostsController : ControllerBase
 {
     private readonly IPostService _service;
     private readonly ILogger<PostsController> _logger;
+    private readonly HttpClient _httpClient;
 
-    public PostsController(IPostService service, ILogger<PostsController> logger)
+    public PostsController(IPostService service, ILogger<PostsController> logger, IHttpClientFactory httpClientFactory)
     {
         _service = service;
         _logger = logger;
+        _httpClient = httpClientFactory.CreateClient("ModerationApi");
     }
 
     /// <summary>
@@ -121,6 +123,17 @@ public class PostsController : ControllerBase
                 Title = dto.Title,
                 Content = dto.Content
             };
+
+            /**
+             * Parte di Moderazione delle richieste
+             */
+            var moderation = await ValidateContentAsync(dto);
+            if (moderation is not null && !moderation.Approved)
+            {
+                _logger.LogWarning("Post rifiutato dalla moderazione: {Reason}", moderation.Reason);
+                return BadRequest(ApiResponse<Post>.ErrorResponse(
+                    $"Contenuto rifiutato: {moderation.Reason}"));
+            }
 
             var created = await _service.AddPostAsync(post, cancellationToken);
             _logger.LogInformation("User {UserId} created post {PostId}", userId, created.Id);
@@ -272,5 +285,18 @@ public class PostsController : ControllerBase
             ?? throw new UnauthorizedAccessException("User ID not found in token");
 
         return Guid.Parse(userIdClaim);
+    }
+
+    private async Task<ModerationResponse?> ValidateContentAsync(CreatePostDto request)
+    {
+        var payload = new ModerateRequest()
+        {
+            title = request.Title,
+            content = request.Content
+        };
+        var response = await _httpClient.PostAsJsonAsync("/api/moderate", payload);
+        response.EnsureSuccessStatusCode();
+
+        return await response.Content.ReadFromJsonAsync<ModerationResponse>();
     }
 }
