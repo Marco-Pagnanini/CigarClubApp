@@ -31,8 +31,8 @@ export default function AddPostScreen() {
             await postsApi.post('/', { title, content })
             router.back()
         } catch (error) {
-            console.error(error)
-            Alert.alert("Errore", "Impossibile pubblicare il post")
+            Alert.alert("Errore", "Titolo e contenuto non hanno un contenuto adeguato")
+
         } finally {
             setLoading(false)
         }
