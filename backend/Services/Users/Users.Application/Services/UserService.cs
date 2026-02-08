@@ -38,5 +38,21 @@ namespace Users.Application.Services
 
             return users;
         }
+
+        public async Task<UserDto?> GetUserById(Guid id, CancellationToken cancellationToken = default)
+        {
+            var entity = await _userRepository.GetByIdAsync(id, cancellationToken);
+            if (entity == null)
+            {
+                return null;
+            }
+            return new UserDto
+            {
+                Email = entity.Email,
+                Name = entity.FirstName,
+                Role = entity.Role,
+                CreateAt = entity.CreatedAt.DateTime
+            };
+        }
     }
 }

@@ -10,5 +10,6 @@ namespace Users.Application.Abstractions.Service
     public interface IUserService
     {
         Task<List<UserDto>> GetUsers(CancellationToken cancellationToken = default);
+        Task<UserDto?> GetUserById(Guid id, CancellationToken cancellationToken = default);
     }
 }

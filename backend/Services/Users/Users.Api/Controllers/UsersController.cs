@@ -25,5 +25,18 @@ namespace Users.Api.Controllers
             return Ok(users);
         }
 
+        [HttpGet("{id:guid}")]
+        public async Task<ActionResult<UserDto>> GetUserById(
+            [FromRoute] Guid id,
+            CancellationToken cancellationToken)
+        {
+            var user = await _userService.GetUserById(id, cancellationToken);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return Ok(user);
+        }
+
     }
 }
