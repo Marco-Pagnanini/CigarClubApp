@@ -2,36 +2,125 @@ import { postsApi } from '@/api/api'
 import PostCard from '@/components/PostCard'
 import { Colors } from '@/constants/Colors'
 import { Post } from '@/types/PostData'
-import { router } from 'expo-router'
-import React, { useCallback, useEffect, useState } from 'react'
+import { router, useFocusEffect } from 'expo-router'
+import React, { useCallback, useRef, useState } from 'react'
 import { ActivityIndicator, FlatList, RefreshControl, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+
+const PAGE_SIZE = 10
 
 const PostPage = () => {
     const [posts, setPosts] = useState<Post[]>([])
     const [loading, setLoading] = useState(true)
     const [refreshing, setRefreshing] = useState(false)
+    const [hasMore, setHasMore] = useState(true)
 
-    useEffect(() => {
-        getPosts()
-    }, [])
 
-    const getPosts = async () => {
+    const currentPage = useRef(1)
+    const isLoadingMore = useRef(false)
+
+    useFocusEffect(
+        useCallback(() => {
+            fetchPosts(1, true)
+        }, [])
+    )
+
+    const fetchPosts = async (pageNumber: number, isReset: boolean = false) => {
+        if (!isReset) {
+            if (isLoadingMore.current) {
+                console.log('⏸️ Già in caricamento, skip')
+                return
+            }
+            if (!hasMore) {
+                console.log('⏸️ Non ci sono altri post, skip')
+                return
+            }
+        }
+
         try {
-            if (!refreshing) setLoading(true)
-            const response = await postsApi.get('/')
-            setPosts(response.data)
+            isLoadingMore.current = true
+
+            if (isReset) {
+                if (!refreshing) setLoading(true)
+                currentPage.current = 0
+                setHasMore(true)
+            }
+
+            const pageToFetch = isReset ? 1 : pageNumber
+            console.log('📥 Fetching page:', pageToFetch)
+
+            const response = await postsApi.get('/', {
+                params: {
+                    page: pageToFetch,
+                    pageSize: PAGE_SIZE
+                }
+            })
+
+            const newPosts = response.data
+
+
+            if (!newPosts || newPosts.length === 0) {
+                setHasMore(false)
+                console.log('🏁 Nessun post ricevuto, fine paginazione')
+
+
+                if (isReset) {
+                    setPosts([])
+                }
+                return
+            }
+
+            console.log('✅ Ricevuti:', newPosts.length, 'post')
+
+            if (isReset) {
+                setPosts(newPosts)
+                currentPage.current = 1
+            } else {
+                setPosts(prevPosts => {
+                    const existingIds = new Set(prevPosts.map(p => p.id))
+                    const uniqueNewPosts = newPosts.filter((p: Post) => !existingIds.has(p.id))
+                    if (uniqueNewPosts.length > 0) {
+                        console.log('➕ Aggiunti:', uniqueNewPosts.length, 'nuovi post')
+                    }
+                    return [...prevPosts, ...uniqueNewPosts]
+                })
+                currentPage.current = pageNumber
+            }
+
+
+            if (newPosts.length < PAGE_SIZE) {
+                setHasMore(false)
+                console.log('🏁 Fine paginazione - ricevuti meno di', PAGE_SIZE, 'post')
+            }
+
         } catch (error) {
-            console.error(error)
+            console.error('❌ Errore fetch:', error)
+            // In caso di errore, ferma la paginazione
+            setHasMore(false)
         } finally {
             setLoading(false)
             setRefreshing(false)
+            // IMPORTANTE: resetta immediatamente isLoadingMore
+            isLoadingMore.current = false
         }
     }
 
     const onRefresh = useCallback(() => {
         setRefreshing(true)
-        getPosts()
+        fetchPosts(1, true)
     }, [])
+
+    const loadMore = () => {
+        console.log('🔄 onEndReached - Page:', currentPage.current, 'Loading:', isLoadingMore.current, 'HasMore:', hasMore)
+
+        if (isLoadingMore.current || !hasMore || loading) {
+            console.log('⏸️ Skip loadMore')
+            return
+        }
+
+        const nextPage = currentPage.current + 1
+        console.log('📄 Carico pagina:', nextPage)
+        fetchPosts(nextPage, false)
+    }
 
     const renderItem = useCallback(({ item }: { item: Post }) => (
         <PostCard post={item} />
@@ -40,24 +129,26 @@ const PostPage = () => {
     const renderEmptyComponent = useCallback(() => (
         <View style={styles.emptyContainer}>
             <Text style={styles.emptyIcon}>📭</Text>
-            <Text style={styles.emptyText}>
-                Nessun post disponibile
-            </Text>
-            <Text style={styles.emptySubtext}>
-                Sii il primo a pubblicare qualcosa!
-            </Text>
+            <Text style={styles.emptyText}>Nessun post disponibile</Text>
         </View>
     ), [])
+
+    const renderFooter = () => {
+        // Mostra loader SOLO se sta caricando E ci sono ancora post da caricare
+        if (!isLoadingMore.current || !hasMore || posts.length === 0) {
+            return <View style={{ height: 20 }} />
+        }
+        return (
+            <View style={styles.footerLoader}>
+                <ActivityIndicator size="small" color={Colors.primary} />
+            </View>
+        )
+    }
 
     if (loading && !refreshing && posts.length === 0) {
         return (
             <SafeAreaView style={styles.container}>
-                <View style={styles.headerContainer}>
-                    <Text style={styles.title}>Community</Text>
-                </View>
-                <View style={styles.loadingContainer}>
-                    <ActivityIndicator size="large" color={Colors.primary} />
-                </View>
+                <ActivityIndicator size="large" color={Colors.primary} style={styles.centerLoader} />
             </SafeAreaView>
         )
     }
@@ -77,7 +168,7 @@ const PostPage = () => {
                 </View>
                 <View style={styles.statsContainer}>
                     <Text style={styles.statsText}>
-                        {posts.length} {posts.length === 1 ? 'post pubblicato' : 'post pubblicati'}
+                        {posts.length} {posts.length === 1 ? 'post caricato' : 'post caricati'}
                     </Text>
                 </View>
             </View>
@@ -89,6 +180,9 @@ const PostPage = () => {
                 contentContainerStyle={styles.listContent}
                 showsVerticalScrollIndicator={false}
                 ListEmptyComponent={renderEmptyComponent}
+                onEndReached={loadMore}
+                onEndReachedThreshold={0.5}
+                ListFooterComponent={renderFooter}
                 refreshControl={
                     <RefreshControl
                         refreshing={refreshing}
@@ -97,6 +191,9 @@ const PostPage = () => {
                         colors={[Colors.primary]}
                     />
                 }
+                removeClippedSubviews={true}
+                maxToRenderPerBatch={10}
+                windowSize={10}
             />
         </SafeAreaView>
     )
@@ -139,10 +236,12 @@ const styles = StyleSheet.create({
         paddingBottom: 100,
         paddingTop: 10,
     },
-    loadingContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
+    centerLoader: {
+        marginTop: 50
+    },
+    footerLoader: {
+        paddingVertical: 20,
+        alignItems: 'center'
     },
     emptyContainer: {
         flex: 1,
