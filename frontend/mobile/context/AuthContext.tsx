@@ -1,8 +1,10 @@
+import { userApi } from '@/api/api';
 import { router } from 'expo-router';
 import * as SecureStore from 'expo-secure-store';
 import React, { createContext, ReactNode, useCallback, useContext, useEffect, useState } from 'react';
 
 interface User {
+    id?: string;
     email: string;
     role?: string;
 }
@@ -31,6 +33,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const [user, setUser] = useState<User | null>(null);
     const [token, setToken] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(true);
+
+    const fetchUserId = async (email: string): Promise<string | undefined> => {
+        try {
+            const response = await userApi.get(`/${email}/email`);
+            return response.data.id || response.data;
+        } catch (error) {
+            console.error('Error fetching user id:', error);
+            return undefined;
+        }
+    };
 
     const clearAuth = async () => {
         await SecureStore.deleteItemAsync(TOKEN_KEY);
@@ -100,7 +112,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             const newToken = await refreshAccessToken();
 
             if (newToken && storedUser) {
-                setUser(JSON.parse(storedUser));
+                const parsedUser: User = JSON.parse(storedUser);
+                if (!parsedUser.id) {
+                    parsedUser.id = await fetchUserId(parsedUser.email);
+                    await SecureStore.setItemAsync(USER_KEY, JSON.stringify(parsedUser));
+                }
+                setUser(parsedUser);
             } else {
                 await clearAuth();
             }
@@ -135,15 +152,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
             const authToken = data.accessToken;
             const refreshToken = data.refreshToken;
-            const authUser: User = { email: data.email, role: data.role };
 
             await SecureStore.setItemAsync(TOKEN_KEY, authToken);
+            setToken(authToken);
+
             if (refreshToken) {
                 await SecureStore.setItemAsync(REFRESH_TOKEN_KEY, refreshToken);
             }
-            await SecureStore.setItemAsync(USER_KEY, JSON.stringify(authUser));
 
-            setToken(authToken);
+            const userId = await fetchUserId(data.email);
+            const authUser: User = { id: userId, email: data.email, role: data.role };
+
+            await SecureStore.setItemAsync(USER_KEY, JSON.stringify(authUser));
             setUser(authUser);
 
             router.replace('/(tabs)');
@@ -172,15 +192,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
             const authToken = data.accessToken;
             const refreshToken = data.refreshToken;
-            const authUser: User = { email: data.email, role: data.role };
 
             await SecureStore.setItemAsync(TOKEN_KEY, authToken);
+            setToken(authToken);
+
             if (refreshToken) {
                 await SecureStore.setItemAsync(REFRESH_TOKEN_KEY, refreshToken);
             }
-            await SecureStore.setItemAsync(USER_KEY, JSON.stringify(authUser));
 
-            setToken(authToken);
+            const userId = await fetchUserId(data.email);
+            const authUser: User = { id: userId, email: data.email, role: data.role };
+
+            await SecureStore.setItemAsync(USER_KEY, JSON.stringify(authUser));
             setUser(authUser);
 
             router.replace('/(tabs)');

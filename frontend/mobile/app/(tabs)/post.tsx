@@ -122,8 +122,10 @@ const PostPage = () => {
         fetchPosts(nextPage, false)
     }
 
+
+
     const renderItem = useCallback(({ item }: { item: Post }) => (
-        <PostCard post={item} />
+        <PostCard post={item} likesCount={item.likesCount} />
     ), [])
 
     const renderEmptyComponent = useCallback(() => (

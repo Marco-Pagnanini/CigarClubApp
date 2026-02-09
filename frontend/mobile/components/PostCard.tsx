@@ -1,16 +1,21 @@
-import { userApi } from '@/api/api'
+import { postsApi, userApi } from '@/api/api'
 import { Colors } from '@/constants/Colors'
+import { useAuth } from '@/context/AuthContext'
 import { Post } from '@/types/PostData'
+import { Ionicons } from '@expo/vector-icons'
 import React, { useEffect, useState } from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 
 interface PostCardProps {
     post: Post
-    onLikePress?: (id: string) => void
+    likesCount: number
 }
 
-const PostCard: React.FC<PostCardProps> = ({ post, onLikePress }) => {
+const PostCard: React.FC<PostCardProps> = ({ post, likesCount }) => {
+    const { user } = useAuth()
     const [userEmail, setUserEmail] = useState<string>('')
+    const [userLike, setUserLike] = useState<boolean>(false)
+    const [currentLikesCount, setCurrentLikesCount] = useState<number>(likesCount)
 
     useEffect(() => {
         if (post.userId) {
@@ -18,6 +23,29 @@ const PostCard: React.FC<PostCardProps> = ({ post, onLikePress }) => {
         }
     }, [post.userId])
 
+    useEffect(() => {
+        if (user?.id && post.id) {
+            getLikeUser()
+        }
+    }, [user?.id, post.id])
+
+    const handleLike = async (postId: string) => {
+        try {
+            const response = await postsApi.post(`/${postId}/like`)
+            console.log(response.data)
+            if (response.data.data === true) {
+                console.log('👍 Post piaciuto!')
+                setCurrentLikesCount(prev => prev + 1)
+            }
+            else {
+                setCurrentLikesCount(prev => Math.max(0, prev - 1))
+            }
+
+
+        } catch (error) {
+            console.error('Errore nel like:', error)
+        }
+    }
     const getUsernameFromPost = async () => {
         try {
             const response = await userApi.get(`/${post.userId}`)
@@ -25,6 +53,21 @@ const PostCard: React.FC<PostCardProps> = ({ post, onLikePress }) => {
         } catch (error) {
             console.error(error)
         }
+    }
+
+    const getLikeUser = async () => {
+        if (!user?.id) return
+        try {
+            const response = await postsApi.get(`/${post.id}/${user.id}/likes`)
+            setUserLike(response.data.data)
+        } catch (error) {
+            console.error('Errore nel recupero dei like:', error)
+        }
+    }
+
+    const handleLikePress = () => {
+        setUserLike(prev => !prev)
+        handleLike && handleLike(post.id)
     }
 
     const formatDate = (dateString: string) => {
@@ -41,6 +84,7 @@ const PostCard: React.FC<PostCardProps> = ({ post, onLikePress }) => {
     const getAvatarLabel = () => {
         return userEmail ? userEmail.charAt(0).toUpperCase() : '?'
     }
+
 
     return (
         <View style={styles.card}>
@@ -65,14 +109,19 @@ const PostCard: React.FC<PostCardProps> = ({ post, onLikePress }) => {
 
             <View style={styles.footer}>
                 <TouchableOpacity
-                    style={styles.likeButton}
-                    onPress={() => onLikePress && onLikePress(post.id)}
+                    onPress={handleLikePress}
                     activeOpacity={0.7}
                 >
-                    <Text style={styles.heartIcon}>❤️</Text>
-                    <Text style={styles.likeCount}>
-                        {post.likesCount} {post.likesCount === 1 ? 'Mi piace' : 'Mi piace'}
-                    </Text>
+                    <View style={styles.likeButton}>
+                        <Ionicons
+                            name={userLike ? 'heart' : 'heart-outline'}
+                            size={18}
+                            color={userLike ? '#E53935' : Colors.textSecondary}
+                        />
+                        <Text style={[styles.likeCount, { color: userLike ? '#E53935' : Colors.textSecondary }]}>
+                            {currentLikesCount}
+                        </Text>
+                    </View>
                 </TouchableOpacity>
             </View>
         </View>
