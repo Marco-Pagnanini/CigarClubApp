@@ -4,7 +4,7 @@ namespace Posts.Application.Abstractions.Repository;
 
 public interface IPostRepository
 {
-    Task<IEnumerable<Post>> GetAllAsync(CancellationToken cancellationToken = default);
+    Task<IEnumerable<Post>> GetAllAsync(int pageSize, int page, CancellationToken cancellationToken = default);
     Task<Post?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
     Task<IEnumerable<Post>> GetByUserIdAsync(Guid userId, CancellationToken cancellationToken = default);
     Task AddAsync(Post post, CancellationToken cancellationToken = default);

@@ -33,11 +33,11 @@ public class PostsController : ControllerBase
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<ActionResult<ICollection<Post>>> GetAll(CancellationToken cancellationToken)
+    public async Task<ActionResult<ICollection<Post>>> GetAll(CancellationToken cancellationToken,int pageSize = 10, int page = 1)
     {
         try
         {
-            var posts = await _service.GetAllPostsAsync(cancellationToken);
+            var posts = await _service.GetAllPostsAsync(pageSize,page,cancellationToken);
             _logger.LogInformation("Retrieved {Count} posts", posts.Count);
             return Ok(posts);
         }

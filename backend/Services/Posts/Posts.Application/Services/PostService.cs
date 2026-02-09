@@ -13,9 +13,9 @@ public class PostService : IPostService
         _repository = repository;
     }
 
-    public async Task<ICollection<Post>> GetAllPostsAsync(CancellationToken cancellationToken = default)
+    public async Task<ICollection<Post>> GetAllPostsAsync(int pageSize, int page, CancellationToken cancellationToken = default)
     {
-        var posts = await _repository.GetAllAsync(cancellationToken);
+        var posts = await _repository.GetAllAsync(pageSize,page,cancellationToken);
         return posts.ToList();
     }
 
