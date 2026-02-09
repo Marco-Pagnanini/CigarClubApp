@@ -11,5 +11,6 @@ namespace Users.Application.Abstractions.Service
     {
         Task<List<UserDto>> GetUsers(CancellationToken cancellationToken = default);
         Task<UserDto?> GetUserById(Guid id, CancellationToken cancellationToken = default);
+        Task<Guid?> GetUserByEmail(string email, CancellationToken cancellationToken = default);
     }
 }

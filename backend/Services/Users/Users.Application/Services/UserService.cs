@@ -54,5 +54,11 @@ namespace Users.Application.Services
                 CreateAt = entity.CreatedAt.DateTime
             };
         }
+
+        public async Task<Guid?> GetUserByEmail(string email, CancellationToken cancellationToken = default)
+        {
+            var userId = await _userRepository.GetByEmailAsync(email, cancellationToken);
+            return userId?.Id;
+        }
     }
 }

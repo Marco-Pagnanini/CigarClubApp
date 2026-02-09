@@ -11,4 +11,5 @@ public interface IPostService
     Task UpdatePostAsync(Post post, CancellationToken cancellationToken = default);
     Task DeletePostAsync(Guid id, CancellationToken cancellationToken = default);
     Task<bool> ToggleLikeAsync(Guid postId, Guid userId, CancellationToken cancellationToken = default);
+    Task<bool> HasLike(Guid postId, Guid userId, CancellationToken cancellationToken = default);
 }

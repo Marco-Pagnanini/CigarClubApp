@@ -38,5 +38,17 @@ namespace Users.Api.Controllers
             return Ok(user);
         }
 
+        [HttpGet("{email}/email")]
+        public async Task<ActionResult<Guid>> GetUserByEmail(
+            [FromRoute] string email,
+            CancellationToken cancellationToken)
+        {
+            var userId = await _userService.GetUserByEmail(email, cancellationToken);
+            if (userId == null)
+            {
+                return NotFound();
+            }
+            return Ok(userId);
+        }
     }
 }

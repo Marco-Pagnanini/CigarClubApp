@@ -52,6 +52,12 @@ public class PostService : IPostService
         await _repository.DeleteAsync(id, cancellationToken);
     }
 
+    public async Task<bool> HasLike(Guid postId, Guid userId, CancellationToken cancellationToken = default)
+    {
+        var like = await _repository.GetLikeAsync(postId, userId, cancellationToken);
+        return like is not null;
+    }
+
     /// <summary>
     /// Toggle like: se l'utente ha gia' messo like lo toglie, altrimenti lo aggiunge.
     /// Ritorna true se il like e' stato aggiunto, false se e' stato rimosso.

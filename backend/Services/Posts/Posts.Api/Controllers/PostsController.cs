@@ -276,6 +276,28 @@ public class PostsController : ControllerBase
         }
     }
 
+    [HttpGet("{id:guid}/{idUser:guid}/likes")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<ApiResponse<bool>>> HasLiked(Guid id, Guid idUser, CancellationToken cancellationToken)
+    {
+        try
+        {
+            var post = await _service.GetPostByIdAsync(id, cancellationToken);
+            if (post is null)
+                return NotFound(ApiResponse<bool>.ErrorResponse($"Post with ID {id} not found"));
+            var hasLiked = await _service.HasLike(id, idUser, cancellationToken);
+            return Ok(ApiResponse<bool>.SuccessResponse(hasLiked, "Like status retrieved"));
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error retrieving like status for post {Id} and user {UserId}", id, idUser);
+            return StatusCode(StatusCodes.Status500InternalServerError,
+                ApiResponse<bool>.ErrorResponse("Error retrieving like status"));
+        }
+    }
+
+
     /// <summary>
     /// Estrae l'ID utente dal claim NameIdentifier del JWT token
     /// </summary>
