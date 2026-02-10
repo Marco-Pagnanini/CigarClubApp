@@ -2,15 +2,20 @@ import { tobacconistApi } from '@/api/api'
 import CigarCard from '@/components/CigarCard'
 import { Colors, Shadows } from '@/constants/Colors'
 import { Cigar } from '@/types/CigarData'
+import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs'
 import { router } from 'expo-router'
 import React, { useCallback, useEffect, useState } from 'react'
 import { ActivityIndicator, FlatList, RefreshControl, SafeAreaView, StyleSheet, Text, TextInput, View } from 'react-native'
 
+
+
 const Index = () => {
+    const tabBarHeight = useBottomTabBarHeight()
     const [cigars, setCigars] = useState<Cigar[]>([])
     const [filteredCigars, setFilteredCigars] = useState<Cigar[]>([])
     const [loading, setLoading] = useState(true)
     const [searchQuery, setSearchQuery] = useState('')
+
 
     useEffect(() => {
         getAllCigars()
@@ -131,11 +136,17 @@ const Index = () => {
                         tintColor={Colors.primary}
                         colors={[Colors.primary]}
                     />
+
+
                 }
                 data={filteredCigars}
                 renderItem={renderItem}
                 keyExtractor={(item) => item.id}
-                contentContainerStyle={styles.listContent}
+                contentContainerStyle={[
+                    styles.listContent,
+                    { paddingBottom: tabBarHeight + 20 }
+                ]}
+
                 showsVerticalScrollIndicator={false}
                 ListEmptyComponent={renderEmptyComponent}
                 keyboardShouldPersistTaps="handled"

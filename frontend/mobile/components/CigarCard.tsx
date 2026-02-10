@@ -1,6 +1,7 @@
+import { brandApi } from '@/api/api';
 import { Colors, Shadows } from '@/constants/Colors';
 import { Cigar } from '@/types/CigarData';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 interface CigarCardProps {
@@ -9,6 +10,24 @@ interface CigarCardProps {
 }
 
 const CigarCard = ({ cigar, onPress }: CigarCardProps) => {
+
+    const [brand, setBrand] = useState<any>(null)
+
+    useEffect(() => {
+        getBrand()
+    }, [])
+
+    const getBrand = async () => {
+        try {
+            const response = await brandApi.get(`/${cigar.brandId}`)
+            setBrand(response.data.data)
+            console.log("Brand del sigaro:", response.data.data)
+        }
+        catch (error) {
+            console.error("Errore nel recupero del brand:", error)
+        }
+    }
+
     return (
         <TouchableOpacity
             style={styles.container}
@@ -17,7 +36,7 @@ const CigarCard = ({ cigar, onPress }: CigarCardProps) => {
         >
             {/* Immagine a sinistra */}
             <Image
-                source={require('@/assets/images/cigar_login_bg.png')} // Sostituisci con la tua immagine
+                source={{ uri: brand?.logoUrl }} // Sostituisci con la tua immagine
                 style={styles.image}
                 resizeMode="cover"
             />

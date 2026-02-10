@@ -16,4 +16,5 @@ export interface Cigar {
   nextPricingValidity: string; // ISO 8601 date string
   nextStackPrice: number;
   panelId: string | null;
+  brandId: string;
 }

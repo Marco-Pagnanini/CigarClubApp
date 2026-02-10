@@ -38,7 +38,11 @@ export const postsApi = axios.create({
     timeout: 10000,
     headers: { 'Content-Type': 'application/json' },
 });
-
+export const brandApi = axios.create({
+    baseURL: API_BASE_URL_TOBACCONIST + '/brands',
+    timeout: 10000,
+    headers: { 'Content-Type': 'application/json' },
+});
 const addAuthInterceptor = (instance: AxiosInstance) => {
     instance.interceptors.request.use(
         async (config) => {
@@ -67,3 +71,4 @@ addAuthInterceptor(panelApi);
 addAuthInterceptor(cigarApi);
 addAuthInterceptor(userApi);
 addAuthInterceptor(postsApi);
+addAuthInterceptor(brandApi);
