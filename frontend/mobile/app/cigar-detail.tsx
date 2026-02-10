@@ -132,28 +132,6 @@ const CigarDetail = () => {
                         </View>
                     </View>
 
-                    {/* Next Price Alert */}
-                    {cigar.nextPrice !== cigar.priceKg && (
-                        <View style={styles.alertCard}>
-                            <View style={styles.alertHeader}>
-                                <Text style={styles.alertIcon}>⚠️</Text>
-                                <Text style={styles.alertTitle}>Prossimo Aggiornamento</Text>
-                            </View>
-                            <View style={styles.alertContent}>
-                                <View style={styles.alertRow}>
-                                    <Text style={styles.alertLabel}>Nuovo prezzo al kg</Text>
-                                    <Text style={styles.alertValue}>€{cigar.nextPrice.toFixed(2)}</Text>
-                                </View>
-                                <View style={styles.alertRow}>
-                                    <Text style={styles.alertLabel}>Nuovo prezzo {cigar.stackType}</Text>
-                                    <Text style={styles.alertValue}>€{cigar.nextStackPrice.toFixed(2)}</Text>
-                                </View>
-                                <Text style={styles.alertDate}>
-                                    Valido dal {new Date(cigar.nextPricingValidity).toLocaleDateString('it-IT')}
-                                </Text>
-                            </View>
-                        </View>
-                    )}
 
                     {/* Panel Details - Solo se presente */}
                     {panel && (
@@ -278,18 +256,13 @@ const CigarDetail = () => {
                     </View>
 
                     {/* Barcodes */}
-                    {cigar.barcodes && cigar.barcodes.length > 0 && (
-                        <View style={styles.infoSection}>
-                            <Text style={styles.sectionTitle}>Codici a barre</Text>
-                            <View style={styles.barcodeContainer}>
-                                {cigar.barcodes.map((barcode, index) => (
-                                    <View key={index} style={styles.barcodeChip}>
-                                        <Text style={styles.barcodeText}>{barcode}</Text>
-                                    </View>
-                                ))}
-                            </View>
+                    {cigar.barcodes.map((barcode: any, index) => (
+                        // Usa barcode.id come key se possibile, è meglio di index
+                        <View key={barcode.id || index} style={styles.barcodeChip}>
+                            {/* CORREZIONE QUI: usa barcode.value invece di barcode */}
+                            <Text style={styles.barcodeText}>{barcode.value}</Text>
                         </View>
-                    )}
+                    ))}
 
                     <View style={styles.bottomSpacer} />
                 </View>

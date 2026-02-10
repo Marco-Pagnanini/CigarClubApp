@@ -21,7 +21,12 @@ export default function RootLayout() {
                     headerShown: false,
                     animation: 'slide_from_bottom'
                 }} />
-                <Stack.Screen name='post-detail' options={{
+                <Stack.Screen name='add-post' options={{
+                    presentation: 'modal',
+                    headerShown: false,
+                    animation: 'slide_from_bottom'
+                }} />
+                <Stack.Screen name='scan' options={{
                     presentation: 'modal',
                     headerShown: false,
                     animation: 'slide_from_bottom'

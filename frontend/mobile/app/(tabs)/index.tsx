@@ -2,10 +2,11 @@ import { tobacconistApi } from '@/api/api'
 import CigarCard from '@/components/CigarCard'
 import { Colors, Shadows } from '@/constants/Colors'
 import { Cigar } from '@/types/CigarData'
+import { Ionicons } from '@expo/vector-icons'
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs'
 import { router } from 'expo-router'
 import React, { useCallback, useEffect, useState } from 'react'
-import { ActivityIndicator, FlatList, RefreshControl, SafeAreaView, StyleSheet, Text, TextInput, View } from 'react-native'
+import { ActivityIndicator, FlatList, RefreshControl, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 
 
 
@@ -36,6 +37,10 @@ const Index = () => {
         } finally {
             setLoading(false)
         }
+    }
+
+    const handleScanPress = () => {
+        router.push('/scan')
     }
 
     const filterCigars = () => {
@@ -74,6 +79,7 @@ const Index = () => {
                     Prova a cercare con un altro codice
                 </Text>
             )}
+
         </View>
     ), [searchQuery])
 
@@ -116,7 +122,15 @@ const Index = () => {
                         >
                             ✕
                         </Text>
+
                     )}
+                    <TouchableOpacity
+                        style={styles.qrButton}
+                        onPress={handleScanPress}
+                        activeOpacity={0.7}
+                    >
+                        <Ionicons name="qr-code-outline" size={24} color={Colors.primary} />
+                    </TouchableOpacity>
                 </View>
 
                 {/* Results Count */}
@@ -204,6 +218,18 @@ const styles = StyleSheet.create({
         fontSize: 18,
         color: Colors.textMuted,
         paddingLeft: 12,
+    },
+    // QR Button
+    qrButton: {
+        width: 48,
+        height: 48,
+        borderRadius: 12,
+        backgroundColor: Colors.surface,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderWidth: 1,
+        borderColor: Colors.border, // O Colors.primary se vuoi evidenziarlo
+        ...Shadows.small,
     },
 
     // Stats
