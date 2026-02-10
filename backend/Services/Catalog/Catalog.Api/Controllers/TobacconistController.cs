@@ -114,6 +114,35 @@ namespace Catalog.Api.Controllers
         }
 
         /// <summary>
+        /// GET /api/tobacconists/barcode/{value} — restituisce il Tobacconist associato a un barcode (PUBLIC)
+        /// </summary>
+        [HttpGet("barcode/{value}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<ApiResponse<Tobacconist>>> GetByBarcode(string value, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var prodotto = await _service.GetTobacconistByBarcodeAsync(value, cancellationToken);
+                if (prodotto is null)
+                {
+                    _logger.LogWarning("No tobacconist found for barcode {Value}", value);
+                    return NotFound(ApiResponse<Tobacconist>.ErrorResponse($"No tobacconist found for barcode '{value}'"));
+                }
+
+                _logger.LogInformation("Retrieved tobacconist for barcode {Value}", value);
+                return Ok(ApiResponse<Tobacconist>.SuccessResponse(prodotto, "Tobacconist retrieved successfully"));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving tobacconist for barcode {Value}", value);
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    ApiResponse<Tobacconist>.ErrorResponse("Error retrieving tobacconist"));
+            }
+        }
+
+        /// <summary>
         /// POST /api/tobacconists — crea un nuovo prodotto (ADMIN ONLY)
         /// </summary>
         /// <remarks>

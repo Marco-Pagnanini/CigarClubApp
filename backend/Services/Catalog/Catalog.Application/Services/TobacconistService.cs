@@ -33,6 +33,11 @@ namespace Catalog.Application.Services
             return await _repository.GetByCodeAsync(code, cancellationToken);
         }
 
+        public async Task<Tobacconist?> GetTobacconistByBarcodeAsync(string barcodeValue, CancellationToken cancellationToken = default)
+        {
+            return await _repository.GetByBarcodeAsync(barcodeValue, cancellationToken);
+        }
+
         public async Task<Tobacconist> AddTobacconistAsync(Tobacconist tobacconist, CancellationToken cancellationToken = default)
         {
             tobacconist.Id = Guid.NewGuid();
