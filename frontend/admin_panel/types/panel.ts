@@ -20,6 +20,7 @@ export interface PanelData {
     ring?: number;
     smokingTime?: number;
     type?: number; // 0=Premium, 1=Toscano, 2=MachineMade
+    imageUrl?: string;
     brand?: {
         id: string;
         name: string;

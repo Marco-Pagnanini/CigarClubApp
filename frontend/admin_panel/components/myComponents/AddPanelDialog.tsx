@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Plus, Loader2 } from "lucide-react";
+import { Plus, Loader2, ImagePlus, X } from "lucide-react";
 import { panelApi, brandApi } from '@/api/api';
 
 interface AddPanelDialogProps {
@@ -43,6 +43,7 @@ interface PanelForm {
 }
 
 const initialFormState: PanelForm = {
+    name: '',
     brandId: '',
     description: '',
     origin: '',
@@ -72,10 +73,16 @@ export function AddPanelDialog({ tobacconistId, tobacconistCode, onSuccess }: Ad
     const [brands, setBrands] = useState<Brand[]>([]);
     const [isBrandsLoading, setIsBrandsLoading] = useState(false);
 
-    // Carica i brand quando si apre il dialog
+    // Stato per l'immagine
+    const [imageFile, setImageFile] = useState<File | null>(null);
+    const [imagePreview, setImagePreview] = useState<string | null>(null);
+
+    // Carica i brand quando si apre il dialog; resetta immagine alla chiusura
     useEffect(() => {
         if (isOpen) {
             fetchBrands();
+        } else {
+            handleRemoveImage();
         }
     }, [isOpen]);
 
@@ -83,7 +90,6 @@ export function AddPanelDialog({ tobacconistId, tobacconistCode, onSuccess }: Ad
         setIsBrandsLoading(true);
         try {
             const response = await brandApi.get('/');
-            // La risposta è direttamente un array
             setBrands(response.data);
         } catch (err) {
             console.error('Errore nel caricamento dei brand:', err);
@@ -96,13 +102,25 @@ export function AddPanelDialog({ tobacconistId, tobacconistCode, onSuccess }: Ad
         setFormData(prev => ({ ...prev, [field]: value }));
     };
 
+    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0] ?? null;
+        if (!file) return;
+        setImageFile(file);
+        setImagePreview(URL.createObjectURL(file));
+    };
+
+    const handleRemoveImage = () => {
+        setImageFile(null);
+        if (imagePreview) URL.revokeObjectURL(imagePreview);
+        setImagePreview(null);
+    };
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsLoading(true);
         setError(null);
 
         try {
-            // Costruisce il payload secondo la struttura del backend (CreatePanelDto)
             const payload = {
                 name: formData.name,
                 brandId: formData.brandId,
@@ -127,9 +145,20 @@ export function AddPanelDialog({ tobacconistId, tobacconistCode, onSuccess }: Ad
             };
 
             console.log('Payload inviato:', JSON.stringify(payload, null, 2));
-            await panelApi.post('/', payload);
+            const response = await panelApi.post('/', payload);
+            const createdPanel = response.data.data;
+
+            // Upload immagine se presente
+            if (imageFile && createdPanel?.id) {
+                const formDataImg = new FormData();
+                formDataImg.append('file', imageFile);
+                await panelApi.post(`/${createdPanel.id}/image`, formDataImg, {
+                    headers: { 'Content-Type': 'multipart/form-data' },
+                });
+            }
 
             setFormData(initialFormState);
+            handleRemoveImage();
             setIsOpen(false);
             onSuccess?.();
         } catch (err) {
@@ -392,6 +421,38 @@ export function AddPanelDialog({ tobacconistId, tobacconistCode, onSuccess }: Ad
                                     onChange={(e) => handleInputChange('smokingTime', e.target.value ? parseInt(e.target.value) : null)}
                                 />
                             </div>
+                        </div>
+
+                        {/* Immagine */}
+                        <div className="space-y-2">
+                            <Label>Immagine (opzionale)</Label>
+                            {imagePreview ? (
+                                <div className="relative w-full h-40 rounded-md overflow-hidden border">
+                                    <img
+                                        src={imagePreview}
+                                        alt="Anteprima"
+                                        className="w-full h-full object-cover"
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={handleRemoveImage}
+                                        className="absolute top-2 right-2 bg-black/60 text-white rounded-full p-1 hover:bg-black/80"
+                                    >
+                                        <X size={14} />
+                                    </button>
+                                </div>
+                            ) : (
+                                <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-md cursor-pointer hover:bg-muted/40 transition-colors">
+                                    <ImagePlus size={24} className="text-muted-foreground mb-1" />
+                                    <span className="text-sm text-muted-foreground">Clicca per selezionare (jpeg, png, webp — max 5 MB)</span>
+                                    <input
+                                        type="file"
+                                        accept="image/jpeg,image/png,image/webp"
+                                        className="hidden"
+                                        onChange={handleImageChange}
+                                    />
+                                </label>
+                            )}
                         </div>
 
                         {/* Errore */}

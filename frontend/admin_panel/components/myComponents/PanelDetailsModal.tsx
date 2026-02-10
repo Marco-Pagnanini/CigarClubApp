@@ -29,6 +29,17 @@ export function PanelDetailsModal({ isOpen, onClose, isLoading, panel, brandName
                     </div>
                 ) : panel ? (
                     <div className="grid gap-6 py-4">
+                        {/* Immagine */}
+                        {panel.imageUrl && (
+                            <div className="w-full h-52 rounded-lg overflow-hidden border">
+                                <img
+                                    src={panel.imageUrl}
+                                    alt={panel.name}
+                                    className="w-full h-full object-cover"
+                                />
+                            </div>
+                        )}
+
                         {/* Intestazione */}
                         <div className="flex justify-between items-start border-b pb-4">
                             <div>
@@ -83,17 +94,17 @@ export function PanelDetailsModal({ isOpen, onClose, isLoading, panel, brandName
 }
 
 // Piccoli componenti helper interni per tenere il codice pulito
-const InfoItem = ({ label, value, isBold }: { label: string, value: string | number, isBold?: boolean }) => (
+const InfoItem = ({ label, value, isBold }: { label: string, value: string | number | undefined, isBold?: boolean }) => (
     <div className="space-y-1">
         <Label className="text-xs text-muted-foreground uppercase">{label}</Label>
-        <div className={`font-medium ${isBold ? 'text-lg font-bold' : ''}`}>{value}</div>
+        <div className={`font-medium ${isBold ? 'text-lg font-bold' : ''}`}>{value ?? '—'}</div>
     </div>
 );
 
-const CompositionItem = ({ label, value, sub }: { label: string, value: string, sub?: string }) => (
+const CompositionItem = ({ label, value, sub }: { label: string, value: string | undefined, sub?: string }) => (
     <div>
         <Label className="text-xs text-muted-foreground">{label}</Label>
-        <div className="font-medium">{value}</div>
+        <div className="font-medium">{value ?? '—'}</div>
         {sub && <div className="text-xs text-muted-foreground">{sub}</div>}
     </div>
 );
