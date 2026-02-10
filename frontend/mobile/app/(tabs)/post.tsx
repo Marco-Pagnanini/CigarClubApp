@@ -99,7 +99,6 @@ const PostPage = () => {
         } finally {
             setLoading(false)
             setRefreshing(false)
-            // IMPORTANTE: resetta immediatamente isLoadingMore
             isLoadingMore.current = false
         }
     }

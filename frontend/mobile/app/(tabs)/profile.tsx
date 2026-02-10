@@ -1,19 +1,27 @@
+import { userApi } from '@/api/api'
 import { Colors, Shadows } from '@/constants/Colors'
-import React, { useState } from 'react'
+import { useAuth } from '@/context/AuthContext'
+import { UserProfile } from '@/types/Profile'
+import React, { useEffect, useState } from 'react'
 import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 
 const Profile = () => {
-    // Dati utente mock - sostituisci con dati reali dal tuo context/API
-    const [user] = useState({
-        name: 'Marco Rossi',
-        email: 'marco.rossi@email.com',
-        role: 'Membro Premium',
-        joinDate: 'Gennaio 2024',
-        avatar: 'https://via.placeholder.com/120',
-    })
 
-    const handleEditProfile = () => {
-        console.log('Edit profile')
+    const { user } = useAuth()
+    const [userProfile, setUserProfile] = useState<UserProfile>();
+
+    useEffect(() => {
+        fetchUserProfile()
+    }, [])
+
+    const fetchUserProfile = async () => {
+        try {
+            const response = await userApi.get(`/${user?.id}`);
+            setUserProfile(response.data);
+        }
+        catch (error) {
+            console.error('Errore nel recupero del profilo utente:', error);
+        }
     }
 
     const handleLogout = () => {
@@ -35,7 +43,7 @@ const Profile = () => {
                 <View style={styles.profileCard}>
                     <View style={styles.avatarContainer}>
                         <Image
-                            source={{ uri: user.avatar }}
+                            source={require('@/assets/images/image_profile.png')}
                             style={styles.avatar}
                         />
                         <View style={styles.statusBadge}>
@@ -43,11 +51,11 @@ const Profile = () => {
                         </View>
                     </View>
 
-                    <Text style={styles.userName}>{user.name}</Text>
-                    <Text style={styles.userEmail}>{user.email}</Text>
+                    <Text style={styles.userName}>{userProfile?.name} {userProfile?.lastName}</Text>
+                    <Text style={styles.userEmail}>{userProfile?.email}</Text>
 
                     <View style={styles.roleBadge}>
-                        <Text style={styles.roleText}>{user.role}</Text>
+                        <Text style={styles.roleText}>{userProfile?.role}</Text>
                     </View>
                 </View>
 
