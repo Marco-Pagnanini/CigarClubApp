@@ -43,7 +43,6 @@ interface PanelForm {
 }
 
 const initialFormState: PanelForm = {
-    name: '',
     brandId: '',
     description: '',
     origin: '',
