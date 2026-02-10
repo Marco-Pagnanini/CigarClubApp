@@ -25,5 +25,30 @@ namespace Users.Api.Controllers
             return Ok(users);
         }
 
+        [HttpGet("{id:guid}")]
+        public async Task<ActionResult<UserDto>> GetUserById(
+            [FromRoute] Guid id,
+            CancellationToken cancellationToken)
+        {
+            var user = await _userService.GetUserById(id, cancellationToken);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return Ok(user);
+        }
+
+        [HttpGet("{email}/email")]
+        public async Task<ActionResult<Guid>> GetUserByEmail(
+            [FromRoute] string email,
+            CancellationToken cancellationToken)
+        {
+            var userId = await _userService.GetUserByEmail(email, cancellationToken);
+            if (userId == null)
+            {
+                return NotFound();
+            }
+            return Ok(userId);
+        }
     }
 }

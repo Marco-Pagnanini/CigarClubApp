@@ -31,12 +31,36 @@ namespace Users.Application.Services
                 {
                     Email = entity.Email,
                     Name = entity.FirstName,
+                    LastName = entity.LastName,
                     Role = entity.Role,
                     CreateAt = entity.CreatedAt.DateTime
                 });
             }
 
             return users;
+        }
+
+        public async Task<UserDto?> GetUserById(Guid id, CancellationToken cancellationToken = default)
+        {
+            var entity = await _userRepository.GetByIdAsync(id, cancellationToken);
+            if (entity == null)
+            {
+                return null;
+            }
+            return new UserDto
+            {
+                Email = entity.Email,
+                Name = entity.FirstName,
+                LastName = entity.LastName,
+                Role = entity.Role,
+                CreateAt = entity.CreatedAt.DateTime
+            };
+        }
+
+        public async Task<Guid?> GetUserByEmail(string email, CancellationToken cancellationToken = default)
+        {
+            var userId = await _userRepository.GetByEmailAsync(email, cancellationToken);
+            return userId?.Id;
         }
     }
 }

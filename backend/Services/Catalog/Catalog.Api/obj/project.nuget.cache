@@ -1,9 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "p2fz3wBfd+A=",
+  "dgSpecHash": "42/Gz7SU/SA=",
   "success": true,
   "projectFilePath": "C:\\Users\\marco\\source\\repos\\Marco-Pagnanini\\CigarClubApp\\backend\\Services\\Catalog\\Catalog.Api\\Catalog.Api.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\marco\\.nuget\\packages\\awssdk.core\\3.7.500.76\\awssdk.core.3.7.500.76.nupkg.sha512",
+    "C:\\Users\\marco\\.nuget\\packages\\awssdk.s3\\3.7.510.4\\awssdk.s3.3.7.510.4.nupkg.sha512",
     "C:\\Users\\marco\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\marco\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\9.0.1\\microsoft.aspnetcore.authentication.jwtbearer.9.0.1.nupkg.sha512",
     "C:\\Users\\marco\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\7.0.0\\microsoft.bcl.asyncinterfaces.7.0.0.nupkg.sha512",

@@ -59,5 +59,13 @@ namespace Catalog.Infrastructure.Repositories
                 await _context.SaveChangesAsync(cancellationToken);
             }
         }
+
+        public async Task<Tobacconist?> GetByBarcodeAsync(string barcodeValue, CancellationToken cancellationToken = default)
+        {
+            return await _context.Tobacconists
+                .Include(t => t.Barcodes)
+                .Include(t => t.Brand)
+                .FirstOrDefaultAsync(t => t.Barcodes.Any(b => b.Value == barcodeValue), cancellationToken);
+        }
     }
 }

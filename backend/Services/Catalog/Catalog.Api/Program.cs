@@ -4,6 +4,7 @@ using Catalog.Application.Abstractions.Service;
 using Catalog.Application.Services;
 using Catalog.Infrastructure.Data;
 using Catalog.Infrastructure.Repositories;
+using Catalog.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -41,6 +42,7 @@ builder.Services.AddScoped<IBrandRepository, BrandRepository>();
 builder.Services.AddScoped<IBrandService, BrandService>();
 builder.Services.AddScoped<IPanelRepository, PanelRepository>();
 builder.Services.AddScoped<IPanelService, PanelService>();
+builder.Services.AddSingleton<IImageStorageService, S3ImageStorageService>();
 
 // ─── JWT Authentication ─────────────────────────────────────────────────────
 // Valida i token generati dal servizio Users (stesso SecretKey / Issuer / Audience)

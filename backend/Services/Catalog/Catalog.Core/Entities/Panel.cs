@@ -28,6 +28,7 @@ public class Panel
     public int? Ring { get; set; }
     public int? SmokingTime { get; set; }
     public CigarType? Type { get; set; }
+    public string? ImageUrl { get; set; }
 
     // Navigation properties
     public Brand? Brand { get; set; }

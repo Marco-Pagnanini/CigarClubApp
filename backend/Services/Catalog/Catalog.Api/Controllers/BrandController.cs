@@ -16,11 +16,20 @@ namespace Catalog.Api.Controllers
     public class BrandController : ControllerBase
     {
         private readonly IBrandService _service;
+        private readonly IImageStorageService _imageStorage;
         private readonly ILogger<BrandController> _logger;
 
-        public BrandController(IBrandService service, ILogger<BrandController> logger)
+        private static readonly HashSet<string> AllowedContentTypes = new(StringComparer.OrdinalIgnoreCase)
+        {
+            "image/jpeg", "image/png", "image/webp"
+        };
+
+        private const long MaxImageSize = 5 * 1024 * 1024; // 5 MB
+
+        public BrandController(IBrandService service, IImageStorageService imageStorage, ILogger<BrandController> logger)
         {
             _service = service;
+            _imageStorage = imageStorage;
             _logger = logger;
         }
 
@@ -189,6 +198,108 @@ namespace Catalog.Api.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError,
                     ApiResponse.ErrorResponse("Error deleting brand"));
             }
+        }
+
+        /// <summary>
+        /// POST /api/brands/{id}/logo — carica il logo di un brand (ADMIN ONLY)
+        /// </summary>
+        [HttpPost("{id:guid}/logo")]
+        [Authorize(Roles = "Admin")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        public async Task<ActionResult<ApiResponse<string>>> UploadLogo(Guid id, IFormFile file, CancellationToken cancellationToken)
+        {
+            try
+            {
+                if (file is null || file.Length == 0)
+                    return BadRequest(ApiResponse<string>.ErrorResponse("No file provided"));
+
+                if (!AllowedContentTypes.Contains(file.ContentType))
+                    return BadRequest(ApiResponse<string>.ErrorResponse("Invalid file type. Allowed: jpeg, png, webp"));
+
+                if (file.Length > MaxImageSize)
+                    return BadRequest(ApiResponse<string>.ErrorResponse("File size exceeds the 5 MB limit"));
+
+                var brand = await _service.GetBrandByIdAsync(id, cancellationToken);
+                if (brand is null)
+                    return NotFound(ApiResponse<string>.ErrorResponse($"Brand with ID {id} not found"));
+
+                // Se esiste già un logo, lo eliminiamo prima
+                if (!string.IsNullOrEmpty(brand.LogoUrl))
+                {
+                    var oldKey = ExtractKeyFromUrl(brand.LogoUrl);
+                    if (oldKey is not null)
+                        await _imageStorage.DeleteImageAsync(oldKey, cancellationToken);
+                }
+
+                var extension = Path.GetExtension(file.FileName)?.ToLowerInvariant() ?? ".jpg";
+                var key = $"brands/{id}/logo{extension}";
+
+                using var stream = file.OpenReadStream();
+                var logoUrl = await _imageStorage.UploadImageAsync(key, stream, file.ContentType, cancellationToken);
+
+                brand.LogoUrl = logoUrl;
+                await _service.UpdateBrandAsync(brand, cancellationToken);
+
+                _logger.LogInformation("Uploaded logo for brand {Id}", id);
+                return Ok(ApiResponse<string>.SuccessResponse(logoUrl, "Logo uploaded successfully"));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error uploading logo for brand {Id}", id);
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    ApiResponse<string>.ErrorResponse("Error uploading logo"));
+            }
+        }
+
+        /// <summary>
+        /// DELETE /api/brands/{id}/logo — elimina il logo di un brand (ADMIN ONLY)
+        /// </summary>
+        [HttpDelete("{id:guid}/logo")]
+        [Authorize(Roles = "Admin")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        public async Task<ActionResult<ApiResponse>> DeleteLogo(Guid id, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var brand = await _service.GetBrandByIdAsync(id, cancellationToken);
+                if (brand is null)
+                    return NotFound(ApiResponse.ErrorResponse($"Brand with ID {id} not found"));
+
+                if (string.IsNullOrEmpty(brand.LogoUrl))
+                    return NotFound(ApiResponse.ErrorResponse("Brand has no logo"));
+
+                var key = ExtractKeyFromUrl(brand.LogoUrl);
+                if (key is not null)
+                    await _imageStorage.DeleteImageAsync(key, cancellationToken);
+
+                brand.LogoUrl = null;
+                await _service.UpdateBrandAsync(brand, cancellationToken);
+
+                _logger.LogInformation("Deleted logo for brand {Id}", id);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error deleting logo for brand {Id}", id);
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    ApiResponse.ErrorResponse("Error deleting logo"));
+            }
+        }
+
+        private static string? ExtractKeyFromUrl(string imageUrl)
+        {
+            var brandsIndex = imageUrl.IndexOf("brands/", StringComparison.Ordinal);
+            if (brandsIndex >= 0)
+                return imageUrl[brandsIndex..];
+
+            return null;
         }
     }
 }

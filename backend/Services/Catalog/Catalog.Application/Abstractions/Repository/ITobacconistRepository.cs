@@ -36,5 +36,10 @@ namespace Catalog.Application.Abstractions.Repository
         /// Elimina un prodotto per ID.
         /// </summary>
         Task DeleteAsync(Guid id, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Restituisce il Tobacconist associato al valore di un barcode, null se non trovato.
+        /// </summary>
+        Task<Tobacconist?> GetByBarcodeAsync(string barcodeValue, CancellationToken cancellationToken = default);
     }
 }

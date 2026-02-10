@@ -81,6 +81,9 @@ namespace Catalog.Infrastructure.Migrations
                     b.Property<string>("Filler")
                         .HasColumnType("text");
 
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("text");
+
                     b.Property<string>("MasterLine")
                         .HasColumnType("text");
 
@@ -143,6 +146,9 @@ namespace Catalog.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<Guid?>("BrandId")
+                        .HasColumnType("uuid");
+
                     b.Property<string>("Category")
                         .IsRequired()
                         .HasColumnType("text");
@@ -182,6 +188,8 @@ namespace Catalog.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("BrandId");
+
                     b.ToTable("Tobacconists");
                 });
 
@@ -199,8 +207,16 @@ namespace Catalog.Infrastructure.Migrations
                     b.HasOne("Catalog.Core.Entities.Brand", "Brand")
                         .WithMany()
                         .HasForeignKey("BrandId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("Brand");
+                });
+
+            modelBuilder.Entity("Catalog.Core.Entities.Tobacconist", b =>
+                {
+                    b.HasOne("Catalog.Core.Entities.Brand", "Brand")
+                        .WithMany()
+                        .HasForeignKey("BrandId");
 
                     b.Navigation("Brand");
                 });
