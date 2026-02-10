@@ -31,6 +31,7 @@ namespace Users.Application.Services
                 {
                     Email = entity.Email,
                     Name = entity.FirstName,
+                    LastName = entity.LastName,
                     Role = entity.Role,
                     CreateAt = entity.CreatedAt.DateTime
                 });
@@ -50,6 +51,7 @@ namespace Users.Application.Services
             {
                 Email = entity.Email,
                 Name = entity.FirstName,
+                LastName = entity.LastName,
                 Role = entity.Role,
                 CreateAt = entity.CreatedAt.DateTime
             };
