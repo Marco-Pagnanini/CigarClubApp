@@ -257,7 +257,6 @@ const CigarDetail = () => {
 
                     {/* Barcodes */}
                     {cigar.barcodes.map((barcode: any, index) => (
-
                         <View key={barcode.id || index} style={styles.barcodeChip}>
                             <Text style={styles.barcodeText}>{barcode.value}</Text>
                         </View>

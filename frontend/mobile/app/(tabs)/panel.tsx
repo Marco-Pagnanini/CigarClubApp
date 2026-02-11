@@ -1,7 +1,7 @@
 import { panelApi } from '@/api/api'
 import { Colors, Shadows } from '@/constants/Colors'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
-import { router, useFocusEffect } from 'expo-router'
+import { useFocusEffect } from 'expo-router'
 import React, { useCallback, useRef, useState } from 'react'
 import { ActivityIndicator, FlatList, Image, RefreshControl, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 
@@ -71,7 +71,6 @@ const PanelCard = ({ panel }: { panel: Panel }) => {
         <TouchableOpacity
             activeOpacity={0.9}
             style={styles.card}
-            onPress={() => router.push(`/panel-detail/${panel.id}` as any)}
         >
             <View style={styles.imageHeader}>
                 {panel.imageUrl ? (
