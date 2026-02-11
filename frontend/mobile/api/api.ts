@@ -1,7 +1,7 @@
 import axios, { AxiosInstance } from 'axios';
 import * as SecureStore from 'expo-secure-store';
 
-const API_BASE_URL = 'http://10.0.26.152'
+const API_BASE_URL = process.env.EXPO_PUBLIC_API_URL;
 
 export const API_BASE_URL_TOBACCONIST = `http://${API_BASE_URL}:8080/api`
 export const API_BASE_URL_USER = `http://${API_BASE_URL}:8081/api`
