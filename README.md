@@ -133,7 +133,7 @@ L'infrastruttura backend è containerizzata con Docker Compose e include quattro
 
 ### 1. Clone Repository
 ```bash
-git clone https://github.com/your-username/CigarClubApp.git
+git clone https://github.com/Marco-Pagnanini/CigarClubApp.git
 cd CigarClubApp
 ```
 
