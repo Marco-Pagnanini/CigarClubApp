@@ -141,17 +141,13 @@ cd CigarClubApp
 ```bash
 cd mobile-app
 npm install
-cp .env.example .env
-# Configura le variabili d'ambiente nel file .env
 npx expo start
 ```
 
 ### 3. Setup Admin Panel
 ```bash
 cd admin-panel
-npm install
-cp .env.example .env
-npm run dev
+npm run dev / npx tauri dev
 ```
 
 ### 4. Setup Backend con Docker Compose
