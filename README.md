@@ -64,7 +64,7 @@ L'infrastruttura backend è containerizzata con Docker Compose e include quattro
 - **Framework**: Next.js 14
 - **Desktop**: Tauri
 - **Language**: TypeScript
-- **UI**: TailwindCSS + Radix UI
+- **UI**: TailwindCSS + Shadcn UI
 
 ### Backend
 - **.NET Core**: Microservizi Posts, Users, Catalog
@@ -139,14 +139,15 @@ cd CigarClubApp
 
 ### 2. Setup Mobile App
 ```bash
-cd mobile-app
+cd frontend/mobile
 npm install
 npx expo start
 ```
 
 ### 3. Setup Admin Panel
 ```bash
-cd admin-panel
+cd frontend/admin-panel
+npm install
 npm run dev / npx tauri dev
 ```
 
