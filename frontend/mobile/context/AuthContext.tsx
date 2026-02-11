@@ -2,6 +2,7 @@ import { userApi } from '@/api/api';
 import { router } from 'expo-router';
 import * as SecureStore from 'expo-secure-store';
 import React, { createContext, ReactNode, useCallback, useContext, useEffect, useState } from 'react';
+import { Alert } from 'react-native';
 
 interface User {
     id?: string;
@@ -15,7 +16,7 @@ interface AuthContextType {
     isLoading: boolean;
     isAuthenticated: boolean;
     signIn: (email: string, password: string) => Promise<void>;
-    signUp: (email: string, password: string, name?: string) => Promise<void>;
+    signUp: (email: string, password: string, name: string, lastName: string) => Promise<void>;
     signOut: () => Promise<void>;
     refreshAccessToken: () => Promise<string | null>;
 }
@@ -173,14 +174,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         }
     };
 
-    const signUp = async (email: string, password: string, name?: string) => {
+    const signUp = async (email: string, password: string, firstName: string, lastName: string) => {
         try {
             const response = await fetch(`${API_URL}/auth/register`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ email, password, name }),
+                body: JSON.stringify({ email, password, firstName, lastName }),
             });
 
             if (!response.ok) {
@@ -208,8 +209,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
             router.replace('/(tabs)');
         } catch (error) {
-            console.error('Sign up error:', error);
-            throw error;
+            Alert.alert('Registration Error', error instanceof Error ? error.message : 'An error occurred during registration');
         }
     };
 

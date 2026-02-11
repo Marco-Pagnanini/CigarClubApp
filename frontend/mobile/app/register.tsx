@@ -1,4 +1,5 @@
 import { Colors, Fonts, Shadows } from '@/constants/Colors';
+import { useAuth } from '@/context/AuthContext';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
@@ -20,14 +21,16 @@ import {
 const { width, height } = Dimensions.get('window');
 
 export default function RegisterScreen() {
+    const { signUp } = useAuth();
+    const [email, setEmail] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
+    const [name, setName] = useState<string>('');
+    const [lastName, setLastName] = useState<string>('');
+    const [loading, setLoading] = useState<boolean>(false);
 
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [loading, setLoading] = useState(false);
 
 
-
-    const handleLogin = async () => {
+    const handleRegister = async () => {
         if (!email || !password) {
             Alert.alert("Error", "Riempire le Credenziali");
             return;
@@ -36,10 +39,10 @@ export default function RegisterScreen() {
         setLoading(true);
 
         try {
-
+            await signUp(email, password, name, lastName);
         } catch (err: any) {
             if (err.response?.status !== 400) {
-                Alert.alert("Errore Login", "O errore server.");
+                Alert.alert("Errore Registrazione", "O errore server.");
             }
         } finally {
             setLoading(false);
@@ -69,8 +72,31 @@ export default function RegisterScreen() {
             >
                 <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
                     <Text style={styles.title}>CIGAR CLUB</Text>
-                    <Text style={styles.subtitle}>Welcome back, Aficionado</Text>
-
+                    <Text style={styles.subtitle}>Welcome, Aficionado</Text>
+                    <View style={styles.inputContainer}>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Name"
+                            placeholderTextColor={Colors.textMuted}
+                            value={name}
+                            onChangeText={setName}
+                            keyboardType="default"
+                            autoCapitalize="words"
+                            cursorColor={Colors.primary}
+                        />
+                    </View>
+                    <View style={styles.inputContainer}>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Last Name"
+                            placeholderTextColor={Colors.textMuted}
+                            value={lastName}
+                            onChangeText={setLastName}
+                            keyboardType="default"
+                            autoCapitalize="words"
+                            cursorColor={Colors.primary}
+                        />
+                    </View>
                     <View style={styles.inputContainer}>
                         <TextInput
                             style={styles.input}
@@ -96,7 +122,7 @@ export default function RegisterScreen() {
                         />
                     </View>
 
-                    <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
+                    <TouchableOpacity style={styles.loginButton} onPress={handleRegister}>
 
                         <Text style={styles.loginButtonText}>REGISTER</Text>
                     </TouchableOpacity>

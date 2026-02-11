@@ -99,7 +99,7 @@ const Profile = () => {
 
                 {/* Info Section */}
                 <View style={styles.infoSection}>
-                    <Text style={styles.infoText}>Membro dal {user.joinDate}</Text>
+                    <Text style={styles.infoText}>Membro dal {userProfile?.createAt}</Text>
                     <Text style={styles.versionText}>Versione 1.0.0</Text>
                 </View>
 
