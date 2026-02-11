@@ -200,16 +200,18 @@ mobile-app/
 │   │   ├── index.tsx           # Home/Feed
 │   │   ├── catalog.tsx         # Catalogo sigari
 │   │   ├── profile.tsx         # Profilo utente
-│   ├── auth/
-│   │   ├── login.tsx
-│   │   ├── register.tsx
-│   ├── cigar/
-│   │   └── [id].tsx            # Dettaglio sigaro
+│   ├── index.tsx
+│   ├── register.tsx
+|   ├── add-post.tsx
+|   ├── cigar-detail.tsx
+|   ├── scan.tsx
+│   ├── post/
+│   │   └── [id].tsx            # Dettaglio Post
 │   └── _layout.tsx
 ├── components/
 │   ├── CigarCard.tsx
 │   ├── PostCard.tsx
-│   └── ...
+│   └── CustomTabBar.tsx
 ├── services/
 │   ├── api.ts
 │   └── auth.ts
