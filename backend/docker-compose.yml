@@ -4,15 +4,15 @@ services:
     image: postgres:16-alpine
     container_name: cigarclub-catalog-db
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: catalog_db
     ports:
       - "5432:5432" # accessibile da localhost:5432
     volumes:
       - catalog-db-data:/var/lib/postgresql/data # dati persistenti
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U postgres -d catalog_db" ]
+      test: [ "CMD-SHELL", "pg_isready -U ${DB_USER} -d catalog_db" ]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -29,10 +29,10 @@ services:
       - ASPNETCORE_ENVIRONMENT=Production # attiva appsettings.Production.json
       # S3/MinIO: override per Docker (il container raggiunge MinIO via hostname "minio")
       - S3__ServiceUrl=http://minio:9000
-      - S3__AccessKey=minioadmin
-      - S3__SecretKey=minioadmin
-      - S3__BucketName=cigar-images
-      - S3__PublicUrl=http://192.168.188.59:9000/cigar-images
+      - S3__AccessKey=${MINIO_ROOT_USER}
+      - S3__SecretKey=${MINIO_ROOT_PASSWORD}
+      - S3__BucketName=${S3_BUCKET_NAME}
+      - S3__PublicUrl=http://${HOST_IP}:9000/${S3_BUCKET_NAME}
       - S3__ForcePathStyle=true
     depends_on:
       catalog-db:
@@ -45,15 +45,15 @@ services:
     image: postgres:16-alpine
     container_name: cigarclub-users-db
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: users_db
     ports:
       - "5433:5432" # porta host diversa da catalog-db (5433)
     volumes:
       - users-db-data:/var/lib/postgresql/data
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U postgres -d users_db" ]
+      test: [ "CMD-SHELL", "pg_isready -U ${DB_USER} -d users_db" ]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -78,15 +78,15 @@ services:
     image: postgres:16-alpine
     container_name: cigarclub-posts-db
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: posts_db
     ports:
       - "5434:5432" # porta host diversa (5434)
     volumes:
       - posts-db-data:/var/lib/postgresql/data
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U postgres -d posts_db" ]
+      test: [ "CMD-SHELL", "pg_isready -U ${DB_USER} -d posts_db" ]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -116,7 +116,7 @@ services:
     ports:
       - "8083:8000" # host:8083 → container:8000 (uvicorn)
     healthcheck:
-      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      test: [ "CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')" ]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -127,8 +127,8 @@ services:
     container_name: cigarclub-minio
     command: server /data --console-address ":9001"
     environment:
-      MINIO_ROOT_USER: minioadmin
-      MINIO_ROOT_PASSWORD: minioadmin
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
     ports:
       - "9000:9000" # API S3
       - "9001:9001" # Console Web UI
