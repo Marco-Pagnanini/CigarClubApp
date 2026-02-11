@@ -1,9 +1,11 @@
 import axios, { AxiosInstance } from 'axios';
 import * as SecureStore from 'expo-secure-store';
 
-export const API_BASE_URL_TOBACCONIST = 'http://192.168.188.59:8080/api'
-export const API_BASE_URL_USER = 'http://192.168.188.59:8081/api'
-export const API_BASE_URL_POST = 'http://192.168.188.59:8082/api'
+const API_BASE_URL = 'http://10.0.26.152'
+
+export const API_BASE_URL_TOBACCONIST = `http://${API_BASE_URL}:8080/api`
+export const API_BASE_URL_USER = `http://${API_BASE_URL}:8081/api`
+export const API_BASE_URL_POST = `http://${API_BASE_URL}:8082/api`
 
 // Chiave usata nel tuo AuthContext per salvare il token
 const TOKEN_KEY = 'auth_token';

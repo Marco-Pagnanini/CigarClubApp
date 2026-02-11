@@ -27,7 +27,7 @@ const TOKEN_KEY = 'auth_token';
 const REFRESH_TOKEN_KEY = 'refresh_token';
 const USER_KEY = 'auth_user';
 
-const API_URL = process.env.EXPO_PUBLIC_API_URL || 'http://192.168.188.59:8081/api';
+const API_URL = process.env.EXPO_PUBLIC_API_URL || 'http://10.0.26.152:8081/api';
 
 export function AuthProvider({ children }: { children: ReactNode }) {
 
