@@ -1,10 +1,23 @@
 import { Colors } from '@/constants/Colors';
-import { AuthProvider as AuthContextProvider } from '@/context/AuthContext';
-import { Stack } from 'expo-router';
+import { AuthProvider, useAuth } from '@/context/AuthContext';
+import { router, Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-export default function RootLayout() {
+import { useEffect } from 'react';
+
+function RootNavigator() {
+    const { isAuthenticated, isLoading } = useAuth();
+
+    useEffect(() => {
+        if (isLoading) return;
+        if (!isAuthenticated) {
+            router.replace('/');
+        }
+    }, [isAuthenticated, isLoading]);
+
+    if (isLoading) return null;
+
     return (
-        <AuthContextProvider>
+        <>
             <StatusBar style="light" />
             <Stack
                 screenOptions={{
@@ -15,24 +28,19 @@ export default function RootLayout() {
             >
                 <Stack.Screen name="index" />
                 <Stack.Screen name="(tabs)" />
-                <Stack.Screen name='register' />
-                <Stack.Screen name='cigar-detail' options={{
-                    presentation: 'modal',
-                    headerShown: false,
-                    animation: 'slide_from_bottom'
-                }} />
-                <Stack.Screen name='add-post' options={{
-                    presentation: 'modal',
-                    headerShown: false,
-                    animation: 'slide_from_bottom'
-                }} />
-                <Stack.Screen name='scan' options={{
-                    presentation: 'modal',
-                    headerShown: false,
-                    animation: 'slide_from_bottom'
-                }} />
+                <Stack.Screen name="register" />
+                <Stack.Screen name="cigar-detail" options={{ presentation: 'modal', animation: 'slide_from_bottom' }} />
+                <Stack.Screen name="add-post" options={{ presentation: 'modal', animation: 'slide_from_bottom' }} />
+                <Stack.Screen name="scan" options={{ presentation: 'modal', animation: 'slide_from_bottom' }} />
             </Stack>
-        </AuthContextProvider>
+        </>
+    );
+}
 
+export default function RootLayout() {
+    return (
+        <AuthProvider>
+            <RootNavigator />
+        </AuthProvider>
     );
 }

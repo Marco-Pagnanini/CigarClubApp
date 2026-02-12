@@ -1,8 +1,10 @@
 import { userApi } from '@/api/api';
 import { router } from 'expo-router';
 import * as SecureStore from 'expo-secure-store';
+import * as Updates from 'expo-updates';
 import React, { createContext, ReactNode, useCallback, useContext, useEffect, useState } from 'react';
 import { Alert } from 'react-native';
+
 
 interface User {
     id?: string;
@@ -109,7 +111,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                 return;
             }
 
-            // Sempre validare la sessione col backend tramite refresh
             const newToken = await refreshAccessToken();
 
             if (newToken && storedUser) {
@@ -212,7 +213,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             Alert.alert('Registration Error', error instanceof Error ? error.message : 'An error occurred during registration');
         }
     };
-
     const signOut = async () => {
         try {
             const refreshToken = await SecureStore.getItemAsync(REFRESH_TOKEN_KEY);
@@ -232,7 +232,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             }
 
             await clearAuth();
-            router.replace('/');
+            await Updates.reloadAsync();
         } catch (error) {
             console.error('Sign out error:', error);
             throw error;

@@ -7,7 +7,7 @@ import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, Vi
 
 const Profile = () => {
 
-    const { user } = useAuth()
+    const { user, signOut } = useAuth()
     const [userProfile, setUserProfile] = useState<UserProfile>();
 
     useEffect(() => {
@@ -24,8 +24,8 @@ const Profile = () => {
         }
     }
 
-    const handleLogout = () => {
-        console.log('Logout')
+    const handleLogout = async () => {
+        await signOut();
     }
 
     return (
