@@ -19,6 +19,9 @@ import {
     View,
 } from 'react-native';
 
+const sanitizeInput = (input: string) => input.trim().replace(/[<>"']/g, '');
+
+
 const { width, height } = Dimensions.get('window');
 
 export default function LoginScreen() {
@@ -57,7 +60,9 @@ export default function LoginScreen() {
     }
 
     const handleLogin = async () => {
-        if (!email || !password) {
+        const cleanEmail = sanitizeInput(email);
+
+        if (!cleanEmail || !password) {
             Alert.alert("Error", "Riempire le Credenziali");
             return;
         }
@@ -65,7 +70,7 @@ export default function LoginScreen() {
         setLoading(true);
 
         try {
-            await signIn(email, password);
+            await signIn(cleanEmail, password);
         } catch (err: any) {
             if (err.response?.status !== 400) {
                 Alert.alert("Errore Login", "O errore server.");

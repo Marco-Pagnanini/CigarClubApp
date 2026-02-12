@@ -21,6 +21,7 @@ export default function AddPostScreen() {
     const [loading, setLoading] = useState(false)
 
     const handleCreatePost = async () => {
+
         if (!title.trim() || !content.trim()) {
             Alert.alert("Attenzione", "Compila tutti i campi")
             return
@@ -63,6 +64,7 @@ export default function AddPostScreen() {
                     placeholder="Titolo"
                     value={title}
                     onChangeText={setTitle}
+                    maxLength={100}
                     autoFocus
                 />
                 <TextInput
@@ -70,6 +72,7 @@ export default function AddPostScreen() {
                     placeholder="A cosa stai pensando?"
                     value={content}
                     onChangeText={setContent}
+                    maxLength={2000}
                     multiline
                     textAlignVertical="top"
                 />

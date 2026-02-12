@@ -20,6 +20,9 @@ import {
 
 const { width, height } = Dimensions.get('window');
 
+const sanitizeInput = (input: string) => input.trim().replace(/[<>"']/g, '');
+
+
 export default function RegisterScreen() {
     const { signUp } = useAuth();
     const [email, setEmail] = useState<string>('');
@@ -31,7 +34,8 @@ export default function RegisterScreen() {
 
 
     const handleRegister = async () => {
-        if (!email || !password) {
+        const cleanEmail = sanitizeInput(email);
+        if (!cleanEmail || !password) {
             Alert.alert("Error", "Riempire le Credenziali");
             return;
         }
@@ -39,7 +43,7 @@ export default function RegisterScreen() {
         setLoading(true);
 
         try {
-            await signUp(email, password, name, lastName);
+            await signUp(cleanEmail, password, name, lastName);
         } catch (err: any) {
             if (err.response?.status !== 400) {
                 Alert.alert("Errore Registrazione", "O errore server.");

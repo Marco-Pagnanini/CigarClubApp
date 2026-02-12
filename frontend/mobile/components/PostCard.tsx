@@ -33,6 +33,11 @@ const PostCard: React.FC<PostCardProps> = ({ post, likesCount }) => {
         setCurrentLikesCount(likesCount)
     }, [likesCount])
 
+    const getDisplayName = () => {
+        if (!userEmail) return 'Membro del Club'
+        return userEmail.split('@')[0]  // mostra solo "mario"
+    }
+
     const getUsernameFromPost = async () => {
         try {
             const response = await userApi.get(`/${post.userId}`)
@@ -101,7 +106,7 @@ const PostCard: React.FC<PostCardProps> = ({ post, likesCount }) => {
                     </View>
                     <View>
                         <Text style={styles.username} numberOfLines={1}>
-                            {userEmail || 'Membro del Club'}
+                            {getDisplayName() || 'Membro del Club'}
                         </Text>
                         <Text style={styles.date}>{formatDate(post.createdAt)}</Text>
                     </View>
