@@ -37,7 +37,8 @@ public class PostsController : ControllerBase
     {
         try
         {
-            var posts = await _service.GetAllPostsAsync(pageSize,page,cancellationToken);
+            var userId = GetUserIdFromToken();
+            var posts = await _service.GetAllPostsAsync(pageSize,page,userId,cancellationToken);
             _logger.LogInformation("Retrieved {Count} posts", posts.Count);
             return Ok(posts);
         }

@@ -14,14 +14,15 @@ public class PostRepository : IPostRepository
         _context = context;
     }
 
-    public async Task<IEnumerable<Post>> GetAllAsync(int pageSize, int page, CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<Post>> GetAllAsync(int pageSize, int page, Guid userId, CancellationToken cancellationToken = default)
     {
         if (page < 1) page = 1;
 
         return await _context.Posts
             .OrderByDescending(p => p.CreatedAt)
             .Skip((page - 1) * pageSize) 
-            .Take(pageSize)             
+            .Take(pageSize)
+            .Where(p => p.UserId != userId)
             .ToListAsync(cancellationToken);
     }
 
