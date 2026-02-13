@@ -19,10 +19,10 @@ public class PostRepository : IPostRepository
         if (page < 1) page = 1;
 
         return await _context.Posts
-            .OrderByDescending(p => p.CreatedAt)
-            .Skip((page - 1) * pageSize) 
-            .Take(pageSize)
             .Where(p => p.UserId != userId)
+            .OrderByDescending(p => p.CreatedAt)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
             .ToListAsync(cancellationToken);
     }
 
