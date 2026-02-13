@@ -80,10 +80,11 @@ public class PostsController : ControllerBase
     /// <summary>
     /// GET /api/posts/user/{userId} — restituisce i post di un utente (PUBLIC)
     /// </summary>
-    [HttpGet("user/{userId:guid}")]
+    [HttpGet("user")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<ICollection<Post>>> GetByUser(Guid userId, CancellationToken cancellationToken)
+    public async Task<ActionResult<ICollection<Post>>> GetByUser( CancellationToken cancellationToken)
     {
+        var userId = GetUserIdFromToken();
         try
         {
             var posts = await _service.GetPostsByUserIdAsync(userId, cancellationToken);
