@@ -1,135 +1,13 @@
 import { panelApi } from '@/api/api'
+import { PanelCard } from '@/components/PanelCard'
 import { Colors, Shadows } from '@/constants/Colors'
+import { Panel } from '@/types/PanelData'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { useFocusEffect } from 'expo-router'
 import React, { useCallback, useRef, useState } from 'react'
-import { ActivityIndicator, FlatList, Image, RefreshControl, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { ActivityIndicator, FlatList, RefreshControl, SafeAreaView, StyleSheet, Text, View } from 'react-native'
 
 const PAGE_SIZE = 10
-
-export interface Brand {
-    id: string;
-    name: string;
-    logoUrl: string;
-    country: string;
-}
-
-export type WrapperColor = 0 | 1 | 2 | 3;
-export type TobaccoType = 0 | 1 | 2;
-export type Strength = 0 | 1 | 2 | 3;
-
-export interface Panel {
-    id: string;
-    name: string;
-    description: string;
-    tobacconistCode: string;
-    tobacconistId: string;
-    brandId: string;
-    brand: Brand;
-    origin: string;
-    shape: string;
-    ring: number;
-    smokingTime: number;
-    strength: Strength;
-    rating: number;
-    price: number;
-    numberInBox: number;
-    rollingType: string;
-    type: TobaccoType;
-    wrapper: string;
-    wrapperColor: WrapperColor;
-    binder: string;
-    filler: string;
-    masterLine: string;
-    imageUrl: string;
-}
-
-const PanelCard = ({ panel }: { panel: Panel }) => {
-    const renderStrengthDots = (strength: number) => {
-        const totalDots = 5
-        const filledDots = Math.min(strength + 1, 5)
-
-        return (
-            <View style={styles.strengthDotsContainer}>
-                {Array.from({ length: totalDots }).map((_, index) => (
-                    <View
-                        key={index}
-                        style={[
-                            styles.dot,
-                            {
-                                backgroundColor: index < filledDots ? Colors.primary : 'transparent',
-                                borderColor: index < filledDots ? Colors.primary : Colors.textSecondary
-                            }
-                        ]}
-                    />
-                ))}
-            </View>
-        )
-    }
-
-    return (
-        <TouchableOpacity
-            activeOpacity={0.9}
-            style={styles.card}
-        >
-            <View style={styles.imageHeader}>
-                {panel.imageUrl ? (
-                    <Image
-                        source={{ uri: panel.imageUrl }}
-                        style={styles.cigarImage}
-                        resizeMode="contain"
-                    />
-                ) : (
-                    <MaterialCommunityIcons
-                        name="cigar"
-                        size={60}
-                        color={Colors.textMuted}
-                        style={{ transform: [{ rotate: '-90deg' }] }}
-                    />
-                )}
-                <View style={styles.priceTag}>
-                    <Text style={styles.priceText}>€ {panel.price.toFixed(2)}</Text>
-                </View>
-            </View>
-
-            <View style={styles.infoBody}>
-                <View style={styles.headerSection}>
-                    <Text style={styles.brandName}>{panel.brand.name.toUpperCase()}</Text>
-                    <Text style={styles.cigarName} numberOfLines={2}>{panel.name}</Text>
-                </View>
-
-                <View style={styles.divider} />
-
-                <View style={styles.gridContainer}>
-                    <View style={styles.gridItem}>
-                        <Text style={styles.labelSmall}>PAESE</Text>
-                        <Text style={styles.valueSmall} numberOfLines={1}>{panel.origin}</Text>
-                    </View>
-                    <View style={styles.gridItem}>
-                        <Text style={styles.labelSmall}>FORMATO</Text>
-                        <Text style={styles.valueSmall} numberOfLines={1}>{panel.shape}</Text>
-                    </View>
-                    <View style={styles.gridItem}>
-                        <Text style={styles.labelSmall}>MISURE</Text>
-                        <Text style={styles.valueSmall}>RG {panel.ring}</Text>
-                    </View>
-                </View>
-
-                <View style={styles.footerSection}>
-                    <View style={styles.strengthWrapper}>
-                        <Text style={styles.labelSmall}>FORZA</Text>
-                        {renderStrengthDots(panel.strength)}
-                    </View>
-
-                    <View style={styles.scoreWrapper}>
-                        <Text style={styles.scoreLabel}>PUNTEGGIO</Text>
-                        <Text style={styles.scoreValue}>{panel.rating}</Text>
-                    </View>
-                </View>
-            </View>
-        </TouchableOpacity>
-    )
-}
 
 const PanelPage = () => {
     const [panels, setPanels] = useState<Panel[]>([])

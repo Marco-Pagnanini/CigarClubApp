@@ -1,116 +1,145 @@
-import { userApi } from '@/api/api'
-import { Colors, Shadows } from '@/constants/Colors'
+import { postsApi, userApi } from '@/api/api'
+import { Colors } from '@/constants/Colors'
 import { useAuth } from '@/context/AuthContext'
+import { Post } from '@/types/PostData'
 import { UserProfile } from '@/types/Profile'
+import { router } from 'expo-router'
 import React, { useEffect, useState } from 'react'
-import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import {
+    Dimensions,
+    FlatList,
+    Image,
+    ListRenderItem,
+    SafeAreaView,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View
+} from 'react-native'
+
+const { width } = Dimensions.get('window');
+const COLUMN_COUNT = 3;
+const IMAGE_SIZE = width / COLUMN_COUNT;
 
 const Profile = () => {
-
     const { user, signOut } = useAuth()
     const [userProfile, setUserProfile] = useState<UserProfile>();
+    const [userPosts, setUserPosts] = useState<Post[]>([]);
+    const [refreshing, setRefreshing] = useState(false);
 
     useEffect(() => {
-        fetchUserProfile()
+        fetchAllData();
     }, [])
+
+    const fetchAllData = async () => {
+        await Promise.all([fetchUserProfile(), fetchPostProfile()]);
+    }
 
     const fetchUserProfile = async () => {
         try {
             const response = await userApi.get(`/${user?.id}`);
             setUserProfile(response.data);
-        }
-        catch (error) {
-            console.error('Errore nel recupero del profilo utente:', error);
+        } catch (error) {
+            console.error(error);
         }
     }
+
+    const fetchPostProfile = async () => {
+        try {
+            const response = await postsApi.get(`user`)
+            setUserPosts(response.data);
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    const onRefresh = async () => {
+        setRefreshing(true);
+        await fetchAllData();
+        setRefreshing(false);
+    };
 
     const handleLogout = async () => {
         await signOut();
     }
 
+    const renderHeader = () => (
+        <View style={styles.headerContainer}>
+            <View style={styles.topRow}>
+                <View style={styles.avatarWrapper}>
+                    <Image
+                        source={require('@/assets/images/image_profile.png')}
+                        style={styles.avatar}
+                    />
+                    <View style={styles.plusBadge}>
+                        <Text style={styles.plusText}>+</Text>
+                    </View>
+                </View>
+
+                <View style={styles.statsContainer}>
+                    <View style={styles.statItem}>
+                        <Text style={styles.statNumber}>{userPosts.length}</Text>
+                        <Text style={styles.statLabel}>Post</Text>
+                    </View>
+                </View>
+            </View>
+
+            <View style={styles.bioContainer}>
+                <Text style={styles.userName}>
+                    {userProfile?.name} {userProfile?.lastName}
+                </Text>
+                <Text style={styles.userRole}>{userProfile?.role || 'Digital Creator'}</Text>
+                <Text style={styles.userBio}>
+                    Benvenuti nel mio profilo ufficiale. 📸
+                    {'\n'}Membro dal {userProfile?.createAt}
+                </Text>
+            </View>
+
+            <View style={styles.actionButtonsContainer}>
+                <TouchableOpacity style={styles.editButton}>
+                    <Text style={styles.editButtonText}>Modifica profilo</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
+                    <Text style={styles.logoutButtonText}>Esci</Text>
+                </TouchableOpacity>
+            </View>
+        </View>
+    );
+
+    const renderPostItem: ListRenderItem<Post> = ({ item }) => (
+        <TouchableOpacity
+            style={styles.gridItem}
+            onPress={() => router.push(`/post/${item.id}`)}
+        >
+            <View style={styles.textPostContent}>
+                <Text
+                    style={styles.postTitle}
+                    numberOfLines={3}
+                    ellipsizeMode="tail"
+                >
+                    {item.title || item.content || "Nuovo Post"}
+                </Text>
+
+                <View style={styles.postMeta}>
+                    <Text style={styles.metaText}>❤️ {item.likesCount || 0}</Text>
+                </View>
+            </View>
+        </TouchableOpacity>
+    );
+
     return (
         <SafeAreaView style={styles.container}>
-            <ScrollView
+            <FlatList
+                data={userPosts}
+                keyExtractor={(item, index) => item.id ? item.id.toString() : index.toString()}
+                renderItem={renderPostItem}
+                numColumns={COLUMN_COUNT}
+                ListHeaderComponent={renderHeader}
+                refreshing={refreshing}
+                onRefresh={onRefresh}
                 showsVerticalScrollIndicator={false}
-                contentContainerStyle={styles.scrollContent}
-            >
-                {/* Header */}
-                <View style={styles.header}>
-                    <Text style={styles.headerTitle}>Profilo</Text>
-                </View>
-
-                {/* Profile Card */}
-                <View style={styles.profileCard}>
-                    <View style={styles.avatarContainer}>
-                        <Image
-                            source={require('@/assets/images/image_profile.png')}
-                            style={styles.avatar}
-                        />
-                        <View style={styles.statusBadge}>
-                            <Text style={styles.statusText}>⭐</Text>
-                        </View>
-                    </View>
-
-                    <Text style={styles.userName}>{userProfile?.name} {userProfile?.lastName}</Text>
-                    <Text style={styles.userEmail}>{userProfile?.email}</Text>
-
-                    <View style={styles.roleBadge}>
-                        <Text style={styles.roleText}>{userProfile?.role}</Text>
-                    </View>
-                </View>
-
-                {/* Support Section */}
-                <View style={styles.section}>
-                    <Text style={styles.sectionTitle}>Supporto</Text>
-
-                    <TouchableOpacity style={styles.menuItem}>
-                        <View style={styles.menuIconContainer}>
-                            <Text style={styles.menuIcon}>❓</Text>
-                        </View>
-                        <View style={styles.menuContent}>
-                            <Text style={styles.menuText}>Centro Assistenza</Text>
-                            <Text style={styles.menuSubtext}>FAQ e guide</Text>
-                        </View>
-                        <Text style={styles.menuArrow}>›</Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity style={styles.menuItem}>
-                        <View style={styles.menuIconContainer}>
-                            <Text style={styles.menuIcon}>📧</Text>
-                        </View>
-                        <View style={styles.menuContent}>
-                            <Text style={styles.menuText}>Contattaci</Text>
-                            <Text style={styles.menuSubtext}>Invia un messaggio</Text>
-                        </View>
-                        <Text style={styles.menuArrow}>›</Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity style={styles.menuItem}>
-                        <View style={styles.menuIconContainer}>
-                            <Text style={styles.menuIcon}>⭐</Text>
-                        </View>
-                        <View style={styles.menuContent}>
-                            <Text style={styles.menuText}>Valuta l'App</Text>
-                            <Text style={styles.menuSubtext}>Lascia una recensione</Text>
-                        </View>
-                        <Text style={styles.menuArrow}>›</Text>
-                    </TouchableOpacity>
-                </View>
-
-                {/* Info Section */}
-                <View style={styles.infoSection}>
-                    <Text style={styles.infoText}>Membro dal {userProfile?.createAt}</Text>
-                    <Text style={styles.versionText}>Versione 1.0.0</Text>
-                </View>
-
-                {/* Logout Button */}
-                <TouchableOpacity
-                    style={styles.logoutButton}
-                    onPress={handleLogout}
-                >
-                    <Text style={styles.logoutText}>Esci dall'Account</Text>
-                </TouchableOpacity>
-            </ScrollView>
+                contentContainerStyle={styles.listContent}
+            />
         </SafeAreaView>
     )
 }
@@ -122,181 +151,134 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: Colors.background,
     },
-    scrollContent: {
-        paddingBottom: 100, // ✅ Spazio per la tab bar
+    listContent: {
+        paddingBottom: 50,
     },
-
-    // Header
-    header: {
-        paddingHorizontal: 20,
-        paddingTop: 20,
-        paddingBottom: 16,
-    },
-    headerTitle: {
-        fontSize: 32,
-        fontWeight: 'bold',
-        color: Colors.primary,
-    },
-
-    // Profile Card
-    profileCard: {
-        backgroundColor: Colors.surface,
-        marginHorizontal: 20,
+    headerContainer: {
+        paddingHorizontal: 16,
+        paddingTop: 10,
         marginBottom: 20,
-        borderRadius: 20,
-        padding: 24,
-        alignItems: 'center',
-        borderWidth: 1,
-        borderColor: Colors.border,
-        ...Shadows.medium,
     },
-    avatarContainer: {
+    topRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        marginBottom: 12,
+    },
+    avatarWrapper: {
         position: 'relative',
-        marginBottom: 16,
     },
     avatar: {
-        width: 100,
-        height: 100,
-        borderRadius: 50,
-        borderWidth: 3,
-        borderColor: Colors.primary,
+        width: 86,
+        height: 86,
+        borderRadius: 43,
+        borderWidth: 1,
+        borderColor: '#ddd',
     },
-    statusBadge: {
+    plusBadge: {
         position: 'absolute',
         bottom: 0,
         right: 0,
         backgroundColor: Colors.primary,
-        width: 32,
-        height: 32,
-        borderRadius: 16,
+        width: 24,
+        height: 24,
+        borderRadius: 12,
         justifyContent: 'center',
         alignItems: 'center',
-        borderWidth: 3,
-        borderColor: Colors.surface,
+        borderWidth: 2,
+        borderColor: Colors.background,
     },
-    statusText: {
-        fontSize: 16,
-    },
-    userName: {
-        fontSize: 24,
+    plusText: {
+        color: 'white',
         fontWeight: 'bold',
-        color: Colors.text,
-        marginBottom: 4,
-    },
-    userEmail: {
         fontSize: 14,
-        color: Colors.textSecondary,
-        marginBottom: 12,
     },
-    roleBadge: {
-        backgroundColor: Colors.backgroundLight,
-        paddingHorizontal: 16,
-        paddingVertical: 6,
-        borderRadius: 12,
-        marginBottom: 20,
+    statsContainer: {
+        flexDirection: 'row',
+        flex: 1,
+        justifyContent: 'space-around',
+        marginLeft: 20,
     },
-    roleText: {
-        color: Colors.primary,
-        fontSize: 13,
-        fontWeight: '600',
+    statItem: {
+        alignItems: 'center',
     },
-    editButton: {
-        backgroundColor: Colors.primary,
-        paddingHorizontal: 32,
-        paddingVertical: 12,
-        borderRadius: 12,
-        ...Shadows.small,
-    },
-    editButtonText: {
-        color: Colors.background,
-        fontSize: 15,
-        fontWeight: 'bold',
-    },
-
-    // Sections
-    section: {
-        marginBottom: 24,
-        paddingHorizontal: 20,
-    },
-    sectionTitle: {
+    statNumber: {
         fontSize: 18,
         fontWeight: 'bold',
         color: Colors.text,
-        marginBottom: 12,
     },
-
-    // Menu Items
-    menuItem: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        backgroundColor: Colors.surface,
-        borderRadius: 16,
-        padding: 16,
-        marginBottom: 8,
-        borderWidth: 1,
-        borderColor: Colors.border,
-    },
-    menuIconContainer: {
-        width: 44,
-        height: 44,
-        borderRadius: 12,
-        backgroundColor: Colors.backgroundLight,
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginRight: 12,
-    },
-    menuIcon: {
-        fontSize: 22,
-    },
-    menuContent: {
-        flex: 1,
-    },
-    menuText: {
-        fontSize: 16,
-        fontWeight: '600',
-        color: Colors.text,
-        marginBottom: 2,
-    },
-    menuSubtext: {
+    statLabel: {
         fontSize: 13,
-        color: Colors.textSecondary,
+        color: Colors.textSecondary || '#666',
     },
-    menuArrow: {
-        fontSize: 28,
-        color: Colors.textMuted,
-        fontWeight: '300',
+    bioContainer: {
+        marginBottom: 16,
     },
-
-    // Info Section
-    infoSection: {
-        alignItems: 'center',
-        paddingVertical: 20,
-        paddingHorizontal: 20,
-    },
-    infoText: {
-        fontSize: 13,
-        color: Colors.textSecondary,
-        marginBottom: 4,
-    },
-    versionText: {
-        fontSize: 12,
-        color: Colors.textMuted,
-    },
-
-    // Logout Button
-    logoutButton: {
-        marginHorizontal: 20,
-        marginBottom: 20, // ✅ Margine bottom per distanziare dalla tab bar
-        backgroundColor: 'rgba(244, 67, 54, 0.1)',
-        borderRadius: 16,
-        padding: 16,
-        alignItems: 'center',
-        borderWidth: 1,
-        borderColor: 'rgba(244, 67, 54, 0.3)',
-    },
-    logoutText: {
-        color: Colors.error,
-        fontSize: 16,
+    userName: {
+        fontSize: 15,
         fontWeight: 'bold',
+        color: Colors.text,
+    },
+    userRole: {
+        fontSize: 13,
+        color: Colors.textSecondary || '#666',
+        marginVertical: 2,
+    },
+    userBio: {
+        fontSize: 14,
+        color: Colors.text,
+        lineHeight: 18,
+    },
+    actionButtonsContainer: {
+        flexDirection: 'row',
+        gap: 8,
+    },
+    editButton: {
+        flex: 1,
+        backgroundColor: '#efefef',
+        paddingVertical: 8,
+        borderRadius: 8,
+        alignItems: 'center',
+    },
+    editButtonText: {
+        fontWeight: '600',
+        fontSize: 14,
+        color: '#000',
+    },
+    logoutButton: {
+        flex: 1,
+        backgroundColor: '#efefef',
+        paddingVertical: 8,
+        borderRadius: 8,
+        alignItems: 'center',
+    },
+    logoutButtonText: {
+        fontWeight: '600',
+        fontSize: 14,
+        color: 'red',
+    },
+    gridItem: {
+        width: IMAGE_SIZE,
+        height: IMAGE_SIZE,
+        padding: 1,
+    },
+    textPostContent: {
+        flex: 1,
+        backgroundColor: '#f8f9fa',
+        padding: 10,
+        justifyContent: 'space-between',
+    },
+    postTitle: {
+        fontSize: 11,
+        color: '#333',
+        fontWeight: '500',
+        lineHeight: 16,
+    },
+    postMeta: {
+        alignItems: 'flex-end',
+    },
+    metaText: {
+        fontSize: 10,
+        color: '#999',
     },
 })
