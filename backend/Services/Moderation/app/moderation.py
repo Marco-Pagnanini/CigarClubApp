@@ -2,7 +2,7 @@ from .models import ModerationRequest, ModerationResponse
 import nh3
 
 BANNED_WORDS: list[str] = [
-    "violenza"
+    "violenza", "perdente"
 ]
 
 
