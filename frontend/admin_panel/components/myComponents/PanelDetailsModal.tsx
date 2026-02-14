@@ -6,6 +6,15 @@ import { Label } from "@/components/ui/label";
 import { Loader2 } from "lucide-react";
 import { PanelData } from '@/types/panel';
 
+const isSafeUrl = (url: string): boolean => {
+    try {
+        const parsed = new URL(url);
+        return parsed.protocol === 'http:' || parsed.protocol === 'https:';
+    } catch {
+        return false;
+    }
+};
+
 interface PanelDetailsModalProps {
     isOpen: boolean;
     onClose: (open: boolean) => void;
@@ -30,12 +39,13 @@ export function PanelDetailsModal({ isOpen, onClose, isLoading, panel, brandName
                 ) : panel ? (
                     <div className="grid gap-6 py-4">
                         {/* Immagine */}
-                        {panel.imageUrl && (
+                        {panel.imageUrl && isSafeUrl(panel.imageUrl) && (
                             <div className="w-full h-52 rounded-lg overflow-hidden border">
                                 <img
                                     src={panel.imageUrl}
                                     alt={panel.name}
                                     className="w-full h-full object-cover"
+                                    referrerPolicy="no-referrer"
                                 />
                             </div>
                         )}
@@ -93,7 +103,6 @@ export function PanelDetailsModal({ isOpen, onClose, isLoading, panel, brandName
     );
 }
 
-// Piccoli componenti helper interni per tenere il codice pulito
 const InfoItem = ({ label, value, isBold }: { label: string, value: string | number | undefined, isBold?: boolean }) => (
     <div className="space-y-1">
         <Label className="text-xs text-muted-foreground uppercase">{label}</Label>

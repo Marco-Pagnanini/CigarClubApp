@@ -43,15 +43,13 @@ export default function DashboardHome() {
         if (!panelId) return;
 
         setIsPanelLoading(true);
-        setIsDialogOpen(true); // Apre la modale
+        setIsDialogOpen(true); 
 
         try {
-            // 1. Prendo i dati del panel
             const response = await panelApi.get(`/${panelId}`);
             const panelData = response.data.data;
             setSelectedPanel(panelData);
 
-            // 2. Prendo i dati del brand (se c'è brandId)
             if (panelData.brandId) {
                 const responseBrand = await brandApi.get(`/${panelData.brandId}`);
                 setBrand(responseBrand.data.data.name);

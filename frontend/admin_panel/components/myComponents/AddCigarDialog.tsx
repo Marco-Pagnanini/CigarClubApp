@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -8,38 +8,39 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Plus, Loader2 } from "lucide-react";
-import { catalogApi } from '@/api/api';
+import { catalogApi, brandApi } from '@/api/api';
 
 interface AddCigarDialogProps {
     onSuccess?: () => void;
 }
 
+interface Brand {
+    id: string;
+    name: string;
+}
+
+const todayIso = () => new Date().toISOString().split('T')[0];
+
 interface TobacconistForm {
+    name: string;
     code: string;
     category: string;
     description: string;
+    brandId: string;
     priceKg: number;
     stackPrice: number;
     stackType: string;
-    nextPrice: number;
-    nextStackPrice: number;
-    currentPricingValidity: string;
-    nextPricingValidity: string;
-    panelId?: string;
 }
 
 const initialFormState: TobacconistForm = {
+    name: '',
     code: '',
     category: '',
     description: '',
+    brandId: '',
     priceKg: 0,
     stackPrice: 0,
     stackType: '',
-    nextPrice: 0,
-    nextStackPrice: 0,
-    currentPricingValidity: '',
-    nextPricingValidity: '',
-    panelId: '',
 };
 
 export function AddCigarDialog({ onSuccess }: AddCigarDialogProps) {
@@ -47,6 +48,24 @@ export function AddCigarDialog({ onSuccess }: AddCigarDialogProps) {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [formData, setFormData] = useState<TobacconistForm>(initialFormState);
+    const [brands, setBrands] = useState<Brand[]>([]);
+    const [isBrandsLoading, setIsBrandsLoading] = useState(false);
+
+    useEffect(() => {
+        if (isOpen) fetchBrands();
+    }, [isOpen]);
+
+    const fetchBrands = async () => {
+        setIsBrandsLoading(true);
+        try {
+            const response = await brandApi.get('/');
+            setBrands(response.data);
+        } catch (err) {
+            console.error('Errore nel caricamento dei brand:', err);
+        } finally {
+            setIsBrandsLoading(false);
+        }
+    };
 
     const handleInputChange = (field: keyof TobacconistForm, value: string | number) => {
         setFormData(prev => ({ ...prev, [field]: value }));
@@ -62,11 +81,11 @@ export function AddCigarDialog({ onSuccess }: AddCigarDialogProps) {
                 ...formData,
                 priceKg: Number(formData.priceKg),
                 stackPrice: Number(formData.stackPrice),
-                nextPrice: Number(formData.nextPrice),
-                nextStackPrice: Number(formData.nextStackPrice),
-                currentPricingValidity: formData.currentPricingValidity ? new Date(formData.currentPricingValidity).toISOString() : null,
-                nextPricingValidity: formData.nextPricingValidity ? new Date(formData.nextPricingValidity).toISOString() : null,
-                panelId: formData.panelId || undefined,
+                nextPrice: 0,
+                nextStackPrice: 0,
+                currentPricingValidity: new Date(todayIso()).toISOString(),
+                nextPricingValidity: null,
+                brandId: formData.brandId || undefined,
             };
 
             await catalogApi.post('/', payload);
@@ -95,6 +114,18 @@ export function AddCigarDialog({ onSuccess }: AddCigarDialogProps) {
 
                 <form onSubmit={handleSubmit}>
                     <div className="grid gap-4 py-4">
+                        {/* Nome */}
+                        <div className="space-y-2">
+                            <Label htmlFor="name">Nome *</Label>
+                            <Input
+                                id="name"
+                                value={formData.name}
+                                onChange={(e) => handleInputChange('name', e.target.value)}
+                                placeholder="es. Cohiba Robustos"
+                                required
+                            />
+                        </div>
+
                         {/* Codice e Categoria */}
                         <div className="grid grid-cols-2 gap-4">
                             <div className="space-y-2">
@@ -123,6 +154,28 @@ export function AddCigarDialog({ onSuccess }: AddCigarDialogProps) {
                                     </SelectContent>
                                 </Select>
                             </div>
+                        </div>
+
+                        {/* Brand */}
+                        <div className="space-y-2">
+                            <Label htmlFor="brandId">Brand *</Label>
+                            <Select
+                                value={formData.brandId}
+                                onValueChange={(value) => handleInputChange('brandId', value)}
+                                disabled={isBrandsLoading}
+                                required
+                            >
+                                <SelectTrigger>
+                                    <SelectValue placeholder={isBrandsLoading ? "Caricamento..." : "Seleziona brand"} />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {brands.map((brand) => (
+                                        <SelectItem key={brand.id} value={brand.id}>
+                                            {brand.name}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
                         </div>
 
                         {/* Descrizione */}
@@ -181,65 +234,6 @@ export function AddCigarDialog({ onSuccess }: AddCigarDialogProps) {
                             </Select>
                         </div>
 
-                        {/* Prezzi Futuri */}
-                        <div className="grid grid-cols-2 gap-4">
-                            <div className="space-y-2">
-                                <Label htmlFor="nextPrice">Prossimo Prezzo (€)</Label>
-                                <Input
-                                    id="nextPrice"
-                                    type="number"
-                                    step="0.01"
-                                    min="0"
-                                    value={formData.nextPrice}
-                                    onChange={(e) => handleInputChange('nextPrice', e.target.value)}
-                                />
-                            </div>
-                            <div className="space-y-2">
-                                <Label htmlFor="nextStackPrice">Prossimo Prezzo Stack (€)</Label>
-                                <Input
-                                    id="nextStackPrice"
-                                    type="number"
-                                    step="0.01"
-                                    min="0"
-                                    value={formData.nextStackPrice}
-                                    onChange={(e) => handleInputChange('nextStackPrice', e.target.value)}
-                                />
-                            </div>
-                        </div>
-
-                        {/* Date Validità */}
-                        <div className="grid grid-cols-2 gap-4">
-                            <div className="space-y-2">
-                                <Label htmlFor="currentPricingValidity">Validità Prezzo Corrente</Label>
-                                <Input
-                                    id="currentPricingValidity"
-                                    type="date"
-                                    value={formData.currentPricingValidity}
-                                    onChange={(e) => handleInputChange('currentPricingValidity', e.target.value)}
-                                />
-                            </div>
-                            <div className="space-y-2">
-                                <Label htmlFor="nextPricingValidity">Validità Prossimo Prezzo</Label>
-                                <Input
-                                    id="nextPricingValidity"
-                                    type="date"
-                                    value={formData.nextPricingValidity}
-                                    onChange={(e) => handleInputChange('nextPricingValidity', e.target.value)}
-                                />
-                            </div>
-                        </div>
-
-                        {/* Panel ID (opzionale) */}
-                        <div className="space-y-2">
-                            <Label htmlFor="panelId">Panel ID (opzionale)</Label>
-                            <Input
-                                id="panelId"
-                                value={formData.panelId}
-                                onChange={(e) => handleInputChange('panelId', e.target.value)}
-                                placeholder="ID del panel associato"
-                            />
-                        </div>
-
                         {/* Errore */}
                         {error && (
                             <div className="text-red-500 text-sm">{error}</div>
@@ -255,7 +249,7 @@ export function AddCigarDialog({ onSuccess }: AddCigarDialogProps) {
                         >
                             Annulla
                         </Button>
-                        <Button type="submit" disabled={isLoading}>
+                        <Button type="submit" disabled={isLoading || !formData.brandId}>
                             {isLoading ? (
                                 <>
                                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />

@@ -20,8 +20,8 @@ export function CigarCard({ sigaro, onViewPanel, onPanelAdded }: CigarCardProps)
                     <Cigarette className="text-amber-700 dark:text-amber-500" size={24} />
                 </div>
                 <div>
-                    <CardTitle className="text-lg">{sigaro.category}</CardTitle>
-                    <CardDescription>{sigaro.description}</CardDescription>
+                    <CardTitle className="text-lg">{sigaro.code}</CardTitle>
+                    <CardDescription>{sigaro.category}</CardDescription>
                 </div>
             </CardHeader>
             <CardContent>
@@ -41,6 +41,8 @@ export function CigarCard({ sigaro, onViewPanel, onPanelAdded }: CigarCardProps)
                     <AddPanelDialog
                         tobacconistId={sigaro.id}
                         tobacconistCode={sigaro.code}
+                        tobacconistName={sigaro.name}
+                        tobacconistBrandId={sigaro.brandId ?? ''}
                         onSuccess={onPanelAdded}
                     />
                 )}

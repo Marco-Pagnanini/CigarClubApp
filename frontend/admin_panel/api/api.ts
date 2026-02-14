@@ -12,6 +12,8 @@ const getToken = (): string | null => {
 export const setToken = (token: string): void => {
     if (typeof window !== 'undefined') {
         localStorage.setItem('jwt_token', token);
+        const secure = window.location.protocol === 'https:' ? '; Secure' : '';
+        document.cookie = `jwt_token=${encodeURIComponent(token)}; path=/; SameSite=Strict${secure}`;
     }
 };
 
@@ -19,6 +21,7 @@ export const setToken = (token: string): void => {
 export const removeToken = (): void => {
     if (typeof window !== 'undefined') {
         localStorage.removeItem('jwt_token');
+        document.cookie = 'jwt_token=; path=/; max-age=0; SameSite=Strict';
     }
 };
 
@@ -77,7 +80,7 @@ const addAuthInterceptor = (apiInstance: ReturnType<typeof axios.create>) => {
                 removeToken();
                 // Redirect al login se il token è scaduto
                 if (typeof window !== 'undefined') {
-                    //window.location.href = '/';
+                    window.location.href = '/';
                 }
             }
             return Promise.reject(error);

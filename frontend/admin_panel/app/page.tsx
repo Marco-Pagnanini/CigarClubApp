@@ -27,8 +27,6 @@ export default function Home() {
         })
             .then((response) => {
                 setEmail("");
-                console.log("Login successful:", response.data);
-                // Salva il JWT token
                 if (response.data.accessToken) {
                     setToken(response.data.accessToken);
                 }

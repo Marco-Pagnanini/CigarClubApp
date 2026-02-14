@@ -1,4 +1,5 @@
 export interface Tobacconist {
+name:string;
 category:string;
 code:string;
 currentPricingValidity:Date;
@@ -11,4 +12,5 @@ priceKg: number;
 stackPrice:number;
 stackType:string;
 panelId?: string;
+brandId?: string;
 }

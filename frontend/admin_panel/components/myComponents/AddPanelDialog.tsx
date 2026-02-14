@@ -8,22 +8,18 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Plus, Loader2, ImagePlus, X } from "lucide-react";
-import { panelApi, brandApi } from '@/api/api';
+import { panelApi } from '@/api/api';
 
 interface AddPanelDialogProps {
     tobacconistId: string;
     tobacconistCode?: string;
+    tobacconistName: string;
+    tobacconistBrandId: string;
     onSuccess?: () => void;
-}
-
-interface Brand {
-    id: string;
-    name: string;
 }
 
 interface PanelForm {
     name: string;
-    brandId: string;
     description: string;
     origin: string;
     strength: number | null;
@@ -44,7 +40,6 @@ interface PanelForm {
 
 const initialFormState: PanelForm = {
     name: '',
-    brandId: '',
     description: '',
     origin: '',
     strength: null,
@@ -63,40 +58,21 @@ const initialFormState: PanelForm = {
     type: null,
 };
 
-export function AddPanelDialog({ tobacconistId, tobacconistCode, onSuccess }: AddPanelDialogProps) {
+export function AddPanelDialog({ tobacconistId, tobacconistCode, tobacconistName, tobacconistBrandId, onSuccess }: AddPanelDialogProps) {
     const [isOpen, setIsOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
-    const [formData, setFormData] = useState<PanelForm>(initialFormState);
-
-    // Stato per i brand
-    const [brands, setBrands] = useState<Brand[]>([]);
-    const [isBrandsLoading, setIsBrandsLoading] = useState(false);
+    const [formData, setFormData] = useState<PanelForm>({ ...initialFormState, name: tobacconistName });
 
     // Stato per l'immagine
     const [imageFile, setImageFile] = useState<File | null>(null);
     const [imagePreview, setImagePreview] = useState<string | null>(null);
 
-    // Carica i brand quando si apre il dialog; resetta immagine alla chiusura
     useEffect(() => {
-        if (isOpen) {
-            fetchBrands();
-        } else {
+        if (!isOpen) {
             handleRemoveImage();
         }
     }, [isOpen]);
-
-    const fetchBrands = async () => {
-        setIsBrandsLoading(true);
-        try {
-            const response = await brandApi.get('/');
-            setBrands(response.data);
-        } catch (err) {
-            console.error('Errore nel caricamento dei brand:', err);
-        } finally {
-            setIsBrandsLoading(false);
-        }
-    };
 
     const handleInputChange = (field: keyof PanelForm, value: string | number | null) => {
         setFormData(prev => ({ ...prev, [field]: value }));
@@ -123,7 +99,7 @@ export function AddPanelDialog({ tobacconistId, tobacconistCode, onSuccess }: Ad
         try {
             const payload = {
                 name: formData.name,
-                brandId: formData.brandId,
+                brandId: tobacconistBrandId,
                 tobacconistId: tobacconistId || null,
                 tobacconistCode: tobacconistCode || null,
                 description: formData.description || null,
@@ -144,7 +120,6 @@ export function AddPanelDialog({ tobacconistId, tobacconistCode, onSuccess }: Ad
                 type: formData.type,
             };
 
-            console.log('Payload inviato:', JSON.stringify(payload, null, 2));
             const response = await panelApi.post('/', payload);
             const createdPanel = response.data.data;
 
@@ -184,38 +159,16 @@ export function AddPanelDialog({ tobacconistId, tobacconistCode, onSuccess }: Ad
 
                 <form onSubmit={handleSubmit}>
                     <div className="grid gap-4 py-4">
-                        {/* Nome e Brand */}
-                        <div className="grid grid-cols-2 gap-4">
-                            <div className="space-y-2">
-                                <Label htmlFor="name">Nome *</Label>
-                                <Input
-                                    id="name"
-                                    value={formData.name}
-                                    onChange={(e) => handleInputChange('name', e.target.value)}
-                                    placeholder="Nome del sigaro"
-                                    required
-                                />
-                            </div>
-                            <div className="space-y-2">
-                                <Label htmlFor="brandId">Brand *</Label>
-                                <Select
-                                    value={formData.brandId}
-                                    onValueChange={(value) => handleInputChange('brandId', value)}
-                                    disabled={isBrandsLoading}
-                                    required
-                                >
-                                    <SelectTrigger>
-                                        <SelectValue placeholder={isBrandsLoading ? "Caricamento..." : "Seleziona brand"} />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        {brands.map((brand) => (
-                                            <SelectItem key={brand.id} value={brand.id}>
-                                                {brand.name}
-                                            </SelectItem>
-                                        ))}
-                                    </SelectContent>
-                                </Select>
-                            </div>
+                        {/* Nome */}
+                        <div className="space-y-2">
+                            <Label htmlFor="panel-name">Nome *</Label>
+                            <Input
+                                id="panel-name"
+                                value={formData.name}
+                                onChange={(e) => handleInputChange('name', e.target.value)}
+                                placeholder="es. Cohiba Robustos"
+                                required
+                            />
                         </div>
 
                         {/* Descrizione */}
@@ -470,7 +423,7 @@ export function AddPanelDialog({ tobacconistId, tobacconistCode, onSuccess }: Ad
                         >
                             Annulla
                         </Button>
-                        <Button type="submit" disabled={isLoading || !formData.brandId}>
+                        <Button type="submit" disabled={isLoading}>
                             {isLoading ? (
                                 <>
                                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
