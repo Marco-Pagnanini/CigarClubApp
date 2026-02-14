@@ -106,7 +106,6 @@ export default function PostDetail() {
                 </View>
 
                 <View style={styles.metaContainer}>
-                    <Text style={styles.metaText}>ID: {post.id}</Text>
                     <Text style={styles.metaText}>❤️ {post.likesCount || 0}</Text>
                 </View>
 

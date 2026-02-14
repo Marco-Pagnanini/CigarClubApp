@@ -27,11 +27,18 @@ const _layout = () => {
                 options={{ title: 'Pannello' }}
             />
             <Tabs.Screen
+                name="utils"
+                options={{
+                    title: 'Utilità',
+                }}
+            />
+            <Tabs.Screen
                 name="profile"
                 options={{
                     title: 'Profilo',
                 }}
             />
+
         </Tabs>
     )
 }

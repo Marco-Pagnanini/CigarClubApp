@@ -83,11 +83,16 @@ const CigarDetail = () => {
             >
                 {/* Hero Image con Gradient Overlay */}
                 <View style={styles.heroContainer}>
-                    <Image
-                        source={{ uri: panel?.imageUrl || '' }}
+                    {panel === null ? <Image
+                        source={require('@/assets/images/cigar_login_bg.png')}
                         style={styles.heroImage}
                         resizeMode="cover"
-                    />
+                    /> : <Image
+                        source={{ uri: panel?.imageUrl }}
+                        style={styles.heroImage}
+                        resizeMode="cover"
+                    />}
+
                     <LinearGradient
                         colors={['transparent', Colors.background]}
                         style={styles.gradient}

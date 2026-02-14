@@ -96,9 +96,6 @@ const Profile = () => {
             </View>
 
             <View style={styles.actionButtonsContainer}>
-                <TouchableOpacity style={styles.editButton}>
-                    <Text style={styles.editButtonText}>Modifica profilo</Text>
-                </TouchableOpacity>
                 <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
                     <Text style={styles.logoutButtonText}>Esci</Text>
                 </TouchableOpacity>

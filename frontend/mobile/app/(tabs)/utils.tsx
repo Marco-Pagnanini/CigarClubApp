@@ -61,7 +61,7 @@ const Utils = () => {
                             <>
                                 <View style={styles.measurements}>
                                     <Text style={styles.ringBigText}>{ringSize}</Text>
-                                    <Text style={styles.ringLabel}>RG</Text>
+                                    <Text style={styles.ringLabel}>RING</Text>
                                 </View>
                                 <View style={styles.conversions}>
                                     <Text style={styles.conversionText}>{diameterInMM.toFixed(1)} mm</Text>
