@@ -1,0 +1,208 @@
+services:
+
+  # ─── TRAEFIK ─────────────────────────────────────────────────────────────────
+  traefik:
+    image: traefik:v3.0
+    container_name: cigarclub-traefik
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./traefik/acme.json:/acme.json
+    command:
+      - --providers.docker=true
+      - --providers.docker.exposedbydefault=false
+      - --entrypoints.web.address=:80
+      - --entrypoints.websecure.address=:443
+      - --entrypoints.web.http.redirections.entrypoint.to=websecure
+      - --entrypoints.web.http.redirections.entrypoint.scheme=https
+      - --certificatesresolvers.letsencrypt.acme.email=${ACME_EMAIL}
+      - --certificatesresolvers.letsencrypt.acme.storage=/acme.json
+      - --certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=web
+    networks:
+      - cigarclub-net
+
+  # ─── CATALOG ─────────────────────────────────────────────────────────────────
+  catalog-db:
+    image: postgres:16-alpine
+    container_name: cigarclub-catalog-db
+    restart: always
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: catalog_db
+    volumes:
+      - catalog-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${DB_USER} -d catalog_db" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - cigarclub-net
+
+  catalog-api:
+    build:
+      context: ./Services/Catalog
+      dockerfile: Dockerfile
+    container_name: cigarclub-catalog-api
+    restart: always
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - S3__ServiceUrl=http://minio:9000
+      - S3__AccessKey=${MINIO_ROOT_USER}
+      - S3__SecretKey=${MINIO_ROOT_PASSWORD}
+      - S3__BucketName=${S3_BUCKET_NAME}
+      - S3__PublicUrl=https://media.${DOMAIN}/${S3_BUCKET_NAME}
+      - S3__ForcePathStyle=true
+    depends_on:
+      catalog-db:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+    networks:
+      - cigarclub-net
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.catalog.rule=Host(`catalog.${DOMAIN}`)"
+      - "traefik.http.routers.catalog.entrypoints=websecure"
+      - "traefik.http.routers.catalog.tls.certresolver=letsencrypt"
+      - "traefik.http.services.catalog.loadbalancer.server.port=8080"
+
+  # ─── USERS ───────────────────────────────────────────────────────────────────
+  users-db:
+    image: postgres:16-alpine
+    container_name: cigarclub-users-db
+    restart: always
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: users_db
+    volumes:
+      - users-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${DB_USER} -d users_db" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - cigarclub-net
+
+  users-api:
+    build:
+      context: ./Services/Users
+      dockerfile: Dockerfile
+    image: users-api:latest
+    container_name: cigarclub-users-api
+    restart: always
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+    depends_on:
+      users-db:
+        condition: service_healthy
+    networks:
+      - cigarclub-net
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.users.rule=Host(`users.${DOMAIN}`)"
+      - "traefik.http.routers.users.entrypoints=websecure"
+      - "traefik.http.routers.users.tls.certresolver=letsencrypt"
+      - "traefik.http.services.users.loadbalancer.server.port=8080"
+
+  # ─── POSTS ───────────────────────────────────────────────────────────────────
+  posts-db:
+    image: postgres:16-alpine
+    container_name: cigarclub-posts-db
+    restart: always
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: posts_db
+    volumes:
+      - posts-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${DB_USER} -d posts_db" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - cigarclub-net
+
+  posts-api:
+    build:
+      context: ./Services/Posts
+      dockerfile: Dockerfile
+    container_name: cigarclub-posts-api
+    restart: always
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+    depends_on:
+      posts-db:
+        condition: service_healthy
+      moderation-api:
+        condition: service_healthy
+    networks:
+      - cigarclub-net
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.posts.rule=Host(`posts.${DOMAIN}`)"
+      - "traefik.http.routers.posts.entrypoints=websecure"
+      - "traefik.http.routers.posts.tls.certresolver=letsencrypt"
+      - "traefik.http.services.posts.loadbalancer.server.port=8080"
+
+  # ─── MODERATION ──────────────────────────────────────────────────────────────
+  moderation-api:
+    build:
+      context: ./Services/Moderation
+      dockerfile: Dockerfile
+    container_name: cigarclub-moderation-api
+    restart: always
+    healthcheck:
+      test: [ "CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - cigarclub-net
+    # ─── MINIO ───────────────────────────────────────────────────────────────────
+  minio:
+    image: minio/minio:latest
+    container_name: cigarclub-minio
+    restart: always
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+    volumes:
+      - minio-data:/data
+    healthcheck:
+      test: [ "CMD", "mc", "ready", "local" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - cigarclub-net
+    labels:
+      # API S3
+      - "traefik.enable=true"
+      - "traefik.http.routers.minio.rule=Host(`media.${DOMAIN}`)"
+      - "traefik.http.routers.minio.entrypoints=websecure"
+      - "traefik.http.routers.minio.tls.certresolver=letsencrypt"
+      - "traefik.http.services.minio.loadbalancer.server.port=9000"
+      # Console admin
+      - "traefik.http.routers.minio-console.rule=Host(`minio-console.${DOMAIN}`)"
+      - "traefik.http.routers.minio-console.entrypoints=websecure"
+      - "traefik.http.routers.minio-console.tls.certresolver=letsencrypt"
+      - "traefik.http.services.minio-console.loadbalancer.server.port=9001"
+
+networks:
+  cigarclub-net:
+    driver: bridge
+
+volumes:
+  catalog-db-data:
+  users-db-data:
+  posts-db-data:
+  minio-data:

@@ -1,3 +1,4 @@
 fastapi==0.115.*
 uvicorn[standard]==0.34.*
+nh3
 pydantic==2.*
