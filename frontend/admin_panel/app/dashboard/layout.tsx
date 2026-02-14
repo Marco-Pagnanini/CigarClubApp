@@ -12,7 +12,6 @@ function Sidebar() {
 
             <div className="flex flex-col justify-between h-[calc(100vh-4rem)] p-4">
                 <nav className="flex flex-col gap-2">
-                    {/* NOTA: I link ora puntano a /dashboard/... */}
                     <Link href="/dashboard">
                         <Button variant="ghost" className="w-full justify-start gap-2">
                             <LayoutDashboard size={18} /> Home
