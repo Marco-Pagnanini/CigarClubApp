@@ -1,0 +1,25 @@
+name: Deploy Backend to Production
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'backend/**'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: 89.167.41.90
+          username: root
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd ~/cigarclub/repo/backend
+            git pull origin main
+            docker compose down
+            docker compose up -d --build
