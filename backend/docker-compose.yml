@@ -8,9 +8,9 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: catalog_db
     ports:
-      - "5432:5432" # accessibile da localhost:5432
+      - "5432:5432"
     volumes:
-      - catalog-db-data:/var/lib/postgresql/data # dati persistenti
+      - catalog-db-data:/var/lib/postgresql/data
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U ${DB_USER} -d catalog_db" ]
       interval: 5s
@@ -20,14 +20,13 @@ services:
   # --- Servizio: Catalog API ---
   catalog-api:
     build:
-      context: ./Services/Catalog # root del build (dove sta il Dockerfile)
+      context: ./Services/Catalog
       dockerfile: Dockerfile
     container_name: cigarclub-catalog-api
     ports:
-      - "8080:8080" # accessibile da localhost:8080
+      - "8080:8080"
     environment:
-      - ASPNETCORE_ENVIRONMENT=Production # attiva appsettings.Production.json
-      # S3/MinIO: override per Docker (il container raggiunge MinIO via hostname "minio")
+      - ASPNETCORE_ENVIRONMENT=Production
       - S3__ServiceUrl=http://minio:9000
       - S3__AccessKey=${MINIO_ROOT_USER}
       - S3__SecretKey=${MINIO_ROOT_PASSWORD}
@@ -36,9 +35,9 @@ services:
       - S3__ForcePathStyle=true
     depends_on:
       catalog-db:
-        condition: service_healthy # aspetta che il db sia pronto (healthcheck)
+        condition: service_healthy
       minio:
-        condition: service_healthy # aspetta che MinIO sia pronto
+        condition: service_healthy
 
   # --- Database: Postgres per il servizio Users ---
   users-db:
@@ -49,7 +48,7 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: users_db
     ports:
-      - "5433:5432" # porta host diversa da catalog-db (5433)
+      - "5433:5432"
     volumes:
       - users-db-data:/var/lib/postgresql/data
     healthcheck:
@@ -61,17 +60,17 @@ services:
   # --- Servizio: Users API ---
   users-api:
     build:
-      context: ./Services/Users # root del build (dove sta il Dockerfile)
+      context: ./Services/Users
       dockerfile: Dockerfile
     image: users-api:latest
     container_name: cigarclub-users-api
     ports:
-      - "8081:8080" # host:8081 → container:8080 (.NET default)
+      - "8081:8080"
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development # attiva appsettings.Production.json
+      - ASPNETCORE_ENVIRONMENT=Development
     depends_on:
       users-db:
-        condition: service_healthy # aspetta che il db sia pronto (healthcheck)
+        condition: service_healthy
 
   # --- Database: Postgres per il servizio Posts ---
   posts-db:
@@ -82,7 +81,7 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: posts_db
     ports:
-      - "5434:5432" # porta host diversa (5434)
+      - "5434:5432"
     volumes:
       - posts-db-data:/var/lib/postgresql/data
     healthcheck:
@@ -98,7 +97,7 @@ services:
       dockerfile: Dockerfile
     container_name: cigarclub-posts-api
     ports:
-      - "8082:8080" # host:8082 → container:8080
+      - "8082:8080"
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
     depends_on:
@@ -114,7 +113,7 @@ services:
       dockerfile: Dockerfile
     container_name: cigarclub-moderation-api
     ports:
-      - "8083:8000" # host:8083 → container:8000 (uvicorn)
+      - "8083:8000"
     healthcheck:
       test: [ "CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')" ]
       interval: 5s
@@ -130,8 +129,8 @@ services:
       MINIO_ROOT_USER: ${MINIO_ROOT_USER}
       MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
     ports:
-      - "9000:9000" # API S3
-      - "9001:9001" # Console Web UI
+      - "9000:9000"
+      - "9001:9001"
     volumes:
       - minio-data:/data
     healthcheck:
@@ -141,7 +140,7 @@ services:
       retries: 5
 
 volumes:
-  catalog-db-data: # volume nominato per persistenza
-  users-db-data: # volume nominato per persistenza Users
-  posts-db-data: # volume nominato per persistenza Posts
-  minio-data: # volume nominato per persistenza MinIO
+  catalog-db-data:
+  users-db-data:
+  posts-db-data:
+  minio-data:
