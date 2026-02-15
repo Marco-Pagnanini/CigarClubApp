@@ -131,7 +131,7 @@ export default function RegisterScreen() {
                         <Text style={styles.loginButtonText}>REGISTER</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.forgotPassword} onPress={() => { router.back() }}>
+                    <TouchableOpacity style={styles.forgotPassword} onPress={() => { router.replace('/') }}>
                         <Text style={styles.forgotPasswordText}>Hai già un account? Accedi</Text>
                     </TouchableOpacity>
 

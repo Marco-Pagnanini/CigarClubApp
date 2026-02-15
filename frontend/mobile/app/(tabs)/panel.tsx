@@ -1,13 +1,12 @@
 import { panelApi } from '@/api/api'
 import { PanelCard } from '@/components/PanelCard'
-import { Colors, Shadows } from '@/constants/Colors'
+import { Colors, Fonts, Shadows } from '@/constants/Colors'
 import { Panel } from '@/types/PanelData'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { useFocusEffect } from 'expo-router'
 import React, { useCallback, useRef, useState } from 'react'
-import { ActivityIndicator, FlatList, RefreshControl, SafeAreaView, StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, FlatList, Platform, RefreshControl, SafeAreaView, StyleSheet, Text, View } from 'react-native'
 
-const PAGE_SIZE = 10
 
 const PanelPage = () => {
     const [panels, setPanels] = useState<Panel[]>([])
@@ -39,15 +38,7 @@ const PanelPage = () => {
                 setHasMore(true)
             }
 
-            const pageToFetch = isReset ? 1 : pageNumber
-
-            const response = await panelApi.get('/', {
-                /* params: {
-                     page: pageToFetch,
-                     pageSize: PAGE_SIZE
-                 }*/
-            })
-
+            const response = await panelApi.get('/')
             const newPanels = response.data
 
             if (!newPanels || newPanels.length === 0) {
@@ -66,10 +57,6 @@ const PanelPage = () => {
                     return [...prev, ...uniqueNew]
                 })
                 currentPage.current = pageNumber
-            }
-
-            if (newPanels.length < PAGE_SIZE) {
-                setHasMore(false)
             }
 
         } catch (error) {
@@ -177,12 +164,14 @@ const styles = StyleSheet.create({
         fontSize: 32,
         fontWeight: 'bold',
         color: Colors.primary,
-        fontFamily: 'serif',
+        letterSpacing: 2,
+        fontFamily: Platform.OS === 'ios' ? 'Didot' : Fonts.title.fontFamily,
     },
     statsText: {
         fontSize: 14,
         color: Colors.textSecondary,
         fontWeight: '500',
+        fontFamily: Platform.OS === 'ios' ? 'Didot' : Fonts.title.fontFamily,
     },
     listContent: {
         paddingBottom: 100,
@@ -228,6 +217,7 @@ const styles = StyleSheet.create({
         color: Colors.primary,
         fontSize: 12,
         fontWeight: 'bold',
+        fontFamily: Platform.OS === 'ios' ? 'Didot' : Fonts.title.fontFamily,
     },
     infoBody: {
         padding: 16,
@@ -241,14 +231,14 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         letterSpacing: 1,
         marginBottom: 4,
-        fontFamily: 'serif',
+        fontFamily: Platform.OS === 'ios' ? 'Didot' : Fonts.title.fontFamily,
     },
     cigarName: {
         color: Colors.text,
         fontSize: 20,
         fontWeight: 'bold',
-        fontFamily: 'serif',
         lineHeight: 24,
+        fontFamily: Platform.OS === 'ios' ? 'Didot' : Fonts.title.fontFamily,
     },
     divider: {
         height: 1,
@@ -271,11 +261,13 @@ const styles = StyleSheet.create({
         letterSpacing: 0.5,
         marginBottom: 4,
         fontWeight: '600',
+        fontFamily: Platform.OS === 'ios' ? 'Didot' : Fonts.title.fontFamily,
     },
     valueSmall: {
         color: Colors.text,
         fontSize: 12,
         fontWeight: '500',
+        fontFamily: Platform.OS === 'ios' ? 'Didot' : Fonts.title.fontFamily,
     },
     footerSection: {
         flexDirection: 'row',
@@ -307,12 +299,13 @@ const styles = StyleSheet.create({
         fontSize: 9,
         textTransform: 'uppercase',
         marginBottom: 0,
+        fontFamily: Platform.OS === 'ios' ? 'Didot' : Fonts.title.fontFamily,
     },
     scoreValue: {
         color: Colors.primary,
         fontSize: 28,
         fontWeight: 'bold',
-        fontFamily: 'serif',
+        fontFamily: Platform.OS === 'ios' ? 'Didot' : Fonts.title.fontFamily,
     },
     centerLoader: {
         marginTop: 50
@@ -333,5 +326,6 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: '600',
         marginTop: 10,
+        fontFamily: Platform.OS === 'ios' ? 'Didot' : Fonts.title.fontFamily,
     },
 })

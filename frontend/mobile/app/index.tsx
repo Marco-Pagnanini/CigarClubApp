@@ -145,7 +145,7 @@ export default function LoginScreen() {
                         <Text style={styles.guestButtonText}>Accedi come Guest</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.forgotPassword} onPress={() => { router.push("/register") }}>
+                    <TouchableOpacity style={styles.forgotPassword} onPress={() => { router.replace("/register") }}>
                         <Text style={styles.forgotPasswordText}>Oppure Registrati</Text>
                     </TouchableOpacity>
 

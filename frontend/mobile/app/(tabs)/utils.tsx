@@ -1,23 +1,17 @@
-import { Colors } from '@/constants/Colors';
+import { Colors, Fonts } from '@/constants/Colors';
 import Slider from '@react-native-community/slider';
 import React, { useState } from 'react';
-import { SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Platform, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 const Utils = () => {
     const [ringSize, setRingSize] = useState(50);
-
     const [calibrationScale, setCalibrationScale] = useState(1.0);
     const [isCalibrating, setIsCalibrating] = useState(false);
 
-    // Calcoli Matematici
     const diameterInInches = (ringSize / 64);
     const diameterInMM = (diameterInInches * 25.4);
-
-    // Moltiplichiamo per il fattore di calibrazione dell'utente
     const basePixelSize = (diameterInMM / 25.4) * 160;
     const calibratedPixelSize = basePixelSize * calibrationScale;
-
-    // Riferimento per calibrazione: 1 Euro = 23.25 mm
     const oneEuroMM = 23.25;
     const oneEuroPixels = (oneEuroMM / 25.4) * 160 * calibrationScale;
 
@@ -28,8 +22,6 @@ const Utils = () => {
             </View>
 
             <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: 40 }}>
-
-                {/* CARD PRINCIPALE */}
                 <View style={styles.card}>
                     <View style={styles.cardHeader}>
                         <Text style={styles.cardTitle}>
@@ -44,7 +36,6 @@ const Utils = () => {
 
                     <View style={styles.ringContainer}>
                         {isCalibrating ? (
-                            // VISTA CALIBRAZIONE
                             <>
                                 <View style={[styles.visualCircle, {
                                     width: oneEuroPixels,
@@ -68,7 +59,6 @@ const Utils = () => {
                                     <Text style={styles.divider}>|</Text>
                                     <Text style={styles.conversionText}>{diameterInInches.toFixed(2)}"</Text>
                                 </View>
-
                                 <View style={[styles.visualCircle, {
                                     width: calibratedPixelSize,
                                     height: calibratedPixelSize,
@@ -79,10 +69,8 @@ const Utils = () => {
                         )}
                     </View>
 
-                    {/* SLIDER */}
                     <View style={styles.sliderContainer}>
                         {isCalibrating ? (
-                            // SLIDER CALIBRAZIONE
                             <>
                                 <Text style={styles.sliderHeader}>Regola zoom schermo</Text>
                                 <Slider
@@ -118,13 +106,11 @@ const Utils = () => {
                     </View>
                 </View>
 
-                {/* INFO BOX */}
                 <View style={styles.infoCard}>
                     <Text style={styles.infoText}>
                         💡 I display dei telefoni variano. Usa "Calibra" la prima volta per garantire la massima precisione.
                     </Text>
                 </View>
-
             </ScrollView>
         </SafeAreaView>
     )
@@ -147,6 +133,8 @@ const styles = StyleSheet.create({
         fontSize: 32,
         fontWeight: 'bold',
         color: Colors.primary,
+        letterSpacing: 2,
+        fontFamily: Platform.OS === 'ios' ? 'Didot' : Fonts.title.fontFamily,
     },
     card: {
         backgroundColor: Colors.surface,
@@ -170,11 +158,13 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: '700',
         color: Colors.primary,
+        fontFamily: Platform.OS === 'ios' ? 'Didot' : Fonts.title.fontFamily,
     },
     calibButtonText: {
         color: 'orange',
         fontWeight: 'bold',
-        fontSize: 16
+        fontSize: 16,
+        fontFamily: Platform.OS === 'ios' ? 'Didot' : Fonts.title.fontFamily,
     },
     ringContainer: {
         alignItems: 'center',
@@ -192,6 +182,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: Colors.primary,
         lineHeight: 50,
+        fontFamily: Platform.OS === 'ios' ? 'Didot' : Fonts.title.fontFamily,
     },
     ringLabel: {
         fontSize: 18,
@@ -199,6 +190,7 @@ const styles = StyleSheet.create({
         color: 'gray',
         marginBottom: 8,
         marginLeft: 4,
+        fontFamily: Platform.OS === 'ios' ? 'Didot' : Fonts.title.fontFamily,
     },
     conversions: {
         flexDirection: 'row',
@@ -213,10 +205,12 @@ const styles = StyleSheet.create({
         fontSize: 14,
         fontWeight: '500',
         color: '#333',
+        fontFamily: Platform.OS === 'ios' ? 'Didot' : Fonts.title.fontFamily,
     },
     divider: {
         marginHorizontal: 8,
         color: '#ccc',
+        fontFamily: Platform.OS === 'ios' ? 'Didot' : Fonts.title.fontFamily,
     },
     visualCircle: {
         borderWidth: 2,
@@ -229,7 +223,8 @@ const styles = StyleSheet.create({
         fontSize: 14,
         color: '#666',
         textAlign: 'center',
-        paddingHorizontal: 10
+        paddingHorizontal: 10,
+        fontFamily: Platform.OS === 'ios' ? 'Didot' : Fonts.title.fontFamily,
     },
     sliderContainer: {
         marginTop: 20,
@@ -246,14 +241,16 @@ const styles = StyleSheet.create({
     sliderLabelText: {
         fontSize: 12,
         color: '#888',
-        fontWeight: '600'
+        fontWeight: '600',
+        fontFamily: Platform.OS === 'ios' ? 'Didot' : Fonts.title.fontFamily,
     },
     sliderHeader: {
         fontSize: 14,
         fontWeight: 'bold',
         color: '#666',
         marginBottom: 10,
-        textAlign: 'center'
+        textAlign: 'center',
+        fontFamily: Platform.OS === 'ios' ? 'Didot' : Fonts.title.fontFamily,
     },
     infoCard: {
         marginHorizontal: 20,
@@ -264,6 +261,7 @@ const styles = StyleSheet.create({
     infoText: {
         color: '#d48806',
         fontSize: 13,
-        textAlign: 'center'
+        textAlign: 'center',
+        fontFamily: Platform.OS === 'ios' ? 'Didot' : Fonts.title.fontFamily,
     }
 })

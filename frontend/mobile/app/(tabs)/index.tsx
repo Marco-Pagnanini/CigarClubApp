@@ -1,14 +1,12 @@
 import { tobacconistApi } from '@/api/api'
 import CigarCard from '@/components/CigarCard'
-import { Colors, Shadows } from '@/constants/Colors'
+import { Colors, Fonts, Shadows } from '@/constants/Colors'
 import { Cigar } from '@/types/CigarData'
 import { Ionicons } from '@expo/vector-icons'
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs'
 import { router } from 'expo-router'
 import React, { useCallback, useEffect, useState } from 'react'
-import { ActivityIndicator, FlatList, RefreshControl, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-
-
+import { ActivityIndicator, FlatList, Platform, RefreshControl, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 
 const Index = () => {
     const tabBarHeight = useBottomTabBarHeight()
@@ -16,7 +14,6 @@ const Index = () => {
     const [filteredCigars, setFilteredCigars] = useState<Cigar[]>([])
     const [loading, setLoading] = useState(true)
     const [searchQuery, setSearchQuery] = useState('')
-
 
     useEffect(() => {
         getAllCigars()
@@ -79,7 +76,6 @@ const Index = () => {
                     Prova a cercare con un altro codice
                 </Text>
             )}
-
         </View>
     ), [searchQuery])
 
@@ -99,11 +95,8 @@ const Index = () => {
 
     return (
         <SafeAreaView style={styles.container}>
-            {/* Header fisso fuori dalla FlatList */}
             <View style={styles.headerContainer}>
                 <Text style={styles.title}>Catalogo Sigari</Text>
-
-                {/* Search Bar */}
                 <View style={styles.searchContainer}>
                     <Text style={styles.searchIcon}>🔍</Text>
                     <TextInput
@@ -116,24 +109,12 @@ const Index = () => {
                         autoCorrect={false}
                     />
                     {searchQuery.length > 0 && (
-                        <Text
-                            style={styles.clearButton}
-                            onPress={() => setSearchQuery('')}
-                        >
-                            ✕
-                        </Text>
-
+                        <Text style={styles.clearButton} onPress={() => setSearchQuery('')}>✕</Text>
                     )}
-                    <TouchableOpacity
-                        style={styles.qrButton}
-                        onPress={handleScanPress}
-                        activeOpacity={0.7}
-                    >
+                    <TouchableOpacity style={styles.qrButton} onPress={handleScanPress} activeOpacity={0.7}>
                         <Ionicons name="qr-code-outline" size={24} color={Colors.primary} />
                     </TouchableOpacity>
                 </View>
-
-                {/* Results Count */}
                 <View style={styles.statsContainer}>
                     <Text style={styles.statsText}>
                         {filteredCigars.length} {filteredCigars.length === 1 ? 'sigaro' : 'sigari'}
@@ -150,17 +131,11 @@ const Index = () => {
                         tintColor={Colors.primary}
                         colors={[Colors.primary]}
                     />
-
-
                 }
                 data={filteredCigars}
                 renderItem={renderItem}
                 keyExtractor={(item) => item.id}
-                contentContainerStyle={[
-                    styles.listContent,
-                    { paddingBottom: tabBarHeight + 20 }
-                ]}
-
+                contentContainerStyle={[styles.listContent, { paddingBottom: tabBarHeight + 20 }]}
                 showsVerticalScrollIndicator={false}
                 ListEmptyComponent={renderEmptyComponent}
                 keyboardShouldPersistTaps="handled"
@@ -176,8 +151,6 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.background,
         flex: 1,
     },
-
-    // Header Section
     headerContainer: {
         backgroundColor: Colors.background,
         paddingHorizontal: 20,
@@ -189,9 +162,9 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: Colors.primary,
         marginBottom: 20,
+        letterSpacing: 2,
+        fontFamily: Platform.OS === 'ios' ? 'Didot' : Fonts.title.fontFamily,
     },
-
-    // Search Bar
     searchContainer: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -207,19 +180,21 @@ const styles = StyleSheet.create({
     searchIcon: {
         fontSize: 18,
         marginRight: 12,
+        fontFamily: Platform.OS === 'ios' ? 'Didot' : Fonts.title.fontFamily,
     },
     searchInput: {
         flex: 1,
         fontSize: 16,
         color: Colors.text,
         padding: 0,
+        fontFamily: Platform.OS === 'ios' ? 'Didot' : Fonts.title.fontFamily,
     },
     clearButton: {
         fontSize: 18,
         color: Colors.textMuted,
         paddingLeft: 12,
+        fontFamily: Platform.OS === 'ios' ? 'Didot' : Fonts.title.fontFamily,
     },
-    // QR Button
     qrButton: {
         width: 48,
         height: 48,
@@ -228,11 +203,9 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderWidth: 1,
-        borderColor: Colors.border, // O Colors.primary se vuoi evidenziarlo
+        borderColor: Colors.border,
         ...Shadows.small,
     },
-
-    // Stats
     statsContainer: {
         paddingVertical: 8,
     },
@@ -240,14 +213,11 @@ const styles = StyleSheet.create({
         fontSize: 14,
         color: Colors.textSecondary,
         fontWeight: '500',
+        fontFamily: Platform.OS === 'ios' ? 'Didot' : Fonts.title.fontFamily,
     },
-
-    // List
     listContent: {
         paddingBottom: 20,
     },
-
-    // Loading
     loadingContainer: {
         flex: 1,
         justifyContent: 'center',
@@ -257,9 +227,8 @@ const styles = StyleSheet.create({
     loadingText: {
         color: Colors.textSecondary,
         fontSize: 16,
+        fontFamily: Platform.OS === 'ios' ? 'Didot' : Fonts.title.fontFamily,
     },
-
-    // Empty State
     emptyContainer: {
         flex: 1,
         justifyContent: 'center',
@@ -277,10 +246,12 @@ const styles = StyleSheet.create({
         fontWeight: '600',
         textAlign: 'center',
         marginBottom: 8,
+        fontFamily: Platform.OS === 'ios' ? 'Didot' : Fonts.title.fontFamily,
     },
     emptySubtext: {
         color: Colors.textSecondary,
         fontSize: 14,
         textAlign: 'center',
+        fontFamily: Platform.OS === 'ios' ? 'Didot' : Fonts.title.fontFamily,
     },
 })

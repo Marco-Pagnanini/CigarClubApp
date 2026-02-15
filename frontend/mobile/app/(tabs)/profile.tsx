@@ -1,5 +1,5 @@
 import { postsApi, userApi } from '@/api/api'
-import { Colors } from '@/constants/Colors'
+import { Colors, Fonts } from '@/constants/Colors'
 import { useAuth } from '@/context/AuthContext'
 import { Post } from '@/types/PostData'
 import { UserProfile } from '@/types/Profile'
@@ -10,6 +10,7 @@ import {
     FlatList,
     Image,
     ListRenderItem,
+    Platform,
     SafeAreaView,
     StyleSheet,
     Text,
@@ -109,14 +110,9 @@ const Profile = () => {
             onPress={() => router.push(`/post/${item.id}`)}
         >
             <View style={styles.textPostContent}>
-                <Text
-                    style={styles.postTitle}
-                    numberOfLines={3}
-                    ellipsizeMode="tail"
-                >
+                <Text style={styles.postTitle} numberOfLines={3} ellipsizeMode="tail">
                     {item.title || item.content || "Nuovo Post"}
                 </Text>
-
                 <View style={styles.postMeta}>
                     <Text style={styles.metaText}>❤️ {item.likesCount || 0}</Text>
                 </View>
@@ -189,6 +185,7 @@ const styles = StyleSheet.create({
         color: 'white',
         fontWeight: 'bold',
         fontSize: 14,
+        fontFamily: Platform.OS === 'ios' ? 'Didot' : Fonts.title.fontFamily,
     },
     statsContainer: {
         flexDirection: 'row',
@@ -203,10 +200,12 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: 'bold',
         color: Colors.text,
+        fontFamily: Platform.OS === 'ios' ? 'Didot' : Fonts.title.fontFamily,
     },
     statLabel: {
         fontSize: 13,
-        color: Colors.textSecondary || '#666',
+        color: Colors.textSecondary,
+        fontFamily: Platform.OS === 'ios' ? 'Didot' : Fonts.title.fontFamily,
     },
     bioContainer: {
         marginBottom: 16,
@@ -215,16 +214,19 @@ const styles = StyleSheet.create({
         fontSize: 15,
         fontWeight: 'bold',
         color: Colors.text,
+        fontFamily: Platform.OS === 'ios' ? 'Didot' : Fonts.title.fontFamily,
     },
     userRole: {
         fontSize: 13,
-        color: Colors.textSecondary || '#666',
+        color: Colors.textSecondary,
         marginVertical: 2,
+        fontFamily: Platform.OS === 'ios' ? 'Didot' : Fonts.title.fontFamily,
     },
     userBio: {
         fontSize: 14,
         color: Colors.text,
         lineHeight: 18,
+        fontFamily: Platform.OS === 'ios' ? 'Didot' : Fonts.title.fontFamily,
     },
     actionButtonsContainer: {
         flexDirection: 'row',
@@ -241,6 +243,7 @@ const styles = StyleSheet.create({
         fontWeight: '600',
         fontSize: 14,
         color: '#000',
+        fontFamily: Platform.OS === 'ios' ? 'Didot' : Fonts.title.fontFamily,
     },
     logoutButton: {
         flex: 1,
@@ -253,6 +256,7 @@ const styles = StyleSheet.create({
         fontWeight: '600',
         fontSize: 14,
         color: 'red',
+        fontFamily: Platform.OS === 'ios' ? 'Didot' : Fonts.title.fontFamily,
     },
     gridItem: {
         width: IMAGE_SIZE,
@@ -270,6 +274,7 @@ const styles = StyleSheet.create({
         color: '#333',
         fontWeight: '500',
         lineHeight: 16,
+        fontFamily: Platform.OS === 'ios' ? 'Didot' : Fonts.title.fontFamily,
     },
     postMeta: {
         alignItems: 'flex-end',
@@ -277,5 +282,6 @@ const styles = StyleSheet.create({
     metaText: {
         fontSize: 10,
         color: '#999',
+        fontFamily: Platform.OS === 'ios' ? 'Didot' : Fonts.title.fontFamily,
     },
 })

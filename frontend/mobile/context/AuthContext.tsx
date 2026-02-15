@@ -1,10 +1,8 @@
-import { userApi } from '@/api/api';
+import { USER_URL, userApi } from '@/api/api';
 import { router } from 'expo-router';
 import * as SecureStore from 'expo-secure-store';
-import * as Updates from 'expo-updates';
 import React, { createContext, ReactNode, useCallback, useContext, useEffect, useState } from 'react';
 import { Alert } from 'react-native';
-
 
 interface User {
     id?: string;
@@ -28,8 +26,6 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 const TOKEN_KEY = 'auth_token';
 const REFRESH_TOKEN_KEY = 'refresh_token';
 const USER_KEY = 'auth_user';
-
-const API_URL = 'http://' + process.env.EXPO_PUBLIC_API_URL + ':8081/api';
 
 export function AuthProvider({ children }: { children: ReactNode }) {
 
@@ -58,16 +54,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const refreshAccessToken = useCallback(async (): Promise<string | null> => {
         try {
             const refreshToken = await SecureStore.getItemAsync(REFRESH_TOKEN_KEY);
+            if (!refreshToken) return null;
 
-            if (!refreshToken) {
-                return null;
-            }
-
-            const response = await fetch(`${API_URL}/auth/refresh`, {
+            const response = await fetch(`${USER_URL}/auth/refresh`, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ refreshToken }),
             });
 
@@ -77,18 +68,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             }
 
             const data = await response.json();
-
             const newAccessToken = data.accessToken || data.token;
             const newRefreshToken = data.refreshToken;
 
             if (newAccessToken) {
                 await SecureStore.setItemAsync(TOKEN_KEY, newAccessToken);
                 setToken(newAccessToken);
-
                 if (newRefreshToken) {
                     await SecureStore.setItemAsync(REFRESH_TOKEN_KEY, newRefreshToken);
                 }
-
                 return newAccessToken;
             }
 
@@ -137,11 +125,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     const signIn = async (email: string, password: string) => {
         try {
-            const response = await fetch(`${API_URL}/auth/login`, {
+            const response = await fetch(`${USER_URL}/auth/login`, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email, password }),
             });
 
@@ -152,14 +138,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
             const data = await response.json();
 
-            const authToken = data.accessToken;
-            const refreshToken = data.refreshToken;
+            await SecureStore.setItemAsync(TOKEN_KEY, data.accessToken);
+            setToken(data.accessToken);
 
-            await SecureStore.setItemAsync(TOKEN_KEY, authToken);
-            setToken(authToken);
-
-            if (refreshToken) {
-                await SecureStore.setItemAsync(REFRESH_TOKEN_KEY, refreshToken);
+            if (data.refreshToken) {
+                await SecureStore.setItemAsync(REFRESH_TOKEN_KEY, data.refreshToken);
             }
 
             const userId = await fetchUserId(data.email);
@@ -177,11 +160,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     const signUp = async (email: string, password: string, firstName: string, lastName: string) => {
         try {
-            const response = await fetch(`${API_URL}/auth/register`, {
+            const response = await fetch(`${USER_URL}/auth/register`, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email, password, firstName, lastName }),
             });
 
@@ -192,14 +173,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
             const data = await response.json();
 
-            const authToken = data.accessToken;
-            const refreshToken = data.refreshToken;
+            await SecureStore.setItemAsync(TOKEN_KEY, data.accessToken);
+            setToken(data.accessToken);
 
-            await SecureStore.setItemAsync(TOKEN_KEY, authToken);
-            setToken(authToken);
-
-            if (refreshToken) {
-                await SecureStore.setItemAsync(REFRESH_TOKEN_KEY, refreshToken);
+            if (data.refreshToken) {
+                await SecureStore.setItemAsync(REFRESH_TOKEN_KEY, data.refreshToken);
             }
 
             const userId = await fetchUserId(data.email);
@@ -213,12 +191,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             Alert.alert('Registration Error', error instanceof Error ? error.message : 'An error occurred during registration');
         }
     };
+
     const signOut = async () => {
         try {
             const refreshToken = await SecureStore.getItemAsync(REFRESH_TOKEN_KEY);
             if (refreshToken) {
                 try {
-                    await fetch(`${API_URL}/auth/logout`, {
+                    await fetch(`${USER_URL}/auth/logout`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -232,7 +211,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             }
 
             await clearAuth();
-            await Updates.reloadAsync();
+            router.replace('/register')
         } catch (error) {
             console.error('Sign out error:', error);
             throw error;
