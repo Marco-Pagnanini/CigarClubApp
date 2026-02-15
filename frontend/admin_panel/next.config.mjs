@@ -2,6 +2,7 @@
 
 const ip = '192.168.188.59'
 const nextConfig = {
+  output: 'standalone',
   async rewrites() {
     return [
       // 1. Servizio di Autenticazione (Porta 8081)
