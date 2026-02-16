@@ -38,7 +38,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             const response = await userApi.get(`/${email}/email`);
             return response.data.id || response.data;
         } catch (error) {
-            console.error('Error fetching user id:', error);
             return undefined;
         }
     };
@@ -83,7 +82,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             await clearAuth();
             return null;
         } catch (error) {
-            console.error('Error refreshing token:', error);
             await clearAuth();
             return null;
         }
@@ -153,7 +151,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
             router.replace('/(tabs)');
         } catch (error) {
-            console.error('Sign in error:', error);
+
             throw error;
         }
     };
