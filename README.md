@@ -46,7 +46,7 @@ L'infrastruttura backend è containerizzata con Docker Compose e include quattro
 - Database PostgreSQL dedicato
 
 #### 4. **Moderator MicroServizio** (FastAPI)
-- AI-powered content moderation
+- AI-powered content moderation (beta)
 - Controllo automatico violazioni regole
 - Sistema di flagging e alerting
 - Integrazione con microservizio Posts
@@ -96,7 +96,7 @@ L'infrastruttura backend è containerizzata con Docker Compose e include quattro
 ### Infrastructure
 - **Docker**: Containerizzazione servizi
 - **Docker Compose**: Orchestrazione multi-container
-- **Nginx** (opzionale): Reverse proxy e load balancing
+- **Traefik** : Reverse proxy e load balancing
 
 ## 🚀 Funzionalità Principali
 
