@@ -31,6 +31,14 @@ function RootNavigator() {
                 <Stack.Screen name="register" />
                 <Stack.Screen name="cigar-detail" options={{ presentation: 'modal', animation: 'slide_from_bottom' }} />
                 <Stack.Screen name="add-post" options={{ presentation: 'modal', animation: 'slide_from_bottom' }} />
+                <Stack.Screen
+                    name='login-bottom'
+                    options={{
+                        presentation: 'formSheet',
+                        sheetAllowedDetents: [0.45],
+                        sheetInitialDetentIndex: 0,
+                    }}
+                />
                 <Stack.Screen name="scan" options={{ presentation: 'modal', animation: 'slide_from_bottom' }} />
             </Stack>
         </>

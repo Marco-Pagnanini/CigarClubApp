@@ -29,8 +29,12 @@ const Profile = () => {
     const [refreshing, setRefreshing] = useState(false);
 
     useEffect(() => {
+        if (user === null) {
+            router.push('/login-bottom')
+            return
+        }
         fetchAllData();
-    }, [])
+    }, [user])
 
     const fetchAllData = async () => {
         await Promise.all([fetchUserProfile(), fetchPostProfile()]);
@@ -41,7 +45,7 @@ const Profile = () => {
             const response = await userApi.get(`/${user?.id}`);
             setUserProfile(response.data);
         } catch (error) {
-            console.error(error);
+
         }
     }
 
@@ -50,7 +54,7 @@ const Profile = () => {
             const response = await postsApi.get(`user`)
             setUserPosts(response.data);
         } catch (err) {
-            console.log(err)
+
         }
     }
 

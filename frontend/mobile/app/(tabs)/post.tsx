@@ -1,6 +1,7 @@
 import { postsApi } from '@/api/api'
 import PostCard from '@/components/PostCard'
 import { Colors, Fonts } from '@/constants/Colors'
+import { useAuth } from '@/context/AuthContext'
 import { Post } from '@/types/PostData'
 import { router, useFocusEffect } from 'expo-router'
 import React, { useCallback, useRef, useState } from 'react'
@@ -9,6 +10,7 @@ import { ActivityIndicator, FlatList, Platform, RefreshControl, SafeAreaView, St
 const PAGE_SIZE = 10
 
 const PostPage = () => {
+    const { user } = useAuth();
     const [posts, setPosts] = useState<Post[]>([])
     const [loading, setLoading] = useState(true)
     const [refreshing, setRefreshing] = useState(false)
@@ -91,6 +93,10 @@ const PostPage = () => {
         fetchPosts(currentPage.current + 1, false)
     }
 
+    const handleAddPost = async () => {
+        user ? router.push('/add-post') : router.push('/login-bottom')
+    }
+
     const renderItem = useCallback(({ item }: { item: Post }) => (
         <PostCard post={item} likesCount={item.likesCount} />
     ), [])
@@ -128,7 +134,7 @@ const PostPage = () => {
                     <Text style={styles.title}>Community</Text>
                     <TouchableOpacity
                         style={styles.addButton}
-                        onPress={() => router.push('/add-post')}
+                        onPress={handleAddPost}
                         activeOpacity={0.7}
                     >
                         <Text style={styles.addButtonText}>+</Text>
