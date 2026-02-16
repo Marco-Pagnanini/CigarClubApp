@@ -21,7 +21,6 @@ const CigarCard = ({ cigar, onPress }: CigarCardProps) => {
         try {
             const response = await brandApi.get(`/${cigar.brandId}`)
             setBrand(response.data.data)
-            console.log("Brand del sigaro:", response.data.data)
         }
         catch (error) {
             console.error("Errore nel recupero del brand:", error)
