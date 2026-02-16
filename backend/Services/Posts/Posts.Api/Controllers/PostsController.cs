@@ -37,7 +37,7 @@ public class PostsController : ControllerBase
     {
         try
         {
-            var userId = GetUserIdFromToken();
+            var userId = TryGetUserIdFromToken();
             var posts = await _service.GetAllPostsAsync(pageSize,page,userId,cancellationToken);
             _logger.LogInformation("Retrieved {Count} posts", posts.Count);
             return Ok(posts);
@@ -301,7 +301,7 @@ public class PostsController : ControllerBase
 
 
     /// <summary>
-    /// Estrae l'ID utente dal claim NameIdentifier del JWT token
+    /// Estrae l'ID utente dal claim NameIdentifier del JWT token (lancia se non presente)
     /// </summary>
     private Guid GetUserIdFromToken()
     {
@@ -309,6 +309,15 @@ public class PostsController : ControllerBase
             ?? throw new UnauthorizedAccessException("User ID not found in token");
 
         return Guid.Parse(userIdClaim);
+    }
+
+    /// <summary>
+    /// Estrae l'ID utente dal JWT token senza lanciare eccezione (per endpoint pubblici)
+    /// </summary>
+    private Guid TryGetUserIdFromToken()
+    {
+        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        return Guid.TryParse(userIdClaim, out var userId) ? userId : Guid.Empty;
     }
 
     private async Task<ModerationResponse?> ValidateContentAsync(CreatePostDto request)
