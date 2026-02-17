@@ -1,0 +1,29 @@
+{
+  "cli": {
+    "version": ">= 16.17.0",
+    "appVersionSource": "remote"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal"
+    },
+    "preview": {
+      "distribution": "internal"
+    },
+    "production": {
+        "android": {
+            "buildType": "apk"
+        },
+        "env": {
+            "EXPO_PUBLIC_CATALOG_URL": "https://catalog.cigarclub.club/api",
+            "EXPO_PUBLIC_USER_URL": "https://users.cigarclub.club/api",
+            "EXPO_PUBLIC_POST_URL": "https://posts.cigarclub.club/api"
+        },
+      "autoIncrement": true
+    }
+  },
+  "submit": {
+    "production": {}
+  }
+}

@@ -2,7 +2,6 @@
   "expo": {
     "name": "mobile",
     "slug": "mobile",
-
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -20,7 +19,8 @@
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.marco.pagnanini.mobile"
     },
     "web": {
       "output": "static",
@@ -44,6 +44,13 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "f21faed2-ff34-409e-9e11-35317e077391"
+      }
+    },
+    "owner": "marco.pagnanini"
   }
 }
