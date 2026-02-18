@@ -50,11 +50,15 @@ jobs:
           npm install
 
       - name: Build Android APK
+        env:
+          EAS_BUILD_NO_EXPO_GO_WARNING: true
         run: |
           cd frontend/mobile
           eas build --platform android --non-interactive --profile production
 
       - name: Build iOS
+        env:
+          EAS_BUILD_NO_EXPO_GO_WARNING: true
         run: |
           cd frontend/mobile
           eas build --platform ios --non-interactive --profile production
