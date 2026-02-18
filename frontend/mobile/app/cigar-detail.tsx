@@ -27,7 +27,6 @@ const CigarDetail = () => {
         try {
             setLoading(true)
             const response = await tobacconistApi.get(`/${cigarId}`)
-            console.log('Dettagli sigaro:', response.data)
             const cigarData = response.data.data
             setCigar(cigarData)
 
@@ -45,7 +44,6 @@ const CigarDetail = () => {
         try {
             setPanelLoading(true)
             const response = await panelApi.get(`/${panelId}`)
-            console.log('Dettagli del panel:', response.data)
             setPanel(response.data.data)
         } catch (error) {
             console.error('Errore nel recupero del panel:', error)
