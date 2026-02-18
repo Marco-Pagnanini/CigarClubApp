@@ -1,16 +1,14 @@
-name: Deploy Backend to Production
+name: Deploy to Production
 
 on:
   push:
     branches:
       - main
-    paths:
-      - 'backend/**'
 
 jobs:
-  deploy:
+  # ─── Deploy Backend ───────────────────────────────────────
+  deploy-backend:
     runs-on: ubuntu-latest
-
     steps:
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1.0.3
@@ -24,3 +22,31 @@ jobs:
             git pull origin main
             docker compose down
             docker compose up -d --build
+
+  # ─── Build Mobile ─────────────────────────────────────────
+  deploy-mobile:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Setup EAS
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: Install dependencies
+        run: |
+          cd frontend/mobile
+          npm install
+
+      - name: Build Android APK
+        run: |
+          cd frontend/mobile
+          eas build --platform android --non-interactive --profile production
