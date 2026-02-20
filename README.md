@@ -235,9 +235,60 @@ mobile-app/
 - HTTPS enforcement in produzione
 - Rate limiting su API endpoints
 - CORS policy configurabile
+
+## 🚀 Deploy
+
+### Backend - Hetzner VPS
+
+Il backend è deployato su un VPS Hetzner (CX23, Helsinki) con Ubuntu 24.04:
+
+- **Orchestrazione**: Docker Compose in produzione
+- **Reverse Proxy**: Traefik con SSL automatico (Let's Encrypt)
+- **CI/CD**: GitHub Actions per deploy automatico
+- **Domini**:
+  - `catalog.cigarclub.club` → Catalog API
+  - `users.cigarclub.club` → Users API
+  - `posts.cigarclub.club` → Posts API
+  - `media.cigarclub.club` → MinIO Storage
+
+#### Deploy Automatico
+
+Ogni push sul branch `main` triggera automaticamente:
+
+1. Connessione SSH al server
+2. `git pull` del codice aggiornato
+3. Rebuild dei container Docker modificati
+4. Riavvio dei servizi
+
+Workflow configurato in `.github/workflows/deploy.yml`
+
+### Mobile App - Expo Application Services (EAS)
+
+L'app mobile viene buildato con EAS:
+
+- **Platform**: Android (APK) e iOS (IPA)
+- **Build automatici**: Trigger manuale via GitHub Actions
+- **Distribution**: 
+  - **Android**: Direct download APK o Google Play Store
+  - **iOS**: TestFlight e App Store
+
+#### Build Workflow
+```bash
+# Build manuale
+eas build --platform android --profile production
+eas build --platform ios --profile production
+
+# Submit agli store
+eas submit --platform android
+eas submit --platform ios
+```
+
+Build automatici configurati in `.github/workflows/deploy.yml` con trigger manuale via workflow_dispatch.
+
 ## 📝 License
 
 Questo progetto è sotto licenza MIT - vedi il file [LICENSE](LICENSE) per dettagli.
+
 
 ## 👨‍💻 Autore
 
