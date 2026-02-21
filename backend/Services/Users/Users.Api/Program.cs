@@ -138,13 +138,10 @@ app.UseSwaggerUI();
 
 app.UseRouting();
 
-app.UseHttpMetrics();
 
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-
-app.MapMetrics();
 
 app.Run();

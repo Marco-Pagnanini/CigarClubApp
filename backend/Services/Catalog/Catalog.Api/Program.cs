@@ -140,13 +140,11 @@ app.UseMiddleware<ExceptionHandlingMiddleware>();
 // Middleware di autenticazione e autorizzazione
 app.UseCors("AllowFrontend");
 app.UseMiddleware<JwtLoggingMiddleware>();
-app.UseHttpMetrics();
 
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
 
-app.MapMetrics();
 
 app.Run();
