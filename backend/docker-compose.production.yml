@@ -1,5 +1,43 @@
 services:
 
+  # ─── PROMETHEUS ──────────────────────────────────────────
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: cigarclub-prometheus
+    restart: always
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus-data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+    networks:
+      - cigarclub-net
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.prometheus.rule=Host(`prometheus.cigarclub.club`)"
+      - "traefik.http.routers.prometheus.entrypoints=websecure"
+      - "traefik.http.routers.prometheus.tls.certresolver=letsencrypt"
+      - "traefik.http.services.prometheus.loadbalancer.server.port=9090"
+
+  # ─── GRAFANA ─────────────────────────────────────────────
+  grafana:
+    image: grafana/grafana:latest
+    container_name: cigarclub-grafana
+    restart: always
+    volumes:
+      - grafana-data:/var/lib/grafana
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD}
+    networks:
+      - cigarclub-net
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.grafana.rule=Host(`grafana.cigarclub.club`)"
+      - "traefik.http.routers.grafana.entrypoints=websecure"
+      - "traefik.http.routers.grafana.tls.certresolver=letsencrypt"
+      - "traefik.http.services.grafana.loadbalancer.server.port=3000"
+
   # ─── TRAEFIK ─────────────────────────────────────────────────────────────────
   traefik:
     image: traefik:v3.0
@@ -206,3 +244,5 @@ volumes:
   users-db-data:
   posts-db-data:
   minio-data:
+  prometheus-data:
+  grafana-data:

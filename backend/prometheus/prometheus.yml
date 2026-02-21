@@ -1,0 +1,22 @@
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: 'catalog-api'
+    static_configs:
+      - targets: ['catalog-api:8080']
+    metrics_path: '/metrics'
+
+  - job_name: 'users-api'
+    static_configs:
+      - targets: ['users-api:8080']
+    metrics_path: '/metrics'
+
+  - job_name: 'posts-api'
+    static_configs:
+      - targets: ['posts-api:8080']
+    metrics_path: '/metrics'
+
+  - job_name: 'docker'
+    static_configs:
+      - targets: ['host.docker.internal:9323']
