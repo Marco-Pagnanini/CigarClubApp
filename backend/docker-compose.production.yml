@@ -19,6 +19,17 @@ services:
       - "traefik.http.routers.prometheus.entrypoints=websecure"
       - "traefik.http.routers.prometheus.tls.certresolver=letsencrypt"
       - "traefik.http.services.prometheus.loadbalancer.server.port=9090"
+  # ─── NODE EXPORTER ───────────────────────────────────────
+  node-exporter:
+    image: prom/node-exporter:latest
+    container_name: cigarclub-node-exporter
+    restart: always
+    command:
+      - '--path.rootfs=/host'
+    volumes:
+      - /:/host:ro,rslave
+    networks:
+      - cigarclub-net
 
   # ─── GRAFANA ─────────────────────────────────────────────
   grafana:
