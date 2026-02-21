@@ -16,7 +16,7 @@ L'applicazione segue un'architettura a **microservizi** per garantire scalabilit
 - **Mobile App**: Applicazione React Native con Expo Router
   - UI dark theme con accenti dorati
   - Navigazione fluida e intuitiva
-  
+
 - **Admin Panel**: Dashboard web/desktop con Next.js e Tauri
   - Gestione utenti e contenuti
   - Monitoraggio attività
@@ -72,7 +72,7 @@ L'infrastruttura backend è containerizzata con Docker Compose e include quattro
   - Entity Framework Core
   - JWT Authentication
   - FluentValidation
-  
+
 - **FastAPI**: Microservizio Moderator
   - Python 3.11+
   - Machine Learning models per moderazione
@@ -88,7 +88,7 @@ L'infrastruttura backend è containerizzata con Docker Compose e include quattro
   - Self-hosted per ambiente di sviluppo
   - Gestione bucket per immagini sigari
   - API compatibili con S3
-- **Cloudflare** (Production): 
+- **Cloudflare** (Production):
   - Cloudflare R2 o Cloudflare Images per storage in produzione
   - CDN globale per performance ottimali
   - Costi ridotti e alta disponibilità
@@ -268,7 +268,7 @@ L'app mobile viene buildato con EAS:
 
 - **Platform**: Android (APK) e iOS (IPA)
 - **Build automatici**: Trigger manuale via GitHub Actions
-- **Distribution**: 
+- **Distribution**:
   - **Android**: Direct download APK o Google Play Store
   - **iOS**: TestFlight e App Store
 
@@ -285,6 +285,17 @@ eas submit --platform ios
 
 Build automatici configurati in `.github/workflows/deploy.yml` con trigger manuale via workflow_dispatch.
 
+
+## 🚀 Server
+
+Per il server, questo progetto si basa su **Hetzner** (piattaforma per il noleggio di macchine virtuali) e **Namespace** per la gestione del dominio `cigarclub.club`.
+
+Per il monitoring delle attività viene utilizzato:
+
+1. **Prometheus** e **Node Exporter** per la raccolta dei dati
+2. **Grafana** per la visualizzazione
+
+![Server](./Server.png)
 ## 📝 License
 
 Questo progetto è sotto licenza MIT - vedi il file [LICENSE](LICENSE) per dettagli.
