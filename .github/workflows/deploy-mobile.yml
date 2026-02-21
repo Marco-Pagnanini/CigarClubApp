@@ -1,0 +1,41 @@
+name: Deploy Mobile to EAS
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy-mobile:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Setup EAS
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: Install dependencies
+        run: |
+          cd frontend/mobile
+          npm install
+
+      - name: Build Android APK
+        env:
+          EAS_BUILD_NO_EXPO_GO_WARNING: true
+        run: |
+          cd frontend/mobile
+          eas build --platform android --non-interactive --profile production
+
+      - name: Build iOS
+        env:
+          EAS_BUILD_NO_EXPO_GO_WARNING: true
+        run: |
+          cd frontend/mobile
+          eas build --platform ios --non-interactive --profile production
