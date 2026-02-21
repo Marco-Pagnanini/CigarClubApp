@@ -147,6 +147,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.MapMetrics()
+app.MapMetrics();
 
 app.Run();
