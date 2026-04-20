@@ -1,10 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "dPK4CvWopHo=",
+  "dgSpecHash": "4MESxITOiyo=",
   "success": true,
   "projectFilePath": "/Users/marcopagnanini/code/PortFolio/CigarClubApp/backend/Services/Users/Users.Application/Users.Application.csproj",
   "expectedPackageFiles": [
     "/Users/marcopagnanini/.nuget/packages/bcrypt.net-next/4.0.3/bcrypt.net-next.4.0.3.nupkg.sha512",
+    "/Users/marcopagnanini/.nuget/packages/fluentvalidation/11.11.0/fluentvalidation.11.11.0.nupkg.sha512",
     "/Users/marcopagnanini/.nuget/packages/microsoft.extensions.configuration.abstractions/9.0.1/microsoft.extensions.configuration.abstractions.9.0.1.nupkg.sha512",
     "/Users/marcopagnanini/.nuget/packages/microsoft.extensions.dependencyinjection.abstractions/9.0.1/microsoft.extensions.dependencyinjection.abstractions.9.0.1.nupkg.sha512",
     "/Users/marcopagnanini/.nuget/packages/microsoft.extensions.logging.abstractions/9.0.1/microsoft.extensions.logging.abstractions.9.0.1.nupkg.sha512",

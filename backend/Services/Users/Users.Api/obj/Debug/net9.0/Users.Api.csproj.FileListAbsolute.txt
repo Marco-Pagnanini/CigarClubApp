@@ -295,3 +295,6 @@ C:/Users/marco/source/repos/Marco-Pagnanini/CigarClubApp/backend/Services/Users/
 /Users/marcopagnanini/code/PortFolio/CigarClubApp/backend/Services/Users/Users.Api/obj/Debug/net9.0/Users.Api.pdb
 /Users/marcopagnanini/code/PortFolio/CigarClubApp/backend/Services/Users/Users.Api/obj/Debug/net9.0/Users.Api.genruntimeconfig.cache
 /Users/marcopagnanini/code/PortFolio/CigarClubApp/backend/Services/Users/Users.Api/obj/Debug/net9.0/ref/Users.Api.dll
+/Users/marcopagnanini/code/PortFolio/CigarClubApp/backend/Services/Users/Users.Api/bin/Debug/net9.0/FluentValidation.dll
+/Users/marcopagnanini/code/PortFolio/CigarClubApp/backend/Services/Users/Users.Api/bin/Debug/net9.0/FluentValidation.AspNetCore.dll
+/Users/marcopagnanini/code/PortFolio/CigarClubApp/backend/Services/Users/Users.Api/bin/Debug/net9.0/FluentValidation.DependencyInjectionExtensions.dll

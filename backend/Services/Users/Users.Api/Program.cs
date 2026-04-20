@@ -1,9 +1,12 @@
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Users.Application.Abstractions.Repository;
 using Users.Application.Abstractions.Service;
+using Users.Application.Abstractions.Validation;
 using Users.Application.Services;
 using Users.Infrastructure.Data;
 using Users.Infrastructure.Repositories;
@@ -43,6 +46,9 @@ builder.Services
 
 builder.Services.AddAuthorization();
 builder.Services.AddControllers();
+
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddValidatorsFromAssemblyContaining<RegisterDtoValidator>();
 
 builder.Services.AddSwaggerGen(options =>
 {

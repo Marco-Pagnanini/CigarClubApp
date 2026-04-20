@@ -35,6 +35,8 @@ namespace Users.Api.Controllers
             RegisterDto registerDto,
             CancellationToken cancellationToken)
         {
+            
+            
             try
             {
                 var response = await _authService.RegisterAsync(registerDto, cancellationToken);
