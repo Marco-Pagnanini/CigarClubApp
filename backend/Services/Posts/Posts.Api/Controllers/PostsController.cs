@@ -129,13 +129,13 @@ public class PostsController : ControllerBase
             /**
              * Parte di Moderazione delle richieste
              */
-            var moderation = await ValidateContentAsync(dto);
-            if (moderation is not null && !moderation.Approved)
-            {
-                _logger.LogWarning("Post rifiutato dalla moderazione: {Reason}", moderation.Reason);
-                return BadRequest(ApiResponse<Post>.ErrorResponse(
-                    $"Contenuto rifiutato: {moderation.Reason}"));
-            }
+            // var moderation = await ValidateContentAsync(dto);
+            // if (moderation is not null && !moderation.Approved)
+            // {
+            //     _logger.LogWarning("Post rifiutato dalla moderazione: {Reason}", moderation.Reason);
+            //     return BadRequest(ApiResponse<Post>.ErrorResponse(
+            //         $"Contenuto rifiutato: {moderation.Reason}"));
+            // }
 
             var created = await _service.AddPostAsync(post, cancellationToken);
             _logger.LogInformation("User {UserId} created post {PostId}", userId, created.Id);

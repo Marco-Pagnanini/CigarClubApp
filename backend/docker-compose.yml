@@ -27,6 +27,7 @@ services:
       - "8080:8080"
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
+      - ConnectionStrings__CatalogDb=Host=catalog-db;Port=5432;Database=catalog_db;Username=${DB_USER};Password=${DB_PASSWORD}
       - S3__ServiceUrl=http://minio:9000
       - S3__AccessKey=${MINIO_ROOT_USER}
       - S3__SecretKey=${MINIO_ROOT_PASSWORD}
@@ -68,6 +69,7 @@ services:
       - "8081:8080"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__UsersDb=Host=users-db;Port=5432;Database=users_db;Username=${DB_USER};Password=${DB_PASSWORD}
     depends_on:
       users-db:
         condition: service_healthy
@@ -100,6 +102,7 @@ services:
       - "8082:8080"
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
+      - ConnectionStrings__PostsDb=Host=posts-db;Port=5432;Database=posts_db;Username=${DB_USER};Password=${DB_PASSWORD}
     depends_on:
       posts-db:
         condition: service_healthy

@@ -30,7 +30,10 @@
       "Bash(docker-compose build:*)",
       "Bash(git push:*)",
       "Bash(dotnet clean:*)",
-      "Bash(taskkill:*)"
+      "Bash(taskkill:*)",
+      "Bash(grep -r \"API_BASE\\\\|BASE_URL\\\\|REACT_APP\\\\|API_URL\\\\|localhost\\\\|192.168\\\\|10.0\\\\|172.16\" /Users/marcopagnanini/code/PortFolio/CigarClubApp/frontend/mobile --include=\"*.ts\" --include=\"*.tsx\" --include=\"*.js\" --include=\"*.json\" ! -path \"*/node_modules/*\")",
+      "Bash(ipconfig getifaddr *)",
+      "Bash(awk '{print $2}')"
     ]
   }
 }

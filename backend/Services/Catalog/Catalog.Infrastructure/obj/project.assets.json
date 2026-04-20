@@ -2,7 +2,7 @@
   "version": 3,
   "targets": {
     "net9.0": {
-      "AWSSDK.Core/3.7.500.76": {
+      "AWSSDK.Core/3.7.500.95": {
         "type": "package",
         "compile": {
           "lib/net8.0/AWSSDK.Core.dll": {
@@ -15,10 +15,10 @@
           }
         }
       },
-      "AWSSDK.S3/3.7.510.4": {
+      "AWSSDK.S3/3.7.511.5": {
         "type": "package",
         "dependencies": {
-          "AWSSDK.Core": "[3.7.500.76, 4.0.0)"
+          "AWSSDK.Core": "[3.7.500.95, 4.0.0)"
         },
         "compile": {
           "lib/net8.0/AWSSDK.S3.dll": {
@@ -320,15 +320,15 @@
     }
   },
   "libraries": {
-    "AWSSDK.Core/3.7.500.76": {
-      "sha512": "b/WKBDSy+5LZUK1mRIwHgj/wpsMal58/pYuwyPJ7vpYoEG3DMrx3/TIhfdv4SbVksqLQWzMCkdX9SW3zDvyTFg==",
+    "AWSSDK.Core/3.7.500.95": {
+      "sha512": "q0iRQctC0n98mmqc5qksC7zNSl8ozBzyTFaCdcUtACsw5RXx5dO2EeO+AP9daVTLLszHXL61CZ7JCj8CwRMdow==",
       "type": "package",
-      "path": "awssdk.core/3.7.500.76",
+      "path": "awssdk.core/3.7.500.95",
       "hasTools": true,
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "awssdk.core.3.7.500.76.nupkg.sha512",
+        "awssdk.core.3.7.500.95.nupkg.sha512",
         "awssdk.core.nuspec",
         "images/AWSLogo.png",
         "lib/net35/AWSSDK.Core.dll",
@@ -349,17 +349,17 @@
         "tools/account-management.ps1"
       ]
     },
-    "AWSSDK.S3/3.7.510.4": {
-      "sha512": "quWRxhzlfzuH567MQYhaaX2Owb2evpeBGQYm4BWk5I1tZyL9SYoM6JaH9mStIF6F4SuczLZ4bzaZPQcxmHEC4A==",
+    "AWSSDK.S3/3.7.511.5": {
+      "sha512": "+QaExRqAPOb5qAMQ9JOeWAofmef8poChLRgZsefpiLos6AFpOVoRzwkwgkp5H1ajCc7OMDldUC2oVAt4hAPdyg==",
       "type": "package",
-      "path": "awssdk.s3/3.7.510.4",
+      "path": "awssdk.s3/3.7.511.5",
       "hasTools": true,
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "analyzers/dotnet/cs/AWSSDK.S3.CodeAnalysis.dll",
         "analyzers/dotnet/cs/SharedAnalysisCode.dll",
-        "awssdk.s3.3.7.510.4.nupkg.sha512",
+        "awssdk.s3.3.7.511.5.nupkg.sha512",
         "awssdk.s3.nuspec",
         "images/AWSLogo.png",
         "lib/net35/AWSSDK.S3.dll",
@@ -811,40 +811,33 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\marco\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "/Users/marcopagnanini/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\marco\\source\\repos\\Marco-Pagnanini\\CigarClubApp\\backend\\Services\\Catalog\\Catalog.Infrastructure\\Catalog.Infrastructure.csproj",
+      "projectUniqueName": "/Users/marcopagnanini/code/PortFolio/CigarClubApp/backend/Services/Catalog/Catalog.Infrastructure/Catalog.Infrastructure.csproj",
       "projectName": "Catalog.Infrastructure",
-      "projectPath": "C:\\Users\\marco\\source\\repos\\Marco-Pagnanini\\CigarClubApp\\backend\\Services\\Catalog\\Catalog.Infrastructure\\Catalog.Infrastructure.csproj",
-      "packagesPath": "C:\\Users\\marco\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\marco\\source\\repos\\Marco-Pagnanini\\CigarClubApp\\backend\\Services\\Catalog\\Catalog.Infrastructure\\obj\\",
+      "projectPath": "/Users/marcopagnanini/code/PortFolio/CigarClubApp/backend/Services/Catalog/Catalog.Infrastructure/Catalog.Infrastructure.csproj",
+      "packagesPath": "/Users/marcopagnanini/.nuget/packages/",
+      "outputPath": "/Users/marcopagnanini/code/PortFolio/CigarClubApp/backend/Services/Catalog/Catalog.Infrastructure/obj/",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\marco\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "/Users/marcopagnanini/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net9.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
+        "/usr/local/share/dotnet/library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net9.0": {
           "targetAlias": "net9.0",
           "projectReferences": {
-            "C:\\Users\\marco\\source\\repos\\Marco-Pagnanini\\CigarClubApp\\backend\\Services\\Catalog\\Catalog.Application\\Catalog.Application.csproj": {
-              "projectPath": "C:\\Users\\marco\\source\\repos\\Marco-Pagnanini\\CigarClubApp\\backend\\Services\\Catalog\\Catalog.Application\\Catalog.Application.csproj"
+            "/Users/marcopagnanini/code/PortFolio/CigarClubApp/backend/Services/Catalog/Catalog.Application/Catalog.Application.csproj": {
+              "projectPath": "/Users/marcopagnanini/code/PortFolio/CigarClubApp/backend/Services/Catalog/Catalog.Application/Catalog.Application.csproj"
             }
           }
         }
@@ -859,7 +852,7 @@
         "auditLevel": "low",
         "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "9.0.300"
+      "SdkAnalysisLevel": "10.0.200"
     },
     "frameworks": {
       "net9.0": {
@@ -889,12 +882,22 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.AspNetCore.App.Ref",
+            "version": "[9.0.14, 9.0.14]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Ref",
+            "version": "[9.0.14, 9.0.14]"
+          }
+        ],
         "frameworkReferences": {
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.308/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/10.0.201/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

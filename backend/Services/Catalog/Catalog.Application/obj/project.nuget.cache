@@ -1,8 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "RMf7aOMQBpo=",
+  "dgSpecHash": "8jg+2wJply4=",
   "success": true,
-  "projectFilePath": "C:\\Users\\marco\\source\\repos\\Marco-Pagnanini\\CigarClubApp\\backend\\Services\\Catalog\\Catalog.Application\\Catalog.Application.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "/Users/marcopagnanini/code/PortFolio/CigarClubApp/backend/Services/Catalog/Catalog.Application/Catalog.Application.csproj",
+  "expectedPackageFiles": [
+    "/Users/marcopagnanini/.nuget/packages/microsoft.netcore.app.ref/9.0.14/microsoft.netcore.app.ref.9.0.14.nupkg.sha512",
+    "/Users/marcopagnanini/.nuget/packages/microsoft.aspnetcore.app.ref/9.0.14/microsoft.aspnetcore.app.ref.9.0.14.nupkg.sha512"
+  ],
   "logs": []
 }
