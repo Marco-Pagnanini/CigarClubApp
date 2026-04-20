@@ -8,7 +8,7 @@
     ".NETCoreApp,Version=v9.0": {
       "Catalog.Infrastructure/1.0.0": {
         "dependencies": {
-          "AWSSDK.S3": "3.7.510.4",
+          "AWSSDK.S3": "3.7.511.5",
           "Catalog.Application": "1.0.0",
           "Microsoft.EntityFrameworkCore": "9.0.1",
           "Npgsql.EntityFrameworkCore.PostgreSQL": "9.0.1"
@@ -17,29 +17,28 @@
           "Catalog.Infrastructure.dll": {}
         }
       },
-      "AWSSDK.Core/3.7.500.76": {
+      "AWSSDK.Core/3.7.500.95": {
         "runtime": {
           "lib/net8.0/AWSSDK.Core.dll": {
             "assemblyVersion": "3.3.0.0",
-            "fileVersion": "3.7.500.76"
+            "fileVersion": "3.7.500.95"
           }
         }
       },
-      "AWSSDK.S3/3.7.510.4": {
+      "AWSSDK.S3/3.7.511.5": {
         "dependencies": {
-          "AWSSDK.Core": "3.7.500.76"
+          "AWSSDK.Core": "3.7.500.95"
         },
         "runtime": {
           "lib/net8.0/AWSSDK.S3.dll": {
             "assemblyVersion": "3.3.0.0",
-            "fileVersion": "3.7.510.4"
+            "fileVersion": "3.7.511.5"
           }
         }
       },
       "Microsoft.EntityFrameworkCore/9.0.1": {
         "dependencies": {
           "Microsoft.EntityFrameworkCore.Abstractions": "9.0.1",
-          "Microsoft.EntityFrameworkCore.Analyzers": "9.0.1",
           "Microsoft.Extensions.Caching.Memory": "9.0.1",
           "Microsoft.Extensions.Logging": "9.0.1"
         },
@@ -58,7 +57,6 @@
           }
         }
       },
-      "Microsoft.EntityFrameworkCore.Analyzers/9.0.1": {},
       "Microsoft.EntityFrameworkCore.Relational/9.0.0": {
         "dependencies": {
           "Microsoft.EntityFrameworkCore": "9.0.1",
@@ -224,19 +222,19 @@
       "serviceable": false,
       "sha512": ""
     },
-    "AWSSDK.Core/3.7.500.76": {
+    "AWSSDK.Core/3.7.500.95": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-b/WKBDSy+5LZUK1mRIwHgj/wpsMal58/pYuwyPJ7vpYoEG3DMrx3/TIhfdv4SbVksqLQWzMCkdX9SW3zDvyTFg==",
-      "path": "awssdk.core/3.7.500.76",
-      "hashPath": "awssdk.core.3.7.500.76.nupkg.sha512"
+      "sha512": "sha512-q0iRQctC0n98mmqc5qksC7zNSl8ozBzyTFaCdcUtACsw5RXx5dO2EeO+AP9daVTLLszHXL61CZ7JCj8CwRMdow==",
+      "path": "awssdk.core/3.7.500.95",
+      "hashPath": "awssdk.core.3.7.500.95.nupkg.sha512"
     },
-    "AWSSDK.S3/3.7.510.4": {
+    "AWSSDK.S3/3.7.511.5": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-quWRxhzlfzuH567MQYhaaX2Owb2evpeBGQYm4BWk5I1tZyL9SYoM6JaH9mStIF6F4SuczLZ4bzaZPQcxmHEC4A==",
-      "path": "awssdk.s3/3.7.510.4",
-      "hashPath": "awssdk.s3.3.7.510.4.nupkg.sha512"
+      "sha512": "sha512-+QaExRqAPOb5qAMQ9JOeWAofmef8poChLRgZsefpiLos6AFpOVoRzwkwgkp5H1ajCc7OMDldUC2oVAt4hAPdyg==",
+      "path": "awssdk.s3/3.7.511.5",
+      "hashPath": "awssdk.s3.3.7.511.5.nupkg.sha512"
     },
     "Microsoft.EntityFrameworkCore/9.0.1": {
       "type": "package",
@@ -251,13 +249,6 @@
       "sha512": "sha512-qy+taGVLUs82zeWfc32hgGL8Z02ZqAneYvqZiiXbxF4g4PBUcPRuxHM9K20USmpeJbn4/fz40GkCbyyCy5ojOA==",
       "path": "microsoft.entityframeworkcore.abstractions/9.0.1",
       "hashPath": "microsoft.entityframeworkcore.abstractions.9.0.1.nupkg.sha512"
-    },
-    "Microsoft.EntityFrameworkCore.Analyzers/9.0.1": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-c6ZZJZhPKrXFkE2z/81PmuT69HBL6Y68Cl0xJ5SRrDjJyq5Aabkq15yCqPg9RQ3R0aFLVaJok2DA8R3TKpejDQ==",
-      "path": "microsoft.entityframeworkcore.analyzers/9.0.1",
-      "hashPath": "microsoft.entityframeworkcore.analyzers.9.0.1.nupkg.sha512"
     },
     "Microsoft.EntityFrameworkCore.Relational/9.0.0": {
       "type": "package",

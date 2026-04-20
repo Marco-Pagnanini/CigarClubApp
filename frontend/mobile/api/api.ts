@@ -1,11 +1,11 @@
 import axios, { AxiosInstance } from 'axios';
 import * as SecureStore from 'expo-secure-store';
 
-const IP = process.env.EXPO_PUBLIC_API_IP;
+const IP = process.env.EXPO_PUBLIC_API_IP ?? "192.168.188.146";
 
-export const CATALOG_URL = process.env.EXPO_PUBLIC_CATALOG_URL ?? `http://${IP}:8080/api`;
-export const USER_URL    = process.env.EXPO_PUBLIC_USER_URL    ?? `http://${IP}:8081/api`;
-export const POST_URL    = process.env.EXPO_PUBLIC_POST_URL    ?? `http://${IP}:8082/api`;
+export const CATALOG_URL =  `http://${IP}:8080/api`;
+export const USER_URL    =  `http://${IP}:8081/api`;
+export const POST_URL    =  `http://${IP}:8082/api`;
 
 export const tobacconistApi = axios.create({
     baseURL: `${CATALOG_URL}/tobacconists`,
