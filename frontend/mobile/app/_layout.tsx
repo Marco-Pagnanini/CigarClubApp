@@ -40,6 +40,9 @@ function RootNavigator() {
                     }}
                 />
                 <Stack.Screen name="scan" options={{ presentation: 'modal', animation: 'slide_from_bottom' }} />
+                <Stack.Screen name="panel" />
+                <Stack.Screen name="utils" />
+                <Stack.Screen name="my-posts" />
             </Stack>
         </>
     );

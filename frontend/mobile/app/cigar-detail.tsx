@@ -140,7 +140,7 @@ const CigarDetail = () => {
                     {panel && (
                         <>
                             <View style={styles.panelHeader}>
-                                <Text style={styles.sectionTitle}>📋 Panel</Text>
+                                <Text style={styles.sectionTitle}>Panel</Text>
                                 {panel.brand && (
                                     <View style={styles.brandBadge}>
                                         <Text style={styles.brandText}>{panel.brand.name}</Text>
@@ -151,37 +151,37 @@ const CigarDetail = () => {
                             {/* Panel Info Grid */}
                             <View style={styles.panelGrid}>
                                 <View style={styles.panelCard}>
-                                    <Text style={styles.panelCardIcon}>🌍</Text>
+                                    <Text style={styles.panelCardIcon}>Origine</Text>
                                     <Text style={styles.panelCardLabel}>Origine</Text>
                                     <Text style={styles.panelCardValue}>{panel.origin}</Text>
                                 </View>
 
                                 <View style={styles.panelCard}>
-                                    <Text style={styles.panelCardIcon}>📐</Text>
+                                    <Text style={styles.panelCardIcon}>Forma</Text>
                                     <Text style={styles.panelCardLabel}>Forma</Text>
                                     <Text style={styles.panelCardValue}>{panel.shape}</Text>
                                 </View>
 
                                 <View style={styles.panelCard}>
-                                    <Text style={styles.panelCardIcon}>⭕</Text>
+                                    <Text style={styles.panelCardIcon}>Ring</Text>
                                     <Text style={styles.panelCardLabel}>Ring</Text>
                                     <Text style={styles.panelCardValue}>{panel.ring}</Text>
                                 </View>
 
                                 <View style={styles.panelCard}>
-                                    <Text style={styles.panelCardIcon}>⏱️</Text>
+                                    <Text style={styles.panelCardIcon}>Durata</Text>
                                     <Text style={styles.panelCardLabel}>Durata</Text>
                                     <Text style={styles.panelCardValue}>{panel.smokingTime}min</Text>
                                 </View>
 
                                 <View style={styles.panelCard}>
-                                    <Text style={styles.panelCardIcon}>💪</Text>
+                                    <Text style={styles.panelCardIcon}>Forza</Text>
                                     <Text style={styles.panelCardLabel}>Forza</Text>
                                     <Text style={styles.panelCardValue}>{getStrengthLabel(panel.strength)}</Text>
                                 </View>
 
                                 <View style={styles.panelCard}>
-                                    <Text style={styles.panelCardIcon}>⭐</Text>
+                                    <Text style={styles.panelCardIcon}>Rating</Text>
                                     <Text style={styles.panelCardLabel}>Rating</Text>
                                     <Text style={styles.panelCardValue}>{panel.rating}/100</Text>
                                 </View>
@@ -189,7 +189,7 @@ const CigarDetail = () => {
 
                             {/* Tobacco Details */}
                             <View style={styles.tobaccoSection}>
-                                <Text style={styles.sectionTitle}>🍃 Composizione Tabacco</Text>
+                                <Text style={styles.sectionTitle}>Composizione Tabacco</Text>
                                 <View style={styles.tobaccoCard}>
                                     <View style={styles.tobaccoRow}>
                                         <Text style={styles.tobaccoLabel}>Wrapper</Text>
@@ -257,13 +257,6 @@ const CigarDetail = () => {
                             </View>
                         </View>
                     </View>
-
-                    {/* Barcodes */}
-                    {cigar.barcodes.map((barcode: any, index) => (
-                        <View key={barcode.id || index} style={styles.barcodeChip}>
-                            <Text style={styles.barcodeText}>{barcode.value}</Text>
-                        </View>
-                    ))}
 
                     <View style={styles.bottomSpacer} />
                 </View>
@@ -471,33 +464,34 @@ const styles = StyleSheet.create({
     panelGrid: {
         flexDirection: 'row',
         flexWrap: 'wrap',
-        gap: 4,
+        gap: 10,
         marginBottom: 24,
     },
     panelCard: {
-        width: (width - 52) / 3, // 3 colonne con gap
+        width: (width - 60) / 2,
         backgroundColor: Colors.surface,
         borderRadius: 12,
         padding: 16,
-        alignItems: 'center',
+        alignItems: 'flex-start',
         borderWidth: 1,
         borderColor: Colors.border,
     },
     panelCardIcon: {
-        fontSize: 24,
-        marginBottom: 8,
+        fontSize: 12,
+        color: Colors.textSecondary,
+        marginBottom: 6,
+        textTransform: 'uppercase',
+        letterSpacing: 0.5,
     },
     panelCardLabel: {
-        fontSize: 11,
+        fontSize: 12,
         color: Colors.textMuted,
-        marginBottom: 4,
-        textAlign: 'center',
+        marginBottom: 6,
     },
     panelCardValue: {
-        fontSize: 14,
+        fontSize: 16,
         fontWeight: 'bold',
         color: Colors.text,
-        textAlign: 'center',
     },
 
     // Tobacco Section
@@ -546,7 +540,7 @@ const styles = StyleSheet.create({
     infoCard: {
         backgroundColor: Colors.surface,
         borderRadius: 16,
-        padding: 4,
+        padding: 8,
         borderWidth: 1,
         borderColor: Colors.border,
     },
@@ -585,24 +579,6 @@ const styles = StyleSheet.create({
         fontSize: 14,
         fontWeight: '600',
         color: Colors.textSecondary,
-    },
-
-    // Barcodes
-    barcodeContainer: {
-        gap: 8,
-    },
-    barcodeChip: {
-        backgroundColor: Colors.surface,
-        borderRadius: 12,
-        padding: 16,
-        borderWidth: 1,
-        borderColor: Colors.border,
-    },
-    barcodeText: {
-        fontSize: 16,
-        color: Colors.text,
-        fontFamily: 'monospace',
-        letterSpacing: 2,
     },
 
     bottomSpacer: {

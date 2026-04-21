@@ -1,15 +1,13 @@
 import { postsApi, userApi } from '@/api/api'
 import { Colors, Fonts } from '@/constants/Colors'
 import { useAuth } from '@/context/AuthContext'
-import { Post } from '@/types/PostData'
 import { UserProfile } from '@/types/Profile'
+import { Ionicons } from '@expo/vector-icons'
 import { router } from 'expo-router'
 import React, { useEffect, useState } from 'react'
 import {
-    Dimensions,
     FlatList,
     Image,
-    ListRenderItem,
     Platform,
     SafeAreaView,
     StyleSheet,
@@ -18,14 +16,10 @@ import {
     View
 } from 'react-native'
 
-const { width } = Dimensions.get('window');
-const COLUMN_COUNT = 3;
-const IMAGE_SIZE = width / COLUMN_COUNT;
-
 const Profile = () => {
     const { user, signOut } = useAuth()
     const [userProfile, setUserProfile] = useState<UserProfile>();
-    const [userPosts, setUserPosts] = useState<Post[]>([]);
+    const [userPostsCount, setUserPostsCount] = useState(0);
     const [refreshing, setRefreshing] = useState(false);
 
     useEffect(() => {
@@ -52,7 +46,7 @@ const Profile = () => {
     const fetchPostProfile = async () => {
         try {
             const response = await postsApi.get(`user`)
-            setUserPosts(response.data);
+            setUserPostsCount(response.data.length || 0);
         } catch (err) {
 
         }
@@ -83,10 +77,19 @@ const Profile = () => {
 
                 <View style={styles.statsContainer}>
                     <View style={styles.statItem}>
-                        <Text style={styles.statNumber}>{userPosts.length}</Text>
+                        <Text style={styles.statNumber}>{userPostsCount}</Text>
                         <Text style={styles.statLabel}>Post</Text>
                     </View>
                 </View>
+
+                <TouchableOpacity
+                    style={styles.iconGhost}
+                    onPress={handleLogout}
+                    activeOpacity={0.75}
+                    accessibilityLabel="Esci"
+                >
+                    <Ionicons name="log-out-outline" size={22} color={Colors.error} />
+                </TouchableOpacity>
             </View>
 
             <View style={styles.bioContainer}>
@@ -100,37 +103,59 @@ const Profile = () => {
                 </Text>
             </View>
 
-            <View style={styles.actionButtonsContainer}>
-                <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
-                    <Text style={styles.logoutButtonText}>Esci</Text>
+            <View style={styles.toolsSection}>
+                <Text style={styles.toolsSectionTitle}>Strumenti</Text>
+                <TouchableOpacity
+                    style={styles.toolRow}
+                    onPress={() => router.push('/panel')}
+                    activeOpacity={0.7}
+                >
+                    <Ionicons name="grid-outline" size={22} color={Colors.primary} />
+                    <View style={styles.toolRowText}>
+                        <Text style={styles.toolRowTitle}>Pannelli</Text>
+                        <Text style={styles.toolRowSub}>Schede degustazione</Text>
+                    </View>
+                    <Ionicons name="chevron-forward" size={20} color={Colors.textSecondary} />
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={styles.toolRow}
+                    onPress={() => router.push('/utils')}
+                    activeOpacity={0.7}
+                >
+                    <Ionicons name="resize-outline" size={22} color={Colors.primary} />
+                    <View style={styles.toolRowText}>
+                        <Text style={styles.toolRowTitle}>Misuratore ring</Text>
+                        <Text style={styles.toolRowSub}>Calibra e misura il diametro</Text>
+                    </View>
+                    <Ionicons name="chevron-forward" size={20} color={Colors.textSecondary} />
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={styles.toolRow}
+                    onPress={() => {
+                        user === null ? router.push('/login-bottom') :
+                        router.push('/my-posts')
+                    }}
+                    activeOpacity={0.7}
+                >
+                    <Ionicons name="newspaper-outline" size={22} color={Colors.primary} />
+                    <View style={styles.toolRowText}>
+                        <Text style={styles.toolRowTitle}>I miei post</Text>
+                        <Text style={styles.toolRowSub}>Vedi tutti i post che hai pubblicato</Text>
+                    </View>
+                    <Ionicons name="chevron-forward" size={20} color={Colors.textSecondary} />
                 </TouchableOpacity>
             </View>
-        </View>
-    );
 
-    const renderPostItem: ListRenderItem<Post> = ({ item }) => (
-        <TouchableOpacity
-            style={styles.gridItem}
-            onPress={() => router.push(`/post/${item.id}`)}
-        >
-            <View style={styles.textPostContent}>
-                <Text style={styles.postTitle} numberOfLines={3} ellipsizeMode="tail">
-                    {item.title || item.content || "Nuovo Post"}
-                </Text>
-                <View style={styles.postMeta}>
-                    <Text style={styles.metaText}>❤️ {item.likesCount || 0}</Text>
-                </View>
-            </View>
-        </TouchableOpacity>
+        </View>
     );
 
     return (
         <SafeAreaView style={styles.container}>
             <FlatList
-                data={userPosts}
-                keyExtractor={(item, index) => item.id ? item.id.toString() : index.toString()}
-                renderItem={renderPostItem}
-                numColumns={COLUMN_COUNT}
+                key="profile-posts-list-v2"
+                data={[]}
+                keyExtractor={(_, index) => index.toString()}
+                renderItem={() => null}
                 ListHeaderComponent={renderHeader}
                 refreshing={refreshing}
                 onRefresh={onRefresh}
@@ -193,8 +218,7 @@ const styles = StyleSheet.create({
     },
     statsContainer: {
         flexDirection: 'row',
-        flex: 1,
-        justifyContent: 'space-around',
+        justifyContent: 'flex-start',
         marginLeft: 20,
     },
     statItem: {
@@ -214,6 +238,45 @@ const styles = StyleSheet.create({
     bioContainer: {
         marginBottom: 16,
     },
+    toolsSection: {
+        marginBottom: 20,
+    },
+    toolsSectionTitle: {
+        fontSize: 12,
+        fontWeight: '700',
+        color: Colors.textSecondary,
+        letterSpacing: 1.2,
+        marginBottom: 12,
+        textTransform: 'uppercase',
+        fontFamily: Platform.OS === 'ios' ? 'Didot' : Fonts.title.fontFamily,
+    },
+    toolRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: Colors.surface,
+        borderWidth: 1,
+        borderColor: Colors.border,
+        borderRadius: 14,
+        paddingVertical: 14,
+        paddingHorizontal: 14,
+        marginBottom: 10,
+    },
+    toolRowText: {
+        flex: 1,
+        marginLeft: 12,
+    },
+    toolRowTitle: {
+        fontSize: 16,
+        fontWeight: '600',
+        color: Colors.text,
+        fontFamily: Platform.OS === 'ios' ? 'System' : Fonts.body.fontFamily,
+    },
+    toolRowSub: {
+        fontSize: 12,
+        color: Colors.textSecondary,
+        marginTop: 2,
+        fontFamily: Platform.OS === 'ios' ? 'System' : Fonts.body.fontFamily,
+    },
     userName: {
         fontSize: 15,
         fontWeight: 'bold',
@@ -232,60 +295,15 @@ const styles = StyleSheet.create({
         lineHeight: 18,
         fontFamily: Platform.OS === 'ios' ? 'Didot' : Fonts.title.fontFamily,
     },
-    actionButtonsContainer: {
-        flexDirection: 'row',
-        gap: 8,
-    },
-    editButton: {
-        flex: 1,
-        backgroundColor: '#efefef',
-        paddingVertical: 8,
-        borderRadius: 8,
+    iconGhost: {
+        width: 42,
+        height: 42,
+        borderRadius: 21,
+        backgroundColor: Colors.surface,
+        borderWidth: 1,
+        borderColor: Colors.borderLight,
         alignItems: 'center',
-    },
-    editButtonText: {
-        fontWeight: '600',
-        fontSize: 14,
-        color: '#000',
-        fontFamily: Platform.OS === 'ios' ? 'Didot' : Fonts.title.fontFamily,
-    },
-    logoutButton: {
-        flex: 1,
-        backgroundColor: '#efefef',
-        paddingVertical: 8,
-        borderRadius: 8,
-        alignItems: 'center',
-    },
-    logoutButtonText: {
-        fontWeight: '600',
-        fontSize: 14,
-        color: 'red',
-        fontFamily: Platform.OS === 'ios' ? 'Didot' : Fonts.title.fontFamily,
-    },
-    gridItem: {
-        width: IMAGE_SIZE,
-        height: IMAGE_SIZE,
-        padding: 1,
-    },
-    textPostContent: {
-        flex: 1,
-        backgroundColor: '#f8f9fa',
-        padding: 10,
-        justifyContent: 'space-between',
-    },
-    postTitle: {
-        fontSize: 11,
-        color: '#333',
-        fontWeight: '500',
-        lineHeight: 16,
-        fontFamily: Platform.OS === 'ios' ? 'Didot' : Fonts.title.fontFamily,
-    },
-    postMeta: {
-        alignItems: 'flex-end',
-    },
-    metaText: {
-        fontSize: 10,
-        color: '#999',
-        fontFamily: Platform.OS === 'ios' ? 'Didot' : Fonts.title.fontFamily,
+        justifyContent: 'center',
+        marginLeft: 12,
     },
 })

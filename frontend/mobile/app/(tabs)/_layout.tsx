@@ -17,19 +17,9 @@ const _layout = () => {
                 }}
             />
             <Tabs.Screen
-                name='post'
+                name="post"
                 options={{
-                    title: 'Post',
-                }}
-            />
-            <Tabs.Screen
-                name='panel'
-                options={{ title: 'Pannello' }}
-            />
-            <Tabs.Screen
-                name="utils"
-                options={{
-                    title: 'Utilità',
+                    title: 'Community',
                 }}
             />
             <Tabs.Screen

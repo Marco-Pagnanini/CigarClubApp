@@ -1,12 +1,10 @@
-import { postsApi } from '@/api/api'
-import PostCard from '@/components/PostCard'
+import { panelApi } from '@/api/api'
+import { PanelCard } from '@/components/PanelCard'
 import { Colors, Fonts } from '@/constants/Colors'
-import { useAuth } from '@/context/AuthContext'
-import { Post } from '@/types/PostData'
+import { Panel } from '@/types/PanelData'
 import { Ionicons } from '@expo/vector-icons'
-import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs'
 import { router, useFocusEffect } from 'expo-router'
-import React, { useCallback, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 import {
     ActivityIndicator,
     FlatList,
@@ -18,50 +16,60 @@ import {
     TouchableOpacity,
     View,
 } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
-const PAGE_SIZE = 10
-
-type CommunityListHeaderProps = {
-    greetingName: string
-    postCount: number
-    onAddPost: () => void
+function StackNavBar({ title }: { title: string }) {
+    return (
+        <View style={styles.stackNav}>
+            <TouchableOpacity
+                onPress={() => router.back()}
+                hitSlop={12}
+                accessibilityRole="button"
+                accessibilityLabel="Indietro"
+            >
+                <Ionicons name="chevron-back" size={26} color={Colors.text} />
+            </TouchableOpacity>
+            <Text style={styles.stackNavTitle} numberOfLines={1}>
+                {title}
+            </Text>
+            <View style={{ width: 26 }} />
+        </View>
+    )
 }
 
-function CommunityListHeader({ greetingName, postCount, onAddPost }: CommunityListHeaderProps) {
+function PanelListHeader({
+    panelCount,
+    onScan,
+}: {
+    panelCount: number
+    onScan: () => void
+}) {
     return (
         <View style={styles.headerBlock}>
-            <View style={styles.topRow}>
-                <View style={styles.titleBlock}>
-                    <Text style={styles.eyebrow}>CIGAR CLUB</Text>
-                    <Text style={styles.greeting}>Ciao, {greetingName}</Text>
-                    <Text style={styles.communitySubline}>
-                        Condividi storie e consigli con il club.
-                    </Text>
-                </View>
+            <Text style={styles.panelIntro}>Schede degustazione e note sui sigari del club.</Text>
+            <View style={styles.panelTitleRow}>
+                <Text style={styles.listSectionTitle}>Pannelli</Text>
                 <TouchableOpacity
                     style={styles.iconGhost}
-                    onPress={onAddPost}
+                    onPress={onScan}
                     activeOpacity={0.75}
-                    accessibilityLabel="Nuovo post"
+                    accessibilityLabel="Apri scanner"
                 >
-                    <Ionicons name="create-outline" size={22} color={Colors.primary} />
+                    <Ionicons name="qr-code-outline" size={22} color={Colors.primary} />
                 </TouchableOpacity>
             </View>
-
-            <View style={styles.listSectionRow}>
-                <Text style={styles.listSectionTitle}>Feed</Text>
+            <View style={styles.countRow}>
                 <View style={styles.countChip}>
-                    <Text style={styles.countChipText}>{postCount}</Text>
+                    <Text style={styles.countChipText}>{panelCount}</Text>
                 </View>
             </View>
         </View>
     )
 }
 
-const PostPage = () => {
-    const tabBarHeight = useBottomTabBarHeight()
-    const { user } = useAuth()
-    const [posts, setPosts] = useState<Post[]>([])
+export default function PanelScreen() {
+    const insets = useSafeAreaInsets()
+    const [panels, setPanels] = useState<Panel[]>([])
     const [loading, setLoading] = useState(true)
     const [refreshing, setRefreshing] = useState(false)
     const [hasMore, setHasMore] = useState(true)
@@ -69,19 +77,13 @@ const PostPage = () => {
     const currentPage = useRef(1)
     const isLoadingMore = useRef(false)
 
-    const greetingName = useMemo(() => {
-        if (!user?.email) return 'Aficionado'
-        const local = user.email.split('@')[0]
-        return local.charAt(0).toUpperCase() + local.slice(1)
-    }, [user?.email])
-
     useFocusEffect(
         useCallback(() => {
-            fetchPosts(1, true)
+            fetchPanels(1, true)
         }, [])
     )
 
-    const fetchPosts = async (pageNumber: number, isReset: boolean = false) => {
+    const fetchPanels = async (pageNumber: number, isReset: boolean = false) => {
         if (!isReset) {
             if (isLoadingMore.current) return
             if (!hasMore) return
@@ -96,40 +98,28 @@ const PostPage = () => {
                 setHasMore(true)
             }
 
-            const pageToFetch = isReset ? 1 : pageNumber
+            const response = await panelApi.get('/')
+            const newPanels = response.data
 
-            const response = await postsApi.get('/', {
-                params: {
-                    page: pageToFetch,
-                    pageSize: PAGE_SIZE,
-                },
-            })
-
-            const newPosts = response.data
-
-            if (!newPosts || newPosts.length === 0) {
+            if (!newPanels || newPanels.length === 0) {
                 setHasMore(false)
-                if (isReset) setPosts([])
+                if (isReset) setPanels([])
                 return
             }
 
             if (isReset) {
-                setPosts(newPosts)
+                setPanels(newPanels)
                 currentPage.current = 1
             } else {
-                setPosts((prevPosts) => {
-                    const existingIds = new Set(prevPosts.map((p) => p.id))
-                    const uniqueNewPosts = newPosts.filter((p: Post) => !existingIds.has(p.id))
-                    return [...prevPosts, ...uniqueNewPosts]
+                setPanels((prev) => {
+                    const existingIds = new Set(prev.map((p) => p.id))
+                    const uniqueNew = newPanels.filter((p: Panel) => !existingIds.has(p.id))
+                    return [...prev, ...uniqueNew]
                 })
                 currentPage.current = pageNumber
             }
-
-            if (newPosts.length < PAGE_SIZE) {
-                setHasMore(false)
-            }
         } catch (error) {
-            console.error('❌ Errore fetch:', error)
+            console.error(error)
             setHasMore(false)
         } finally {
             setLoading(false)
@@ -140,39 +130,35 @@ const PostPage = () => {
 
     const onRefresh = useCallback(() => {
         setRefreshing(true)
-        fetchPosts(1, true)
+        fetchPanels(1, true)
     }, [])
 
     const loadMore = () => {
         if (isLoadingMore.current || !hasMore || loading) return
-        fetchPosts(currentPage.current + 1, false)
+        fetchPanels(currentPage.current + 1, false)
     }
 
-    const handleAddPost = () => {
-        user ? router.push('/add-post') : router.push('/login-bottom')
+    const handleScanPress = () => {
+        router.push('/scan')
     }
 
-    const renderItem = useCallback(({ item }: { item: Post }) => (
-        <PostCard post={item} likesCount={item.likesCount} />
-    ), [])
+    const renderItem = useCallback(({ item }: { item: Panel }) => <PanelCard panel={item} />, [])
 
     const renderEmptyComponent = useCallback(
         () => (
             <View style={styles.emptyContainer}>
                 <View style={styles.emptyIconWrap}>
-                    <Ionicons name="newspaper-outline" size={36} color={Colors.primary} />
+                    <Ionicons name="grid-outline" size={36} color={Colors.primary} />
                 </View>
-                <Text style={styles.emptyText}>Nessun post ancora</Text>
-                <Text style={styles.emptySubtext}>Tira giù per aggiornare o crea il primo post della community.</Text>
+                <Text style={styles.emptyText}>Nessun pannello disponibile</Text>
+                <Text style={styles.emptySubtext}>Tira giù per aggiornare.</Text>
             </View>
         ),
         []
     )
 
     const renderFooter = () => {
-        if (!isLoadingMore.current || !hasMore || posts.length === 0) {
-            return <View style={{ height: 20 }} />
-        }
+        if (!isLoadingMore.current || !hasMore || panels.length === 0) return <View style={{ height: 20 }} />
         return (
             <View style={styles.footerLoader}>
                 <ActivityIndicator size="small" color={Colors.primary} />
@@ -180,12 +166,15 @@ const PostPage = () => {
         )
     }
 
-    if (loading && !refreshing && posts.length === 0) {
+    const bottomPad = insets.bottom + 24
+
+    if (loading && !refreshing && panels.length === 0) {
         return (
             <SafeAreaView style={styles.container}>
+                <StackNavBar title="Pannelli" />
                 <View style={styles.loadingContainer}>
                     <ActivityIndicator size="large" color={Colors.primary} />
-                    <Text style={styles.loadingText}>Caricamento community…</Text>
+                    <Text style={styles.loadingText}>Caricamento pannelli…</Text>
                 </View>
             </SafeAreaView>
         )
@@ -193,18 +182,15 @@ const PostPage = () => {
 
     return (
         <SafeAreaView style={styles.container}>
+            <StackNavBar title="Pannelli" />
             <FlatList
-                data={posts}
+                data={panels}
                 renderItem={renderItem}
                 keyExtractor={(item) => item.id}
                 ListHeaderComponent={
-                    <CommunityListHeader
-                        greetingName={greetingName}
-                        postCount={posts.length}
-                        onAddPost={handleAddPost}
-                    />
+                    <PanelListHeader panelCount={panels.length} onScan={handleScanPress} />
                 }
-                contentContainerStyle={[styles.listContent, { paddingBottom: tabBarHeight + 24 }]}
+                contentContainerStyle={[styles.listContent, { paddingBottom: bottomPad }]}
                 showsVerticalScrollIndicator={false}
                 ListEmptyComponent={renderEmptyComponent}
                 onEndReached={loadMore}
@@ -218,55 +204,60 @@ const PostPage = () => {
                         colors={[Colors.primary]}
                     />
                 }
-                removeClippedSubviews={true}
-                maxToRenderPerBatch={10}
-                windowSize={10}
             />
         </SafeAreaView>
     )
 }
-
-export default PostPage
 
 const styles = StyleSheet.create({
     container: {
         backgroundColor: Colors.background,
         flex: 1,
     },
-    headerBlock: {
-        paddingHorizontal: 20,
-        paddingTop: 12,
-        paddingBottom: 8,
-    },
-    topRow: {
+    stackNav: {
         flexDirection: 'row',
+        alignItems: 'center',
         justifyContent: 'space-between',
-        alignItems: 'flex-start',
-        marginBottom: 18,
+        paddingHorizontal: 12,
+        paddingVertical: 8,
+        borderBottomWidth: 1,
+        borderBottomColor: Colors.border,
     },
-    titleBlock: {
+    stackNavTitle: {
         flex: 1,
-        paddingRight: 12,
-    },
-    eyebrow: {
-        fontSize: 11,
-        letterSpacing: 2,
-        color: Colors.textSecondary,
-        marginBottom: 6,
-        fontFamily: Platform.OS === 'ios' ? 'Didot' : Fonts.title.fontFamily,
-    },
-    greeting: {
-        fontSize: 22,
+        textAlign: 'center',
+        fontSize: 17,
         fontWeight: '600',
         color: Colors.text,
-        letterSpacing: 0.3,
-        fontFamily: Platform.OS === 'ios' ? 'System' : Fonts.body.fontFamily,
+        fontFamily: Platform.OS === 'ios' ? 'Didot' : Fonts.title.fontFamily,
     },
-    communitySubline: {
-        marginTop: 6,
+    headerBlock: {
+        paddingHorizontal: 20,
+        paddingTop: 8,
+        paddingBottom: 8,
+    },
+    panelIntro: {
         fontSize: 13,
         color: Colors.textSecondary,
+        marginBottom: 14,
+        lineHeight: 18,
         fontFamily: Platform.OS === 'ios' ? 'System' : Fonts.body.fontFamily,
+    },
+    panelTitleRow: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: 8,
+    },
+    listSectionTitle: {
+        fontSize: 18,
+        fontWeight: '700',
+        color: Colors.text,
+        letterSpacing: 0.2,
+    },
+    countRow: {
+        flexDirection: 'row',
+        marginBottom: 4,
     },
     iconGhost: {
         width: 44,
@@ -277,18 +268,6 @@ const styles = StyleSheet.create({
         borderColor: Colors.borderLight,
         justifyContent: 'center',
         alignItems: 'center',
-    },
-    listSectionRow: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        marginBottom: 6,
-    },
-    listSectionTitle: {
-        fontSize: 18,
-        fontWeight: '700',
-        color: Colors.text,
-        letterSpacing: 0.2,
     },
     countChip: {
         backgroundColor: Colors.tabActiveBackground,

@@ -1,51 +1,79 @@
-import { Colors, Fonts } from '@/constants/Colors';
-import Slider from '@react-native-community/slider';
-import React, { useState } from 'react';
-import { Platform, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Colors, Fonts } from '@/constants/Colors'
+import { Ionicons } from '@expo/vector-icons'
+import Slider from '@react-native-community/slider'
+import { router } from 'expo-router'
+import React, { useState } from 'react'
+import { Platform, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
-const Utils = () => {
-    const [ringSize, setRingSize] = useState(50);
-    const [calibrationScale, setCalibrationScale] = useState(1.0);
-    const [isCalibrating, setIsCalibrating] = useState(false);
+function StackNavBar({ title }: { title: string }) {
+    return (
+        <View style={styles.stackNav}>
+            <TouchableOpacity
+                onPress={() => router.back()}
+                hitSlop={12}
+                accessibilityRole="button"
+                accessibilityLabel="Indietro"
+            >
+                <Ionicons name="chevron-back" size={26} color={Colors.text} />
+            </TouchableOpacity>
+            <Text style={styles.stackNavTitle} numberOfLines={1}>
+                {title}
+            </Text>
+            <View style={{ width: 26 }} />
+        </View>
+    )
+}
 
-    const diameterInInches = (ringSize / 64);
-    const diameterInMM = (diameterInInches * 25.4);
-    const basePixelSize = (diameterInMM / 25.4) * 160;
-    const calibratedPixelSize = basePixelSize * calibrationScale;
-    const oneEuroMM = 23.25;
-    const oneEuroPixels = (oneEuroMM / 25.4) * 160 * calibrationScale;
+export default function UtilsScreen() {
+    const insets = useSafeAreaInsets()
+    const [ringSize, setRingSize] = useState(50)
+    const [calibrationScale, setCalibrationScale] = useState(1.0)
+    const [isCalibrating, setIsCalibrating] = useState(false)
+
+    const diameterInInches = ringSize / 64
+    const diameterInMM = diameterInInches * 25.4
+    const basePixelSize = (diameterInMM / 25.4) * 160
+    const calibratedPixelSize = basePixelSize * calibrationScale
+    const oneEuroMM = 23.25
+    const oneEuroPixels = (oneEuroMM / 25.4) * 160 * calibrationScale
 
     return (
         <SafeAreaView style={styles.container}>
-            <View style={styles.headerContainer}>
-                <Text style={styles.title}>Misuratore Ring</Text>
-            </View>
-
-            <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: 40 }}>
+            <StackNavBar title="Misuratore ring" />
+            <ScrollView
+                style={{ flex: 1 }}
+                contentContainerStyle={{ paddingBottom: insets.bottom + 32 }}
+                showsVerticalScrollIndicator={false}
+            >
                 <View style={styles.card}>
                     <View style={styles.cardHeader}>
                         <Text style={styles.cardTitle}>
-                            {isCalibrating ? "🔧 Calibrazione Schermo" : "📏 Misuratore"}
+                            {isCalibrating ? 'Calibrazione schermo' : 'Misuratore'}
                         </Text>
                         <TouchableOpacity onPress={() => setIsCalibrating(!isCalibrating)}>
-                            <Text style={styles.calibButtonText}>
-                                {isCalibrating ? "Fatto" : "Calibra"}
-                            </Text>
+                            <Text style={styles.calibButtonText}>{isCalibrating ? 'Fatto' : 'Calibra'}</Text>
                         </TouchableOpacity>
                     </View>
 
                     <View style={styles.ringContainer}>
                         {isCalibrating ? (
                             <>
-                                <View style={[styles.visualCircle, {
-                                    width: oneEuroPixels,
-                                    height: oneEuroPixels,
-                                    borderRadius: oneEuroPixels / 2,
-                                    borderColor: 'orange',
-                                    borderStyle: 'solid'
-                                }]} />
+                                <View
+                                    style={[
+                                        styles.visualCircle,
+                                        {
+                                            width: oneEuroPixels,
+                                            height: oneEuroPixels,
+                                            borderRadius: oneEuroPixels / 2,
+                                            borderColor: 'orange',
+                                            borderStyle: 'solid',
+                                        },
+                                    ]}
+                                />
                                 <Text style={styles.scaleText}>
-                                    Appoggia una moneta da 1€ sul cerchio arancione e usa lo slider sotto finché non coincidono perfettamente.
+                                    Appoggia una moneta da 1€ sul cerchio arancione e usa lo slider sotto finché non
+                                    coincidono perfettamente.
                                 </Text>
                             </>
                         ) : (
@@ -59,11 +87,16 @@ const Utils = () => {
                                     <Text style={styles.divider}>|</Text>
                                     <Text style={styles.conversionText}>{diameterInInches.toFixed(2)}"</Text>
                                 </View>
-                                <View style={[styles.visualCircle, {
-                                    width: calibratedPixelSize,
-                                    height: calibratedPixelSize,
-                                    borderRadius: calibratedPixelSize / 2
-                                }]} />
+                                <View
+                                    style={[
+                                        styles.visualCircle,
+                                        {
+                                            width: calibratedPixelSize,
+                                            height: calibratedPixelSize,
+                                            borderRadius: calibratedPixelSize / 2,
+                                        },
+                                    ]}
+                                />
                                 <Text style={styles.scaleText}>Appoggia il piede del sigaro qui</Text>
                             </>
                         )}
@@ -108,7 +141,7 @@ const Utils = () => {
 
                 <View style={styles.infoCard}>
                     <Text style={styles.infoText}>
-                        💡 I display dei telefoni variano. Usa "Calibra" la prima volta per garantire la massima precisione.
+                        I display dei telefoni variano. Usa &quot;Calibra&quot; la prima volta per maggiore precisione.
                     </Text>
                 </View>
             </ScrollView>
@@ -116,37 +149,37 @@ const Utils = () => {
     )
 }
 
-export default Utils
-
 const styles = StyleSheet.create({
     container: {
         backgroundColor: Colors.background,
         flex: 1,
     },
-    headerContainer: {
-        backgroundColor: Colors.background,
-        paddingHorizontal: 20,
-        paddingTop: 20,
-        paddingBottom: 10,
+    stackNav: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        paddingHorizontal: 12,
+        paddingVertical: 8,
+        borderBottomWidth: 1,
+        borderBottomColor: Colors.border,
     },
-    title: {
-        fontSize: 32,
-        fontWeight: 'bold',
-        color: Colors.primary,
-        letterSpacing: 2,
+    stackNavTitle: {
+        flex: 1,
+        textAlign: 'center',
+        fontSize: 17,
+        fontWeight: '600',
+        color: Colors.text,
         fontFamily: Platform.OS === 'ios' ? 'Didot' : Fonts.title.fontFamily,
     },
     card: {
         backgroundColor: Colors.surface,
         marginHorizontal: 20,
+        marginTop: 16,
         marginBottom: 20,
         borderRadius: 24,
         padding: 24,
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.1,
-        shadowRadius: 8,
-        elevation: 5,
+        borderWidth: 1,
+        borderColor: Colors.border,
     },
     cardHeader: {
         flexDirection: 'row',
@@ -263,5 +296,5 @@ const styles = StyleSheet.create({
         fontSize: 13,
         textAlign: 'center',
         fontFamily: Platform.OS === 'ios' ? 'Didot' : Fonts.title.fontFamily,
-    }
+    },
 })

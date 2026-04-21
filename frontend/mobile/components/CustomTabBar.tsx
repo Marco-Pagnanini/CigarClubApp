@@ -14,26 +14,24 @@ interface TabIconConfig {
     label: string;
 }
 
+/** Inactive tabs: light gray so icons read clearly on dark bar */
+const TAB_ICON_INACTIVE = '#C4C4C4';
+
 const TAB_ICONS: Record<string, TabIconConfig> = {
     index: {
-        active: 'scan',
-        inactive: 'scan-outline',
-        label: 'Scan',
+        active: 'home',
+        inactive: 'home-outline',
+        label: 'Home',
     },
-    explore: {
-        active: 'compass',
-        inactive: 'compass-outline',
-        label: 'Explore',
-    },
-    cigars: {
-        active: 'list',
-        inactive: 'list-outline',
-        label: 'Cigars',
+    post: {
+        active: 'newspaper',
+        inactive: 'newspaper-outline',
+        label: 'Community',
     },
     profile: {
         active: 'person',
         inactive: 'person-outline',
-        label: 'Profile',
+        label: 'Profilo',
     },
 };
 
@@ -70,9 +68,9 @@ export default function CustomTabBar({ state, descriptors, navigation }: BottomT
                     };
 
                     // Get icon config for this route
-                    const iconConfig = TAB_ICONS[route.name] || {
-                        active: 'home',
-                        inactive: 'home-outline',
+                    const iconConfig = TAB_ICONS[route.name] ?? {
+                        active: 'ellipse',
+                        inactive: 'ellipse-outline',
                         label: route.name,
                     };
 
@@ -102,7 +100,7 @@ export default function CustomTabBar({ state, descriptors, navigation }: BottomT
                                 <Ionicons
                                     name={iconName}
                                     size={24}
-                                    color={isFocused ? Colors.primary : Colors.tabIconDefault}
+                                    color={isFocused ? Colors.primary : TAB_ICON_INACTIVE}
                                 />
                             </View>
                             {isFocused && (

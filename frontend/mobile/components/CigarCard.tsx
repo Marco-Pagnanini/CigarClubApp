@@ -35,7 +35,7 @@ const CigarCard = ({ cigar, onPress }: CigarCardProps) => {
         >
             {/* Immagine a sinistra */}
             <Image
-                source={{ uri: brand?.logoUrl }} // Sostituisci con la tua immagine
+                source={brand?.logoUrl ? { uri: brand.logoUrl } : require('@/assets/images/cigar_login_bg.png')}
                 style={styles.image}
                 resizeMode="cover"
             />
